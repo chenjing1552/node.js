@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+
+    </style>
+</head>
+<body>
+<h1>学生管理系统-编辑</h1>
+
+
+    <form action="/editPost" method="post" enctype="multipart/form-data">
+        <p>
+            姓名: <input type="text" name="name" value="<%=userInfo.name%>"/>
+        </p>
+        <p>
+            年龄: <input type="text" name="age" value="<%=userInfo.age%>"/>
+        </p>
+        <p>
+            学号: <input type="text" name="xuehao" value="<%=userInfo.num%>"/>
+        </p>
+
+        <p>
+            头像: <img width="80" src="http://127.0.0.1:3001/<%=userInfo.face%>" alt="搜索引擎优化的"/>
+        </p>
+
+
+        <p>
+            头像: <input type="file" name="face"/>
+        </p>
+
+
+
+        <input type="hidden" value="<%=userInfo._id%>" name="id"/>
+
+        <p>
+            <input type="submit" value="提交"/>
+        </p>
+    </form>
+
+
+</body>
+</html>

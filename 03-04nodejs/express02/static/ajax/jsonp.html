@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<script type="text/javascript" src="jquery-1.10.1.js"></script>
+<script>
+
+/*什么情况存在跨域
+ * 
+ * 1.域名不同的时候 存在跨域    a.com  ajax    b.com
+ * 
+ * 2.域名相同   端口不同    www.a.com:8010         访问 www.a.com:820
+ * 
+ * 3.协议不同的时候也存在跨域
+ * 
+ */
+
+$(function(){
+	var p='';
+
+	$.ajax({  
+	    url:"http://10.36.141.141:8010/api",
+	    dataType:'jsonp',    /*定义jsonp请求*/
+	    data:'',  
+	    jsonp:'callback',  
+	    success:function(data) {  	    	
+	    	
+			  console.log(data);
+			  
+	    },  
+	    timeout:3000  
+	});  
+		 
+
+	
+
+	
+})
+
+
+
+</script>
+</head>
+<body>
+<div id="con">
+
+
+</div>
+</body>
+</html>

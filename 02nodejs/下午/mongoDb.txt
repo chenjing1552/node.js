@@ -1,0 +1,6271 @@
+之前已经存在的数据，实际上不需要增加这个字段。因为这些用户已经填写完毕表单了，不需要再手机高中信息了。
+我们的意图就是在今后注册的用户，需要填写高中信息。但是，我们刚才说了，所谓的字段，是表的一个结构。
+
+
+所有的行都必须拥有，不能有的行有这个字段，有的行没有这个字段。可想而知，大数据时代，数据库中有100万条数据都算少的。
+我们如果要动字段，时间太长。所以，字段这个东西，太不灵活。数据不灵活。一个字段，需要是同样类型的数据。
+
+
+不能一行记录是文本，一行记录是数字。
+
+非结构型数据库NoSQL应运而生。NoSQL是个怪胎，无法挑战老牌数据库，但是在大数据时代有自己的意义。
+
+
+
+
+官网：https://www.mongodb.com/
+手册：https://docs.mongodb.org/manual/
+
+win7系统需要安装补丁，KB2731284。
+
+
+安装：
+1.下一步   2.配置环境变量
+
+
+
+2.mongod  开机
+
+mongod --dbpath C:\mongodb
+
+--dbpath就是选择数据库文档所在的文件夹。也就是说，mongoDB中，真的有物理文件，对应一个个数据库。U盘可以拷走。
+一定要保持，开机这个CMD不能动了，不能关，不能ctrl+c。 一旦这个cmd有问题了，数据库就自动关闭了。
+
+
+
+3.新建cmd     mongo    使用数据库
+
+
+4.运行mongo就可以使用mongo语法
+
+
+    列出所有数据库：show dbs
+
+5.使用某一个数据库：  use 数据库名字          , show collections查看当前数据库有哪些集合
+
+6.如果想新建数据库，也是use。  use一个不存在的，就是新建。
+
+  删除数据库  db.dropDatabase();
+
+
+ 删除集合 db.COLLECTION_NAME.drop()
+
+7. db 查看用的那个数据库
+
+8.添加给数据集合中添加数据 db.student.insert({“name”:”xiaoming”});
+    db.student  系统发现student是一个陌生的集合名字，所以就自动创建了集合。
+
+9.mongoimport 批量导入数据到数据集合中
+
+
+    mongoimport --db news--collection restaurants --drop --file primer-dataset.json
+    -db test  想往哪个数据库里面导入
+    --collection restaurants  想往哪个集合中导入
+    --drop 把集合清空
+    --file primer-dataset.json  哪个文件
+
+
+    这样，我们就能用sublime创建一个json文件，然后用mongoimport命令导入，这样学习数据库非常方便。
+
+10.查找数据
+
+        1 查找全部：
+
+            db.restaurants.find()
+
+
+        2.精确匹配：
+
+          db.student.find({"score.shuxue":70});
+
+        3.多个条件：
+
+          db.student.find({"score.shuxue":70 , "age":12})
+
+
+        4.大于条件：
+           db.student.find({"score.yuwen":{$gt:50}});
+
+        5.或者。寻找所有年龄是9岁，或者11岁的学生
+        db.student.find({$or:[{"age":9},{"age":11}]});
+
+
+        6.查找完毕之后，打点调用sort，表示升降排序。   1升序  -1降序
+
+            db.restaurants.find().sort( { "borough": 1, "address.zipcode": 1 } )
+
+
+11 修改数据
+
+    1.查找名字叫做小明的，把年龄更改为16岁：
+    db.student.update({"name":"小明"},{$set:{"age":16}});
+
+    2.查找数学成绩是70，把年龄更改为33岁：
+    db.student.update({"score.shuxue":70},{$set:{"age":33}});
+
+    3.更改所有匹配项目："
+    By default, the update() method updates a single document. To update multiple documents, use the multi option in the update() method.
+   db.student.update({"sex":"男"},{$set:{"age":33}},{multi: true});
+
+
+    4.完整替换，不出现$set关键字了：
+    db.student.update({"name":"小明"},{"name":"大明","age":16});
+
+12 删除数据
+
+1	db.restaurants.remove( { "borough": "Manhattan" } )
+
+2	db.restaurants.remove( { "borough": "Queens" }, { justOne: true } )
+
+
+
+ db.user.remove({"age":{$gt:100}});
+
+
+13.nodejs 使用mongodb
+
+
+
+之前已经存在的数据，实际上不需要增加这个字段。因为这些用户已经填写完毕表单了，不需要再手机高中信息了。
+我们的意图就是在今后注册的用户，需要填写高中信息。但是，我们刚才说了，所谓的字段，是表的一个结构。
+
+
+所有的行都必须拥有，不能有的行有这个字段，有的行没有这个字段。可想而知，大数据时代，数据库中有100万条数据都算少的。
+我们如果要动字段，时间太长。所以，字段这个东西，太不灵活。数据不灵活。一个字段，需要是同样类型的数据。
+
+
+不能一行记录是文本，一行记录是数字。
+
+非结构型数据库NoSQL应运而生。NoSQL是个怪胎，无法挑战老牌数据库，但是在大数据时代有自己的意义。
+
+
+
+
+官网：https://www.mongodb.com/
+手册：https://docs.mongodb.org/manual/
+
+win7系统需要安装补丁，KB2731284。
+
+
+安装：
+1.下一步   2.配置环境变量
+
+
+
+2.mongod  开机
+
+mongod --dbpath C:\mongodb
+
+--dbpath就是选择数据库文档所在的文件夹。也就是说，mongoDB中，真的有物理文件，对应一个个数据库。U盘可以拷走。
+一定要保持，开机这个CMD不能动了，不能关，不能ctrl+c。 一旦这个cmd有问题了，数据库就自动关闭了。
+
+
+
+3.新建cmd     mongo    使用数据库
+
+
+4.运行mongo就可以使用mongo语法
+
+
+    列出所有数据库：show dbs
+
+5.使用某一个数据库：  use 数据库名字          , show collections查看当前数据库有哪些集合
+
+6.如果想新建数据库，也是use。  use一个不存在的，就是新建。
+
+  删除数据库  db.dropDatabase();
+
+
+ 删除集合 db.COLLECTION_NAME.drop()
+
+7. db 查看用的那个数据库
+
+8.添加给数据集合中添加数据 db.student.insert({“name”:”xiaoming”});
+    db.student  系统发现student是一个陌生的集合名字，所以就自动创建了集合。
+
+9.mongoimport 批量导入数据到数据集合中
+
+
+    mongoimport --db news--collection restaurants --drop --file primer-dataset.json
+    -db test  想往哪个数据库里面导入
+    --collection restaurants  想往哪个集合中导入
+    --drop 把集合清空
+    --file primer-dataset.json  哪个文件
+
+
+    这样，我们就能用sublime创建一个json文件，然后用mongoimport命令导入，这样学习数据库非常方便。
+
+10.查找数据
+
+        1 查找全部：
+
+            db.restaurants.find()
+
+
+        2.精确匹配：
+
+          db.student.find({"score.shuxue":70});
+
+        3.多个条件：
+
+          db.student.find({"score.shuxue":70 , "age":12})
+
+
+        4.大于条件：
+           db.student.find({"score.yuwen":{$gt:50}});
+
+        5.或者。寻找所有年龄是9岁，或者11岁的学生
+        db.student.find({$or:[{"age":9},{"age":11}]});
+
+
+        6.查找完毕之后，打点调用sort，表示升降排序。   1升序  -1降序
+
+            db.restaurants.find().sort( { "borough": 1, "address.zipcode": 1 } )
+
+
+11 修改数据
+
+    1.查找名字叫做小明的，把年龄更改为16岁：
+    db.student.update({"name":"小明"},{$set:{"age":16}});
+
+    2.查找数学成绩是70，把年龄更改为33岁：
+    db.student.update({"score.shuxue":70},{$set:{"age":33}});
+
+    3.更改所有匹配项目："
+    By default, the update() method updates a single document. To update multiple documents, use the multi option in the update() method.
+   db.student.update({"sex":"男"},{$set:{"age":33}},{multi: true});
+
+
+    4.完整替换，不出现$set关键字了：
+    db.student.update({"name":"小明"},{"name":"大明","age":16});
+
+12 删除数据
+
+1	db.restaurants.remove( { "borough": "Manhattan" } )
+
+2	db.restaurants.remove( { "borough": "Queens" }, { justOne: true } )
+
+
+
+ db.user.remove({"age":{$gt:100}});
+
+
+13.nodejs 使用mongodb
+之前已经存在的数据，实际上不需要增加这个字段。因为这些用户已经填写完毕表单了，不需要再手机高中信息了。
+我们的意图就是在今后注册的用户，需要填写高中信息。但是，我们刚才说了，所谓的字段，是表的一个结构。
+
+
+所有的行都必须拥有，不能有的行有这个字段，有的行没有这个字段。可想而知，大数据时代，数据库中有100万条数据都算少的。
+我们如果要动字段，时间太长。所以，字段这个东西，太不灵活。数据不灵活。一个字段，需要是同样类型的数据。
+
+
+不能一行记录是文本，一行记录是数字。
+
+非结构型数据库NoSQL应运而生。NoSQL是个怪胎，无法挑战老牌数据库，但是在大数据时代有自己的意义。
+
+
+
+
+官网：https://www.mongodb.com/
+手册：https://docs.mongodb.org/manual/
+
+win7系统需要安装补丁，KB2731284。
+
+
+安装：
+1.下一步   2.配置环境变量
+
+
+
+2.mongod  开机
+
+mongod --dbpath C:\mongodb
+
+--dbpath就是选择数据库文档所在的文件夹。也就是说，mongoDB中，真的有物理文件，对应一个个数据库。U盘可以拷走。
+一定要保持，开机这个CMD不能动了，不能关，不能ctrl+c。 一旦这个cmd有问题了，数据库就自动关闭了。
+
+
+
+3.新建cmd     mongo    使用数据库
+
+
+4.运行mongo就可以使用mongo语法
+
+
+    列出所有数据库：show dbs
+
+5.使用某一个数据库：  use 数据库名字          , show collections查看当前数据库有哪些集合
+
+6.如果想新建数据库，也是use。  use一个不存在的，就是新建。
+
+  删除数据库  db.dropDatabase();
+
+
+ 删除集合 db.COLLECTION_NAME.drop()
+
+7. db 查看用的那个数据库
+
+8.添加给数据集合中添加数据 db.student.insert({“name”:”xiaoming”});
+    db.student  系统发现student是一个陌生的集合名字，所以就自动创建了集合。
+
+9.mongoimport 批量导入数据到数据集合中
+
+
+    mongoimport --db news--collection restaurants --drop --file primer-dataset.json
+    -db test  想往哪个数据库里面导入
+    --collection restaurants  想往哪个集合中导入
+    --drop 把集合清空
+    --file primer-dataset.json  哪个文件
+
+
+    这样，我们就能用sublime创建一个json文件，然后用mongoimport命令导入，这样学习数据库非常方便。
+
+10.查找数据
+
+        1 查找全部：
+
+            db.restaurants.find()
+
+
+        2.精确匹配：
+
+          db.student.find({"score.shuxue":70});
+
+        3.多个条件：
+
+          db.student.find({"score.shuxue":70 , "age":12})
+
+
+        4.大于条件：
+           db.student.find({"score.yuwen":{$gt:50}});
+
+        5.或者。寻找所有年龄是9岁，或者11岁的学生
+        db.student.find({$or:[{"age":9},{"age":11}]});
+
+
+        6.查找完毕之后，打点调用sort，表示升降排序。   1升序  -1降序
+
+            db.restaurants.find().sort( { "borough": 1, "address.zipcode": 1 } )
+
+
+11 修改数据
+
+    1.查找名字叫做小明的，把年龄更改为16岁：
+    db.student.update({"name":"小明"},{$set:{"age":16}});
+
+    2.查找数学成绩是70，把年龄更改为33岁：
+    db.student.update({"score.shuxue":70},{$set:{"age":33}});
+
+    3.更改所有匹配项目："
+    By default, the update() method updates a single document. To update multiple documents, use the multi option in the update() method.
+   db.student.update({"sex":"男"},{$set:{"age":33}},{multi: true});
+
+
+    4.完整替换，不出现$set关键字了：
+    db.student.update({"name":"小明"},{"name":"大明","age":16});
+
+12 删除数据
+
+1	db.restaurants.remove( { "borough": "Manhattan" } )
+
+2	db.restaurants.remove( { "borough": "Queens" }, { justOne: true } )
+
+
+
+ db.user.remove({"age":{$gt:100}});
+
+
+13.nodejs 使用mongodb
+之前已经存在的数据，实际上不需要增加这个字段。因为这些用户已经填写完毕表单了，不需要再手机高中信息了。
+我们的意图就是在今后注册的用户，需要填写高中信息。但是，我们刚才说了，所谓的字段，是表的一个结构。
+
+
+所有的行都必须拥有，不能有的行有这个字段，有的行没有这个字段。可想而知，大数据时代，数据库中有100万条数据都算少的。
+我们如果要动字段，时间太长。所以，字段这个东西，太不灵活。数据不灵活。一个字段，需要是同样类型的数据。
+
+
+不能一行记录是文本，一行记录是数字。
+
+非结构型数据库NoSQL应运而生。NoSQL是个怪胎，无法挑战老牌数据库，但是在大数据时代有自己的意义。
+
+
+
+
+官网：https://www.mongodb.com/
+手册：https://docs.mongodb.org/manual/
+
+win7系统需要安装补丁，KB2731284。
+
+
+安装：
+1.下一步   2.配置环境变量
+
+
+
+2.mongod  开机
+
+mongod --dbpath C:\mongodb
+
+--dbpath就是选择数据库文档所在的文件夹。也就是说，mongoDB中，真的有物理文件，对应一个个数据库。U盘可以拷走。
+一定要保持，开机这个CMD不能动了，不能关，不能ctrl+c。 一旦这个cmd有问题了，数据库就自动关闭了。
+
+
+
+3.新建cmd     mongo    使用数据库
+
+
+4.运行mongo就可以使用mongo语法
+
+
+    列出所有数据库：show dbs
+
+5.使用某一个数据库：  use 数据库名字          , show collections查看当前数据库有哪些集合
+
+6.如果想新建数据库，也是use。  use一个不存在的，就是新建。
+
+  删除数据库  db.dropDatabase();
+
+
+ 删除集合 db.COLLECTION_NAME.drop()
+
+7. db 查看用的那个数据库
+
+8.添加给数据集合中添加数据 db.student.insert({“name”:”xiaoming”});
+    db.student  系统发现student是一个陌生的集合名字，所以就自动创建了集合。
+
+9.mongoimport 批量导入数据到数据集合中
+
+
+    mongoimport --db news--collection restaurants --drop --file primer-dataset.json
+    -db test  想往哪个数据库里面导入
+    --collection restaurants  想往哪个集合中导入
+    --drop 把集合清空
+    --file primer-dataset.json  哪个文件
+
+
+    这样，我们就能用sublime创建一个json文件，然后用mongoimport命令导入，这样学习数据库非常方便。
+
+10.查找数据
+
+        1 查找全部：
+
+            db.restaurants.find()
+
+
+        2.精确匹配：
+
+          db.student.find({"score.shuxue":70});
+
+        3.多个条件：
+
+          db.student.find({"score.shuxue":70 , "age":12})
+
+
+        4.大于条件：
+           db.student.find({"score.yuwen":{$gt:50}});
+
+        5.或者。寻找所有年龄是9岁，或者11岁的学生
+        db.student.find({$or:[{"age":9},{"age":11}]});
+
+
+        6.查找完毕之后，打点调用sort，表示升降排序。   1升序  -1降序
+
+            db.restaurants.find().sort( { "borough": 1, "address.zipcode": 1 } )
+
+
+11 修改数据
+
+    1.查找名字叫做小明的，把年龄更改为16岁：
+    db.student.update({"name":"小明"},{$set:{"age":16}});
+
+    2.查找数学成绩是70，把年龄更改为33岁：
+    db.student.update({"score.shuxue":70},{$set:{"age":33}});
+
+    3.更改所有匹配项目："
+    By default, the update() method updates a single document. To update multiple documents, use the multi option in the update() method.
+   db.student.update({"sex":"男"},{$set:{"age":33}},{multi: true});
+
+
+    4.完整替换，不出现$set关键字了：
+    db.student.update({"name":"小明"},{"name":"大明","age":16});
+
+12 删除数据
+
+1	db.restaurants.remove( { "borough": "Manhattan" } )
+
+2	db.restaurants.remove( { "borough": "Queens" }, { justOne: true } )
+
+
+
+ db.user.remove({"age":{$gt:100}});
+
+
+13.nodejs 使用mongodb
+之前已经存在的数据，实际上不需要增加这个字段。因为这些用户已经填写完毕表单了，不需要再手机高中信息了。
+我们的意图就是在今后注册的用户，需要填写高中信息。但是，我们刚才说了，所谓的字段，是表的一个结构。
+
+
+所有的行都必须拥有，不能有的行有这个字段，有的行没有这个字段。可想而知，大数据时代，数据库中有100万条数据都算少的。
+我们如果要动字段，时间太长。所以，字段这个东西，太不灵活。数据不灵活。一个字段，需要是同样类型的数据。
+
+
+不能一行记录是文本，一行记录是数字。
+
+非结构型数据库NoSQL应运而生。NoSQL是个怪胎，无法挑战老牌数据库，但是在大数据时代有自己的意义。
+
+
+
+
+官网：https://www.mongodb.com/
+手册：https://docs.mongodb.org/manual/
+
+win7系统需要安装补丁，KB2731284。
+
+
+安装：
+1.下一步   2.配置环境变量
+
+
+
+2.mongod  开机
+
+mongod --dbpath C:\mongodb
+
+--dbpath就是选择数据库文档所在的文件夹。也就是说，mongoDB中，真的有物理文件，对应一个个数据库。U盘可以拷走。
+一定要保持，开机这个CMD不能动了，不能关，不能ctrl+c。 一旦这个cmd有问题了，数据库就自动关闭了。
+
+
+
+3.新建cmd     mongo    使用数据库
+
+
+4.运行mongo就可以使用mongo语法
+
+
+    列出所有数据库：show dbs
+
+5.使用某一个数据库：  use 数据库名字          , show collections查看当前数据库有哪些集合
+
+6.如果想新建数据库，也是use。  use一个不存在的，就是新建。
+
+  删除数据库  db.dropDatabase();
+
+
+ 删除集合 db.COLLECTION_NAME.drop()
+
+7. db 查看用的那个数据库
+
+8.添加给数据集合中添加数据 db.student.insert({“name”:”xiaoming”});
+    db.student  系统发现student是一个陌生的集合名字，所以就自动创建了集合。
+
+9.mongoimport 批量导入数据到数据集合中
+
+
+    mongoimport --db news--collection restaurants --drop --file primer-dataset.json
+    -db test  想往哪个数据库里面导入
+    --collection restaurants  想往哪个集合中导入
+    --drop 把集合清空
+    --file primer-dataset.json  哪个文件
+
+
+    这样，我们就能用sublime创建一个json文件，然后用mongoimport命令导入，这样学习数据库非常方便。
+
+10.查找数据
+
+        1 查找全部：
+
+            db.restaurants.find()
+
+
+        2.精确匹配：
+
+          db.student.find({"score.shuxue":70});
+
+        3.多个条件：
+
+          db.student.find({"score.shuxue":70 , "age":12})
+
+
+        4.大于条件：
+           db.student.find({"score.yuwen":{$gt:50}});
+
+        5.或者。寻找所有年龄是9岁，或者11岁的学生
+        db.student.find({$or:[{"age":9},{"age":11}]});
+
+
+        6.查找完毕之后，打点调用sort，表示升降排序。   1升序  -1降序
+
+            db.restaurants.find().sort( { "borough": 1, "address.zipcode": 1 } )
+
+
+11 修改数据
+
+    1.查找名字叫做小明的，把年龄更改为16岁：
+    db.student.update({"name":"小明"},{$set:{"age":16}});
+
+    2.查找数学成绩是70，把年龄更改为33岁：
+    db.student.update({"score.shuxue":70},{$set:{"age":33}});
+
+    3.更改所有匹配项目："
+    By default, the update() method updates a single document. To update multiple documents, use the multi option in the update() method.
+   db.student.update({"sex":"男"},{$set:{"age":33}},{multi: true});
+
+
+    4.完整替换，不出现$set关键字了：
+    db.student.update({"name":"小明"},{"name":"大明","age":16});
+
+12 删除数据
+
+1	db.restaurants.remove( { "borough": "Manhattan" } )
+
+2	db.restaurants.remove( { "borough": "Queens" }, { justOne: true } )
+
+
+
+ db.user.remove({"age":{$gt:100}});
+
+
+13.nodejs 使用mongodb之前已经存在的数据，实际上不需要增加这个字段。因为这些用户已经填写完毕表单了，不需要再手机高中信息了。
+我们的意图就是在今后注册的用户，需要填写高中信息。但是，我们刚才说了，所谓的字段，是表的一个结构。
+
+
+所有的行都必须拥有，不能有的行有这个字段，有的行没有这个字段。可想而知，大数据时代，数据库中有100万条数据都算少的。
+我们如果要动字段，时间太长。所以，字段这个东西，太不灵活。数据不灵活。一个字段，需要是同样类型的数据。
+
+
+不能一行记录是文本，一行记录是数字。
+
+非结构型数据库NoSQL应运而生。NoSQL是个怪胎，无法挑战老牌数据库，但是在大数据时代有自己的意义。
+
+
+
+
+官网：https://www.mongodb.com/
+手册：https://docs.mongodb.org/manual/
+
+win7系统需要安装补丁，KB2731284。
+
+
+安装：
+1.下一步   2.配置环境变量
+
+
+
+2.mongod  开机
+
+mongod --dbpath C:\mongodb
+
+--dbpath就是选择数据库文档所在的文件夹。也就是说，mongoDB中，真的有物理文件，对应一个个数据库。U盘可以拷走。
+一定要保持，开机这个CMD不能动了，不能关，不能ctrl+c。 一旦这个cmd有问题了，数据库就自动关闭了。
+
+
+
+3.新建cmd     mongo    使用数据库
+
+
+4.运行mongo就可以使用mongo语法
+
+
+    列出所有数据库：show dbs
+
+5.使用某一个数据库：  use 数据库名字          , show collections查看当前数据库有哪些集合
+
+6.如果想新建数据库，也是use。  use一个不存在的，就是新建。
+
+  删除数据库  db.dropDatabase();
+
+
+ 删除集合 db.COLLECTION_NAME.drop()
+
+7. db 查看用的那个数据库
+
+8.添加给数据集合中添加数据 db.student.insert({“name”:”xiaoming”});
+    db.student  系统发现student是一个陌生的集合名字，所以就自动创建了集合。
+
+9.mongoimport 批量导入数据到数据集合中
+
+
+    mongoimport --db news--collection restaurants --drop --file primer-dataset.json
+    -db test  想往哪个数据库里面导入
+    --collection restaurants  想往哪个集合中导入
+    --drop 把集合清空
+    --file primer-dataset.json  哪个文件
+
+
+    这样，我们就能用sublime创建一个json文件，然后用mongoimport命令导入，这样学习数据库非常方便。
+
+10.查找数据
+
+        1 查找全部：
+
+            db.restaurants.find()
+
+
+        2.精确匹配：
+
+          db.student.find({"score.shuxue":70});
+
+        3.多个条件：
+
+          db.student.find({"score.shuxue":70 , "age":12})
+
+
+        4.大于条件：
+           db.student.find({"score.yuwen":{$gt:50}});
+
+        5.或者。寻找所有年龄是9岁，或者11岁的学生
+        db.student.find({$or:[{"age":9},{"age":11}]});
+
+
+        6.查找完毕之后，打点调用sort，表示升降排序。   1升序  -1降序
+
+            db.restaurants.find().sort( { "borough": 1, "address.zipcode": 1 } )
+
+
+11 修改数据
+
+    1.查找名字叫做小明的，把年龄更改为16岁：
+    db.student.update({"name":"小明"},{$set:{"age":16}});
+
+    2.查找数学成绩是70，把年龄更改为33岁：
+    db.student.update({"score.shuxue":70},{$set:{"age":33}});
+
+    3.更改所有匹配项目："
+    By default, the update() method updates a single document. To update multiple documents, use the multi option in the update() method.
+   db.student.update({"sex":"男"},{$set:{"age":33}},{multi: true});
+
+
+    4.完整替换，不出现$set关键字了：
+    db.student.update({"name":"小明"},{"name":"大明","age":16});
+
+12 删除数据
+
+1	db.restaurants.remove( { "borough": "Manhattan" } )
+
+2	db.restaurants.remove( { "borough": "Queens" }, { justOne: true } )
+
+
+
+ db.user.remove({"age":{$gt:100}});
+
+
+13.nodejs 使用mongodb
+
+
+
+之前已经存在的数据，实际上不需要增加这个字段。因为这些用户已经填写完毕表单了，不需要再手机高中信息了。
+我们的意图就是在今后注册的用户，需要填写高中信息。但是，我们刚才说了，所谓的字段，是表的一个结构。
+
+
+所有的行都必须拥有，不能有的行有这个字段，有的行没有这个字段。可想而知，大数据时代，数据库中有100万条数据都算少的。
+我们如果要动字段，时间太长。所以，字段这个东西，太不灵活。数据不灵活。一个字段，需要是同样类型的数据。
+
+
+不能一行记录是文本，一行记录是数字。
+
+非结构型数据库NoSQL应运而生。NoSQL是个怪胎，无法挑战老牌数据库，但是在大数据时代有自己的意义。
+
+
+
+
+官网：https://www.mongodb.com/
+手册：https://docs.mongodb.org/manual/
+
+win7系统需要安装补丁，KB2731284。
+
+
+安装：
+1.下一步   2.配置环境变量
+
+
+
+2.mongod  开机
+
+mongod --dbpath C:\mongodb
+
+--dbpath就是选择数据库文档所在的文件夹。也就是说，mongoDB中，真的有物理文件，对应一个个数据库。U盘可以拷走。
+一定要保持，开机这个CMD不能动了，不能关，不能ctrl+c。 一旦这个cmd有问题了，数据库就自动关闭了。
+
+
+
+3.新建cmd     mongo    使用数据库
+
+
+4.运行mongo就可以使用mongo语法
+
+
+    列出所有数据库：show dbs
+
+5.使用某一个数据库：  use 数据库名字          , show collections查看当前数据库有哪些集合
+
+6.如果想新建数据库，也是use。  use一个不存在的，就是新建。
+
+  删除数据库  db.dropDatabase();
+
+
+ 删除集合 db.COLLECTION_NAME.drop()
+
+7. db 查看用的那个数据库
+
+8.添加给数据集合中添加数据 db.student.insert({“name”:”xiaoming”});
+    db.student  系统发现student是一个陌生的集合名字，所以就自动创建了集合。
+
+9.mongoimport 批量导入数据到数据集合中
+
+
+    mongoimport --db news--collection restaurants --drop --file primer-dataset.json
+    -db test  想往哪个数据库里面导入
+    --collection restaurants  想往哪个集合中导入
+    --drop 把集合清空
+    --file primer-dataset.json  哪个文件
+
+
+    这样，我们就能用sublime创建一个json文件，然后用mongoimport命令导入，这样学习数据库非常方便。
+
+10.查找数据
+
+        1 查找全部：
+
+            db.restaurants.find()
+
+
+        2.精确匹配：
+
+          db.student.find({"score.shuxue":70});
+
+        3.多个条件：
+
+          db.student.find({"score.shuxue":70 , "age":12})
+
+
+        4.大于条件：
+           db.student.find({"score.yuwen":{$gt:50}});
+
+        5.或者。寻找所有年龄是9岁，或者11岁的学生
+        db.student.find({$or:[{"age":9},{"age":11}]});
+
+
+        6.查找完毕之后，打点调用sort，表示升降排序。   1升序  -1降序
+
+            db.restaurants.find().sort( { "borough": 1, "address.zipcode": 1 } )
+
+
+11 修改数据
+
+    1.查找名字叫做小明的，把年龄更改为16岁：
+    db.student.update({"name":"小明"},{$set:{"age":16}});
+
+    2.查找数学成绩是70，把年龄更改为33岁：
+    db.student.update({"score.shuxue":70},{$set:{"age":33}});
+
+    3.更改所有匹配项目："
+    By default, the update() method updates a single document. To update multiple documents, use the multi option in the update() method.
+   db.student.update({"sex":"男"},{$set:{"age":33}},{multi: true});
+
+
+    4.完整替换，不出现$set关键字了：
+    db.student.update({"name":"小明"},{"name":"大明","age":16});
+
+12 删除数据
+
+1	db.restaurants.remove( { "borough": "Manhattan" } )
+
+2	db.restaurants.remove( { "borough": "Queens" }, { justOne: true } )
+
+
+
+ db.user.remove({"age":{$gt:100}});
+
+
+13.nodejs 使用mongodb
+之前已经存在的数据，实际上不需要增加这个字段。因为这些用户已经填写完毕表单了，不需要再手机高中信息了。
+我们的意图就是在今后注册的用户，需要填写高中信息。但是，我们刚才说了，所谓的字段，是表的一个结构。
+
+
+所有的行都必须拥有，不能有的行有这个字段，有的行没有这个字段。可想而知，大数据时代，数据库中有100万条数据都算少的。
+我们如果要动字段，时间太长。所以，字段这个东西，太不灵活。数据不灵活。一个字段，需要是同样类型的数据。
+
+
+不能一行记录是文本，一行记录是数字。
+
+非结构型数据库NoSQL应运而生。NoSQL是个怪胎，无法挑战老牌数据库，但是在大数据时代有自己的意义。
+
+
+
+
+官网：https://www.mongodb.com/
+手册：https://docs.mongodb.org/manual/
+
+win7系统需要安装补丁，KB2731284。
+
+
+安装：
+1.下一步   2.配置环境变量
+
+
+
+2.mongod  开机
+
+mongod --dbpath C:\mongodb
+
+--dbpath就是选择数据库文档所在的文件夹。也就是说，mongoDB中，真的有物理文件，对应一个个数据库。U盘可以拷走。
+一定要保持，开机这个CMD不能动了，不能关，不能ctrl+c。 一旦这个cmd有问题了，数据库就自动关闭了。
+
+
+
+3.新建cmd     mongo    使用数据库
+
+
+4.运行mongo就可以使用mongo语法
+
+
+    列出所有数据库：show dbs
+
+5.使用某一个数据库：  use 数据库名字          , show collections查看当前数据库有哪些集合
+
+6.如果想新建数据库，也是use。  use一个不存在的，就是新建。
+
+  删除数据库  db.dropDatabase();
+
+
+ 删除集合 db.COLLECTION_NAME.drop()
+
+7. db 查看用的那个数据库
+
+8.添加给数据集合中添加数据 db.student.insert({“name”:”xiaoming”});
+    db.student  系统发现student是一个陌生的集合名字，所以就自动创建了集合。
+
+9.mongoimport 批量导入数据到数据集合中
+
+
+    mongoimport --db news--collection restaurants --drop --file primer-dataset.json
+    -db test  想往哪个数据库里面导入
+    --collection restaurants  想往哪个集合中导入
+    --drop 把集合清空
+    --file primer-dataset.json  哪个文件
+
+
+    这样，我们就能用sublime创建一个json文件，然后用mongoimport命令导入，这样学习数据库非常方便。
+
+10.查找数据
+
+        1 查找全部：
+
+            db.restaurants.find()
+
+
+        2.精确匹配：
+
+          db.student.find({"score.shuxue":70});
+
+        3.多个条件：
+
+          db.student.find({"score.shuxue":70 , "age":12})
+
+
+        4.大于条件：
+           db.student.find({"score.yuwen":{$gt:50}});
+
+        5.或者。寻找所有年龄是9岁，或者11岁的学生
+        db.student.find({$or:[{"age":9},{"age":11}]});
+
+
+        6.查找完毕之后，打点调用sort，表示升降排序。   1升序  -1降序
+
+            db.restaurants.find().sort( { "borough": 1, "address.zipcode": 1 } )
+
+
+11 修改数据
+
+    1.查找名字叫做小明的，把年龄更改为16岁：
+    db.student.update({"name":"小明"},{$set:{"age":16}});
+
+    2.查找数学成绩是70，把年龄更改为33岁：
+    db.student.update({"score.shuxue":70},{$set:{"age":33}});
+
+    3.更改所有匹配项目："
+    By default, the update() method updates a single document. To update multiple documents, use the multi option in the update() method.
+   db.student.update({"sex":"男"},{$set:{"age":33}},{multi: true});
+
+
+    4.完整替换，不出现$set关键字了：
+    db.student.update({"name":"小明"},{"name":"大明","age":16});
+
+12 删除数据
+
+1	db.restaurants.remove( { "borough": "Manhattan" } )
+
+2	db.restaurants.remove( { "borough": "Queens" }, { justOne: true } )
+
+
+
+ db.user.remove({"age":{$gt:100}});
+
+
+13.nodejs 使用mongodb
+之前已经存在的数据，实际上不需要增加这个字段。因为这些用户已经填写完毕表单了，不需要再手机高中信息了。
+我们的意图就是在今后注册的用户，需要填写高中信息。但是，我们刚才说了，所谓的字段，是表的一个结构。
+
+
+所有的行都必须拥有，不能有的行有这个字段，有的行没有这个字段。可想而知，大数据时代，数据库中有100万条数据都算少的。
+我们如果要动字段，时间太长。所以，字段这个东西，太不灵活。数据不灵活。一个字段，需要是同样类型的数据。
+
+
+不能一行记录是文本，一行记录是数字。
+
+非结构型数据库NoSQL应运而生。NoSQL是个怪胎，无法挑战老牌数据库，但是在大数据时代有自己的意义。
+
+
+
+
+官网：https://www.mongodb.com/
+手册：https://docs.mongodb.org/manual/
+
+win7系统需要安装补丁，KB2731284。
+
+
+安装：
+1.下一步   2.配置环境变量
+
+
+
+2.mongod  开机
+
+mongod --dbpath C:\mongodb
+
+--dbpath就是选择数据库文档所在的文件夹。也就是说，mongoDB中，真的有物理文件，对应一个个数据库。U盘可以拷走。
+一定要保持，开机这个CMD不能动了，不能关，不能ctrl+c。 一旦这个cmd有问题了，数据库就自动关闭了。
+
+
+
+3.新建cmd     mongo    使用数据库
+
+
+4.运行mongo就可以使用mongo语法
+
+
+    列出所有数据库：show dbs
+
+5.使用某一个数据库：  use 数据库名字          , show collections查看当前数据库有哪些集合
+
+6.如果想新建数据库，也是use。  use一个不存在的，就是新建。
+
+  删除数据库  db.dropDatabase();
+
+
+ 删除集合 db.COLLECTION_NAME.drop()
+
+7. db 查看用的那个数据库
+
+8.添加给数据集合中添加数据 db.student.insert({“name”:”xiaoming”});
+    db.student  系统发现student是一个陌生的集合名字，所以就自动创建了集合。
+
+9.mongoimport 批量导入数据到数据集合中
+
+
+    mongoimport --db news--collection restaurants --drop --file primer-dataset.json
+    -db test  想往哪个数据库里面导入
+    --collection restaurants  想往哪个集合中导入
+    --drop 把集合清空
+    --file primer-dataset.json  哪个文件
+
+
+    这样，我们就能用sublime创建一个json文件，然后用mongoimport命令导入，这样学习数据库非常方便。
+
+10.查找数据
+
+        1 查找全部：
+
+            db.restaurants.find()
+
+
+        2.精确匹配：
+
+          db.student.find({"score.shuxue":70});
+
+        3.多个条件：
+
+          db.student.find({"score.shuxue":70 , "age":12})
+
+
+        4.大于条件：
+           db.student.find({"score.yuwen":{$gt:50}});
+
+        5.或者。寻找所有年龄是9岁，或者11岁的学生
+        db.student.find({$or:[{"age":9},{"age":11}]});
+
+
+        6.查找完毕之后，打点调用sort，表示升降排序。   1升序  -1降序
+
+            db.restaurants.find().sort( { "borough": 1, "address.zipcode": 1 } )
+
+
+11 修改数据
+
+    1.查找名字叫做小明的，把年龄更改为16岁：
+    db.student.update({"name":"小明"},{$set:{"age":16}});
+
+    2.查找数学成绩是70，把年龄更改为33岁：
+    db.student.update({"score.shuxue":70},{$set:{"age":33}});
+
+    3.更改所有匹配项目："
+    By default, the update() method updates a single document. To update multiple documents, use the multi option in the update() method.
+   db.student.update({"sex":"男"},{$set:{"age":33}},{multi: true});
+
+
+    4.完整替换，不出现$set关键字了：
+    db.student.update({"name":"小明"},{"name":"大明","age":16});
+
+12 删除数据
+
+1	db.restaurants.remove( { "borough": "Manhattan" } )
+
+2	db.restaurants.remove( { "borough": "Queens" }, { justOne: true } )
+
+
+
+ db.user.remove({"age":{$gt:100}});
+
+
+13.nodejs 使用mongodb
+之前已经存在的数据，实际上不需要增加这个字段。因为这些用户已经填写完毕表单了，不需要再手机高中信息了。
+我们的意图就是在今后注册的用户，需要填写高中信息。但是，我们刚才说了，所谓的字段，是表的一个结构。
+
+
+所有的行都必须拥有，不能有的行有这个字段，有的行没有这个字段。可想而知，大数据时代，数据库中有100万条数据都算少的。
+我们如果要动字段，时间太长。所以，字段这个东西，太不灵活。数据不灵活。一个字段，需要是同样类型的数据。
+
+
+不能一行记录是文本，一行记录是数字。
+
+非结构型数据库NoSQL应运而生。NoSQL是个怪胎，无法挑战老牌数据库，但是在大数据时代有自己的意义。
+
+
+
+
+官网：https://www.mongodb.com/
+手册：https://docs.mongodb.org/manual/
+
+win7系统需要安装补丁，KB2731284。
+
+
+安装：
+1.下一步   2.配置环境变量
+
+
+
+2.mongod  开机
+
+mongod --dbpath C:\mongodb
+
+--dbpath就是选择数据库文档所在的文件夹。也就是说，mongoDB中，真的有物理文件，对应一个个数据库。U盘可以拷走。
+一定要保持，开机这个CMD不能动了，不能关，不能ctrl+c。 一旦这个cmd有问题了，数据库就自动关闭了。
+
+
+
+3.新建cmd     mongo    使用数据库
+
+
+4.运行mongo就可以使用mongo语法
+
+
+    列出所有数据库：show dbs
+
+5.使用某一个数据库：  use 数据库名字          , show collections查看当前数据库有哪些集合
+
+6.如果想新建数据库，也是use。  use一个不存在的，就是新建。
+
+  删除数据库  db.dropDatabase();
+
+
+ 删除集合 db.COLLECTION_NAME.drop()
+
+7. db 查看用的那个数据库
+
+8.添加给数据集合中添加数据 db.student.insert({“name”:”xiaoming”});
+    db.student  系统发现student是一个陌生的集合名字，所以就自动创建了集合。
+
+9.mongoimport 批量导入数据到数据集合中
+
+
+    mongoimport --db news--collection restaurants --drop --file primer-dataset.json
+    -db test  想往哪个数据库里面导入
+    --collection restaurants  想往哪个集合中导入
+    --drop 把集合清空
+    --file primer-dataset.json  哪个文件
+
+
+    这样，我们就能用sublime创建一个json文件，然后用mongoimport命令导入，这样学习数据库非常方便。
+
+10.查找数据
+
+        1 查找全部：
+
+            db.restaurants.find()
+
+
+        2.精确匹配：
+
+          db.student.find({"score.shuxue":70});
+
+        3.多个条件：
+
+          db.student.find({"score.shuxue":70 , "age":12})
+
+
+        4.大于条件：
+           db.student.find({"score.yuwen":{$gt:50}});
+
+        5.或者。寻找所有年龄是9岁，或者11岁的学生
+        db.student.find({$or:[{"age":9},{"age":11}]});
+
+
+        6.查找完毕之后，打点调用sort，表示升降排序。   1升序  -1降序
+
+            db.restaurants.find().sort( { "borough": 1, "address.zipcode": 1 } )
+
+
+11 修改数据
+
+    1.查找名字叫做小明的，把年龄更改为16岁：
+    db.student.update({"name":"小明"},{$set:{"age":16}});
+
+    2.查找数学成绩是70，把年龄更改为33岁：
+    db.student.update({"score.shuxue":70},{$set:{"age":33}});
+
+    3.更改所有匹配项目："
+    By default, the update() method updates a single document. To update multiple documents, use the multi option in the update() method.
+   db.student.update({"sex":"男"},{$set:{"age":33}},{multi: true});
+
+
+    4.完整替换，不出现$set关键字了：
+    db.student.update({"name":"小明"},{"name":"大明","age":16});
+
+12 删除数据
+
+1	db.restaurants.remove( { "borough": "Manhattan" } )
+
+2	db.restaurants.remove( { "borough": "Queens" }, { justOne: true } )
+
+
+
+ db.user.remove({"age":{$gt:100}});
+
+
+13.nodejs 使用mongodb之前已经存在的数据，实际上不需要增加这个字段。因为这些用户已经填写完毕表单了，不需要再手机高中信息了。
+我们的意图就是在今后注册的用户，需要填写高中信息。但是，我们刚才说了，所谓的字段，是表的一个结构。
+
+
+所有的行都必须拥有，不能有的行有这个字段，有的行没有这个字段。可想而知，大数据时代，数据库中有100万条数据都算少的。
+我们如果要动字段，时间太长。所以，字段这个东西，太不灵活。数据不灵活。一个字段，需要是同样类型的数据。
+
+
+不能一行记录是文本，一行记录是数字。
+
+非结构型数据库NoSQL应运而生。NoSQL是个怪胎，无法挑战老牌数据库，但是在大数据时代有自己的意义。
+
+
+
+
+官网：https://www.mongodb.com/
+手册：https://docs.mongodb.org/manual/
+
+win7系统需要安装补丁，KB2731284。
+
+
+安装：
+1.下一步   2.配置环境变量
+
+
+
+2.mongod  开机
+
+mongod --dbpath C:\mongodb
+
+--dbpath就是选择数据库文档所在的文件夹。也就是说，mongoDB中，真的有物理文件，对应一个个数据库。U盘可以拷走。
+一定要保持，开机这个CMD不能动了，不能关，不能ctrl+c。 一旦这个cmd有问题了，数据库就自动关闭了。
+
+
+
+3.新建cmd     mongo    使用数据库
+
+
+4.运行mongo就可以使用mongo语法
+
+
+    列出所有数据库：show dbs
+
+5.使用某一个数据库：  use 数据库名字          , show collections查看当前数据库有哪些集合
+
+6.如果想新建数据库，也是use。  use一个不存在的，就是新建。
+
+  删除数据库  db.dropDatabase();
+
+
+ 删除集合 db.COLLECTION_NAME.drop()
+
+7. db 查看用的那个数据库
+
+8.添加给数据集合中添加数据 db.student.insert({“name”:”xiaoming”});
+    db.student  系统发现student是一个陌生的集合名字，所以就自动创建了集合。
+
+9.mongoimport 批量导入数据到数据集合中
+
+
+    mongoimport --db news--collection restaurants --drop --file primer-dataset.json
+    -db test  想往哪个数据库里面导入
+    --collection restaurants  想往哪个集合中导入
+    --drop 把集合清空
+    --file primer-dataset.json  哪个文件
+
+
+    这样，我们就能用sublime创建一个json文件，然后用mongoimport命令导入，这样学习数据库非常方便。
+
+10.查找数据
+
+        1 查找全部：
+
+            db.restaurants.find()
+
+
+        2.精确匹配：
+
+          db.student.find({"score.shuxue":70});
+
+        3.多个条件：
+
+          db.student.find({"score.shuxue":70 , "age":12})
+
+
+        4.大于条件：
+           db.student.find({"score.yuwen":{$gt:50}});
+
+        5.或者。寻找所有年龄是9岁，或者11岁的学生
+        db.student.find({$or:[{"age":9},{"age":11}]});
+
+
+        6.查找完毕之后，打点调用sort，表示升降排序。   1升序  -1降序
+
+            db.restaurants.find().sort( { "borough": 1, "address.zipcode": 1 } )
+
+
+11 修改数据
+
+    1.查找名字叫做小明的，把年龄更改为16岁：
+    db.student.update({"name":"小明"},{$set:{"age":16}});
+
+    2.查找数学成绩是70，把年龄更改为33岁：
+    db.student.update({"score.shuxue":70},{$set:{"age":33}});
+
+    3.更改所有匹配项目："
+    By default, the update() method updates a single document. To update multiple documents, use the multi option in the update() method.
+   db.student.update({"sex":"男"},{$set:{"age":33}},{multi: true});
+
+
+    4.完整替换，不出现$set关键字了：
+    db.student.update({"name":"小明"},{"name":"大明","age":16});
+
+12 删除数据
+
+1	db.restaurants.remove( { "borough": "Manhattan" } )
+
+2	db.restaurants.remove( { "borough": "Queens" }, { justOne: true } )
+
+
+
+ db.user.remove({"age":{$gt:100}});
+
+
+13.nodejs 使用mongodb
+
+
+
+之前已经存在的数据，实际上不需要增加这个字段。因为这些用户已经填写完毕表单了，不需要再手机高中信息了。
+我们的意图就是在今后注册的用户，需要填写高中信息。但是，我们刚才说了，所谓的字段，是表的一个结构。
+
+
+所有的行都必须拥有，不能有的行有这个字段，有的行没有这个字段。可想而知，大数据时代，数据库中有100万条数据都算少的。
+我们如果要动字段，时间太长。所以，字段这个东西，太不灵活。数据不灵活。一个字段，需要是同样类型的数据。
+
+
+不能一行记录是文本，一行记录是数字。
+
+非结构型数据库NoSQL应运而生。NoSQL是个怪胎，无法挑战老牌数据库，但是在大数据时代有自己的意义。
+
+
+
+
+官网：https://www.mongodb.com/
+手册：https://docs.mongodb.org/manual/
+
+win7系统需要安装补丁，KB2731284。
+
+
+安装：
+1.下一步   2.配置环境变量
+
+
+
+2.mongod  开机
+
+mongod --dbpath C:\mongodb
+
+--dbpath就是选择数据库文档所在的文件夹。也就是说，mongoDB中，真的有物理文件，对应一个个数据库。U盘可以拷走。
+一定要保持，开机这个CMD不能动了，不能关，不能ctrl+c。 一旦这个cmd有问题了，数据库就自动关闭了。
+
+
+
+3.新建cmd     mongo    使用数据库
+
+
+4.运行mongo就可以使用mongo语法
+
+
+    列出所有数据库：show dbs
+
+5.使用某一个数据库：  use 数据库名字          , show collections查看当前数据库有哪些集合
+
+6.如果想新建数据库，也是use。  use一个不存在的，就是新建。
+
+  删除数据库  db.dropDatabase();
+
+
+ 删除集合 db.COLLECTION_NAME.drop()
+
+7. db 查看用的那个数据库
+
+8.添加给数据集合中添加数据 db.student.insert({“name”:”xiaoming”});
+    db.student  系统发现student是一个陌生的集合名字，所以就自动创建了集合。
+
+9.mongoimport 批量导入数据到数据集合中
+
+
+    mongoimport --db news--collection restaurants --drop --file primer-dataset.json
+    -db test  想往哪个数据库里面导入
+    --collection restaurants  想往哪个集合中导入
+    --drop 把集合清空
+    --file primer-dataset.json  哪个文件
+
+
+    这样，我们就能用sublime创建一个json文件，然后用mongoimport命令导入，这样学习数据库非常方便。
+
+10.查找数据
+
+        1 查找全部：
+
+            db.restaurants.find()
+
+
+        2.精确匹配：
+
+          db.student.find({"score.shuxue":70});
+
+        3.多个条件：
+
+          db.student.find({"score.shuxue":70 , "age":12})
+
+
+        4.大于条件：
+           db.student.find({"score.yuwen":{$gt:50}});
+
+        5.或者。寻找所有年龄是9岁，或者11岁的学生
+        db.student.find({$or:[{"age":9},{"age":11}]});
+
+
+        6.查找完毕之后，打点调用sort，表示升降排序。   1升序  -1降序
+
+            db.restaurants.find().sort( { "borough": 1, "address.zipcode": 1 } )
+
+
+11 修改数据
+
+    1.查找名字叫做小明的，把年龄更改为16岁：
+    db.student.update({"name":"小明"},{$set:{"age":16}});
+
+    2.查找数学成绩是70，把年龄更改为33岁：
+    db.student.update({"score.shuxue":70},{$set:{"age":33}});
+
+    3.更改所有匹配项目："
+    By default, the update() method updates a single document. To update multiple documents, use the multi option in the update() method.
+   db.student.update({"sex":"男"},{$set:{"age":33}},{multi: true});
+
+
+    4.完整替换，不出现$set关键字了：
+    db.student.update({"name":"小明"},{"name":"大明","age":16});
+
+12 删除数据
+
+1	db.restaurants.remove( { "borough": "Manhattan" } )
+
+2	db.restaurants.remove( { "borough": "Queens" }, { justOne: true } )
+
+
+
+ db.user.remove({"age":{$gt:100}});
+
+
+13.nodejs 使用mongodb
+之前已经存在的数据，实际上不需要增加这个字段。因为这些用户已经填写完毕表单了，不需要再手机高中信息了。
+我们的意图就是在今后注册的用户，需要填写高中信息。但是，我们刚才说了，所谓的字段，是表的一个结构。
+
+
+所有的行都必须拥有，不能有的行有这个字段，有的行没有这个字段。可想而知，大数据时代，数据库中有100万条数据都算少的。
+我们如果要动字段，时间太长。所以，字段这个东西，太不灵活。数据不灵活。一个字段，需要是同样类型的数据。
+
+
+不能一行记录是文本，一行记录是数字。
+
+非结构型数据库NoSQL应运而生。NoSQL是个怪胎，无法挑战老牌数据库，但是在大数据时代有自己的意义。
+
+
+
+
+官网：https://www.mongodb.com/
+手册：https://docs.mongodb.org/manual/
+
+win7系统需要安装补丁，KB2731284。
+
+
+安装：
+1.下一步   2.配置环境变量
+
+
+
+2.mongod  开机
+
+mongod --dbpath C:\mongodb
+
+--dbpath就是选择数据库文档所在的文件夹。也就是说，mongoDB中，真的有物理文件，对应一个个数据库。U盘可以拷走。
+一定要保持，开机这个CMD不能动了，不能关，不能ctrl+c。 一旦这个cmd有问题了，数据库就自动关闭了。
+
+
+
+3.新建cmd     mongo    使用数据库
+
+
+4.运行mongo就可以使用mongo语法
+
+
+    列出所有数据库：show dbs
+
+5.使用某一个数据库：  use 数据库名字          , show collections查看当前数据库有哪些集合
+
+6.如果想新建数据库，也是use。  use一个不存在的，就是新建。
+
+  删除数据库  db.dropDatabase();
+
+
+ 删除集合 db.COLLECTION_NAME.drop()
+
+7. db 查看用的那个数据库
+
+8.添加给数据集合中添加数据 db.student.insert({“name”:”xiaoming”});
+    db.student  系统发现student是一个陌生的集合名字，所以就自动创建了集合。
+
+9.mongoimport 批量导入数据到数据集合中
+
+
+    mongoimport --db news--collection restaurants --drop --file primer-dataset.json
+    -db test  想往哪个数据库里面导入
+    --collection restaurants  想往哪个集合中导入
+    --drop 把集合清空
+    --file primer-dataset.json  哪个文件
+
+
+    这样，我们就能用sublime创建一个json文件，然后用mongoimport命令导入，这样学习数据库非常方便。
+
+10.查找数据
+
+        1 查找全部：
+
+            db.restaurants.find()
+
+
+        2.精确匹配：
+
+          db.student.find({"score.shuxue":70});
+
+        3.多个条件：
+
+          db.student.find({"score.shuxue":70 , "age":12})
+
+
+        4.大于条件：
+           db.student.find({"score.yuwen":{$gt:50}});
+
+        5.或者。寻找所有年龄是9岁，或者11岁的学生
+        db.student.find({$or:[{"age":9},{"age":11}]});
+
+
+        6.查找完毕之后，打点调用sort，表示升降排序。   1升序  -1降序
+
+            db.restaurants.find().sort( { "borough": 1, "address.zipcode": 1 } )
+
+
+11 修改数据
+
+    1.查找名字叫做小明的，把年龄更改为16岁：
+    db.student.update({"name":"小明"},{$set:{"age":16}});
+
+    2.查找数学成绩是70，把年龄更改为33岁：
+    db.student.update({"score.shuxue":70},{$set:{"age":33}});
+
+    3.更改所有匹配项目："
+    By default, the update() method updates a single document. To update multiple documents, use the multi option in the update() method.
+   db.student.update({"sex":"男"},{$set:{"age":33}},{multi: true});
+
+
+    4.完整替换，不出现$set关键字了：
+    db.student.update({"name":"小明"},{"name":"大明","age":16});
+
+12 删除数据
+
+1	db.restaurants.remove( { "borough": "Manhattan" } )
+
+2	db.restaurants.remove( { "borough": "Queens" }, { justOne: true } )
+
+
+
+ db.user.remove({"age":{$gt:100}});
+
+
+13.nodejs 使用mongodb
+之前已经存在的数据，实际上不需要增加这个字段。因为这些用户已经填写完毕表单了，不需要再手机高中信息了。
+我们的意图就是在今后注册的用户，需要填写高中信息。但是，我们刚才说了，所谓的字段，是表的一个结构。
+
+
+所有的行都必须拥有，不能有的行有这个字段，有的行没有这个字段。可想而知，大数据时代，数据库中有100万条数据都算少的。
+我们如果要动字段，时间太长。所以，字段这个东西，太不灵活。数据不灵活。一个字段，需要是同样类型的数据。
+
+
+不能一行记录是文本，一行记录是数字。
+
+非结构型数据库NoSQL应运而生。NoSQL是个怪胎，无法挑战老牌数据库，但是在大数据时代有自己的意义。
+
+
+
+
+官网：https://www.mongodb.com/
+手册：https://docs.mongodb.org/manual/
+
+win7系统需要安装补丁，KB2731284。
+
+
+安装：
+1.下一步   2.配置环境变量
+
+
+
+2.mongod  开机
+
+mongod --dbpath C:\mongodb
+
+--dbpath就是选择数据库文档所在的文件夹。也就是说，mongoDB中，真的有物理文件，对应一个个数据库。U盘可以拷走。
+一定要保持，开机这个CMD不能动了，不能关，不能ctrl+c。 一旦这个cmd有问题了，数据库就自动关闭了。
+
+
+
+3.新建cmd     mongo    使用数据库
+
+
+4.运行mongo就可以使用mongo语法
+
+
+    列出所有数据库：show dbs
+
+5.使用某一个数据库：  use 数据库名字          , show collections查看当前数据库有哪些集合
+
+6.如果想新建数据库，也是use。  use一个不存在的，就是新建。
+
+  删除数据库  db.dropDatabase();
+
+
+ 删除集合 db.COLLECTION_NAME.drop()
+
+7. db 查看用的那个数据库
+
+8.添加给数据集合中添加数据 db.student.insert({“name”:”xiaoming”});
+    db.student  系统发现student是一个陌生的集合名字，所以就自动创建了集合。
+
+9.mongoimport 批量导入数据到数据集合中
+
+
+    mongoimport --db news--collection restaurants --drop --file primer-dataset.json
+    -db test  想往哪个数据库里面导入
+    --collection restaurants  想往哪个集合中导入
+    --drop 把集合清空
+    --file primer-dataset.json  哪个文件
+
+
+    这样，我们就能用sublime创建一个json文件，然后用mongoimport命令导入，这样学习数据库非常方便。
+
+10.查找数据
+
+        1 查找全部：
+
+            db.restaurants.find()
+
+
+        2.精确匹配：
+
+          db.student.find({"score.shuxue":70});
+
+        3.多个条件：
+
+          db.student.find({"score.shuxue":70 , "age":12})
+
+
+        4.大于条件：
+           db.student.find({"score.yuwen":{$gt:50}});
+
+        5.或者。寻找所有年龄是9岁，或者11岁的学生
+        db.student.find({$or:[{"age":9},{"age":11}]});
+
+
+        6.查找完毕之后，打点调用sort，表示升降排序。   1升序  -1降序
+
+            db.restaurants.find().sort( { "borough": 1, "address.zipcode": 1 } )
+
+
+11 修改数据
+
+    1.查找名字叫做小明的，把年龄更改为16岁：
+    db.student.update({"name":"小明"},{$set:{"age":16}});
+
+    2.查找数学成绩是70，把年龄更改为33岁：
+    db.student.update({"score.shuxue":70},{$set:{"age":33}});
+
+    3.更改所有匹配项目："
+    By default, the update() method updates a single document. To update multiple documents, use the multi option in the update() method.
+   db.student.update({"sex":"男"},{$set:{"age":33}},{multi: true});
+
+
+    4.完整替换，不出现$set关键字了：
+    db.student.update({"name":"小明"},{"name":"大明","age":16});
+
+12 删除数据
+
+1	db.restaurants.remove( { "borough": "Manhattan" } )
+
+2	db.restaurants.remove( { "borough": "Queens" }, { justOne: true } )
+
+
+
+ db.user.remove({"age":{$gt:100}});
+
+
+13.nodejs 使用mongodb
+之前已经存在的数据，实际上不需要增加这个字段。因为这些用户已经填写完毕表单了，不需要再手机高中信息了。
+我们的意图就是在今后注册的用户，需要填写高中信息。但是，我们刚才说了，所谓的字段，是表的一个结构。
+
+
+所有的行都必须拥有，不能有的行有这个字段，有的行没有这个字段。可想而知，大数据时代，数据库中有100万条数据都算少的。
+我们如果要动字段，时间太长。所以，字段这个东西，太不灵活。数据不灵活。一个字段，需要是同样类型的数据。
+
+
+不能一行记录是文本，一行记录是数字。
+
+非结构型数据库NoSQL应运而生。NoSQL是个怪胎，无法挑战老牌数据库，但是在大数据时代有自己的意义。
+
+
+
+
+官网：https://www.mongodb.com/
+手册：https://docs.mongodb.org/manual/
+
+win7系统需要安装补丁，KB2731284。
+
+
+安装：
+1.下一步   2.配置环境变量
+
+
+
+2.mongod  开机
+
+mongod --dbpath C:\mongodb
+
+--dbpath就是选择数据库文档所在的文件夹。也就是说，mongoDB中，真的有物理文件，对应一个个数据库。U盘可以拷走。
+一定要保持，开机这个CMD不能动了，不能关，不能ctrl+c。 一旦这个cmd有问题了，数据库就自动关闭了。
+
+
+
+3.新建cmd     mongo    使用数据库
+
+
+4.运行mongo就可以使用mongo语法
+
+
+    列出所有数据库：show dbs
+
+5.使用某一个数据库：  use 数据库名字          , show collections查看当前数据库有哪些集合
+
+6.如果想新建数据库，也是use。  use一个不存在的，就是新建。
+
+  删除数据库  db.dropDatabase();
+
+
+ 删除集合 db.COLLECTION_NAME.drop()
+
+7. db 查看用的那个数据库
+
+8.添加给数据集合中添加数据 db.student.insert({“name”:”xiaoming”});
+    db.student  系统发现student是一个陌生的集合名字，所以就自动创建了集合。
+
+9.mongoimport 批量导入数据到数据集合中
+
+
+    mongoimport --db news--collection restaurants --drop --file primer-dataset.json
+    -db test  想往哪个数据库里面导入
+    --collection restaurants  想往哪个集合中导入
+    --drop 把集合清空
+    --file primer-dataset.json  哪个文件
+
+
+    这样，我们就能用sublime创建一个json文件，然后用mongoimport命令导入，这样学习数据库非常方便。
+
+10.查找数据
+
+        1 查找全部：
+
+            db.restaurants.find()
+
+
+        2.精确匹配：
+
+          db.student.find({"score.shuxue":70});
+
+        3.多个条件：
+
+          db.student.find({"score.shuxue":70 , "age":12})
+
+
+        4.大于条件：
+           db.student.find({"score.yuwen":{$gt:50}});
+
+        5.或者。寻找所有年龄是9岁，或者11岁的学生
+        db.student.find({$or:[{"age":9},{"age":11}]});
+
+
+        6.查找完毕之后，打点调用sort，表示升降排序。   1升序  -1降序
+
+            db.restaurants.find().sort( { "borough": 1, "address.zipcode": 1 } )
+
+
+11 修改数据
+
+    1.查找名字叫做小明的，把年龄更改为16岁：
+    db.student.update({"name":"小明"},{$set:{"age":16}});
+
+    2.查找数学成绩是70，把年龄更改为33岁：
+    db.student.update({"score.shuxue":70},{$set:{"age":33}});
+
+    3.更改所有匹配项目："
+    By default, the update() method updates a single document. To update multiple documents, use the multi option in the update() method.
+   db.student.update({"sex":"男"},{$set:{"age":33}},{multi: true});
+
+
+    4.完整替换，不出现$set关键字了：
+    db.student.update({"name":"小明"},{"name":"大明","age":16});
+
+12 删除数据
+
+1	db.restaurants.remove( { "borough": "Manhattan" } )
+
+2	db.restaurants.remove( { "borough": "Queens" }, { justOne: true } )
+
+
+
+ db.user.remove({"age":{$gt:100}});
+
+
+13.nodejs 使用mongodb之前已经存在的数据，实际上不需要增加这个字段。因为这些用户已经填写完毕表单了，不需要再手机高中信息了。
+我们的意图就是在今后注册的用户，需要填写高中信息。但是，我们刚才说了，所谓的字段，是表的一个结构。
+
+
+所有的行都必须拥有，不能有的行有这个字段，有的行没有这个字段。可想而知，大数据时代，数据库中有100万条数据都算少的。
+我们如果要动字段，时间太长。所以，字段这个东西，太不灵活。数据不灵活。一个字段，需要是同样类型的数据。
+
+
+不能一行记录是文本，一行记录是数字。
+
+非结构型数据库NoSQL应运而生。NoSQL是个怪胎，无法挑战老牌数据库，但是在大数据时代有自己的意义。
+
+
+
+
+官网：https://www.mongodb.com/
+手册：https://docs.mongodb.org/manual/
+
+win7系统需要安装补丁，KB2731284。
+
+
+安装：
+1.下一步   2.配置环境变量
+
+
+
+2.mongod  开机
+
+mongod --dbpath C:\mongodb
+
+--dbpath就是选择数据库文档所在的文件夹。也就是说，mongoDB中，真的有物理文件，对应一个个数据库。U盘可以拷走。
+一定要保持，开机这个CMD不能动了，不能关，不能ctrl+c。 一旦这个cmd有问题了，数据库就自动关闭了。
+
+
+
+3.新建cmd     mongo    使用数据库
+
+
+4.运行mongo就可以使用mongo语法
+
+
+    列出所有数据库：show dbs
+
+5.使用某一个数据库：  use 数据库名字          , show collections查看当前数据库有哪些集合
+
+6.如果想新建数据库，也是use。  use一个不存在的，就是新建。
+
+  删除数据库  db.dropDatabase();
+
+
+ 删除集合 db.COLLECTION_NAME.drop()
+
+7. db 查看用的那个数据库
+
+8.添加给数据集合中添加数据 db.student.insert({“name”:”xiaoming”});
+    db.student  系统发现student是一个陌生的集合名字，所以就自动创建了集合。
+
+9.mongoimport 批量导入数据到数据集合中
+
+
+    mongoimport --db news--collection restaurants --drop --file primer-dataset.json
+    -db test  想往哪个数据库里面导入
+    --collection restaurants  想往哪个集合中导入
+    --drop 把集合清空
+    --file primer-dataset.json  哪个文件
+
+
+    这样，我们就能用sublime创建一个json文件，然后用mongoimport命令导入，这样学习数据库非常方便。
+
+10.查找数据
+
+        1 查找全部：
+
+            db.restaurants.find()
+
+
+        2.精确匹配：
+
+          db.student.find({"score.shuxue":70});
+
+        3.多个条件：
+
+          db.student.find({"score.shuxue":70 , "age":12})
+
+
+        4.大于条件：
+           db.student.find({"score.yuwen":{$gt:50}});
+
+        5.或者。寻找所有年龄是9岁，或者11岁的学生
+        db.student.find({$or:[{"age":9},{"age":11}]});
+
+
+        6.查找完毕之后，打点调用sort，表示升降排序。   1升序  -1降序
+
+            db.restaurants.find().sort( { "borough": 1, "address.zipcode": 1 } )
+
+
+11 修改数据
+
+    1.查找名字叫做小明的，把年龄更改为16岁：
+    db.student.update({"name":"小明"},{$set:{"age":16}});
+
+    2.查找数学成绩是70，把年龄更改为33岁：
+    db.student.update({"score.shuxue":70},{$set:{"age":33}});
+
+    3.更改所有匹配项目："
+    By default, the update() method updates a single document. To update multiple documents, use the multi option in the update() method.
+   db.student.update({"sex":"男"},{$set:{"age":33}},{multi: true});
+
+
+    4.完整替换，不出现$set关键字了：
+    db.student.update({"name":"小明"},{"name":"大明","age":16});
+
+12 删除数据
+
+1	db.restaurants.remove( { "borough": "Manhattan" } )
+
+2	db.restaurants.remove( { "borough": "Queens" }, { justOne: true } )
+
+
+
+ db.user.remove({"age":{$gt:100}});
+
+
+13.nodejs 使用mongodb
+
+
+
+之前已经存在的数据，实际上不需要增加这个字段。因为这些用户已经填写完毕表单了，不需要再手机高中信息了。
+我们的意图就是在今后注册的用户，需要填写高中信息。但是，我们刚才说了，所谓的字段，是表的一个结构。
+
+
+所有的行都必须拥有，不能有的行有这个字段，有的行没有这个字段。可想而知，大数据时代，数据库中有100万条数据都算少的。
+我们如果要动字段，时间太长。所以，字段这个东西，太不灵活。数据不灵活。一个字段，需要是同样类型的数据。
+
+
+不能一行记录是文本，一行记录是数字。
+
+非结构型数据库NoSQL应运而生。NoSQL是个怪胎，无法挑战老牌数据库，但是在大数据时代有自己的意义。
+
+
+
+
+官网：https://www.mongodb.com/
+手册：https://docs.mongodb.org/manual/
+
+win7系统需要安装补丁，KB2731284。
+
+
+安装：
+1.下一步   2.配置环境变量
+
+
+
+2.mongod  开机
+
+mongod --dbpath C:\mongodb
+
+--dbpath就是选择数据库文档所在的文件夹。也就是说，mongoDB中，真的有物理文件，对应一个个数据库。U盘可以拷走。
+一定要保持，开机这个CMD不能动了，不能关，不能ctrl+c。 一旦这个cmd有问题了，数据库就自动关闭了。
+
+
+
+3.新建cmd     mongo    使用数据库
+
+
+4.运行mongo就可以使用mongo语法
+
+
+    列出所有数据库：show dbs
+
+5.使用某一个数据库：  use 数据库名字          , show collections查看当前数据库有哪些集合
+
+6.如果想新建数据库，也是use。  use一个不存在的，就是新建。
+
+  删除数据库  db.dropDatabase();
+
+
+ 删除集合 db.COLLECTION_NAME.drop()
+
+7. db 查看用的那个数据库
+
+8.添加给数据集合中添加数据 db.student.insert({“name”:”xiaoming”});
+    db.student  系统发现student是一个陌生的集合名字，所以就自动创建了集合。
+
+9.mongoimport 批量导入数据到数据集合中
+
+
+    mongoimport --db news--collection restaurants --drop --file primer-dataset.json
+    -db test  想往哪个数据库里面导入
+    --collection restaurants  想往哪个集合中导入
+    --drop 把集合清空
+    --file primer-dataset.json  哪个文件
+
+
+    这样，我们就能用sublime创建一个json文件，然后用mongoimport命令导入，这样学习数据库非常方便。
+
+10.查找数据
+
+        1 查找全部：
+
+            db.restaurants.find()
+
+
+        2.精确匹配：
+
+          db.student.find({"score.shuxue":70});
+
+        3.多个条件：
+
+          db.student.find({"score.shuxue":70 , "age":12})
+
+
+        4.大于条件：
+           db.student.find({"score.yuwen":{$gt:50}});
+
+        5.或者。寻找所有年龄是9岁，或者11岁的学生
+        db.student.find({$or:[{"age":9},{"age":11}]});
+
+
+        6.查找完毕之后，打点调用sort，表示升降排序。   1升序  -1降序
+
+            db.restaurants.find().sort( { "borough": 1, "address.zipcode": 1 } )
+
+
+11 修改数据
+
+    1.查找名字叫做小明的，把年龄更改为16岁：
+    db.student.update({"name":"小明"},{$set:{"age":16}});
+
+    2.查找数学成绩是70，把年龄更改为33岁：
+    db.student.update({"score.shuxue":70},{$set:{"age":33}});
+
+    3.更改所有匹配项目："
+    By default, the update() method updates a single document. To update multiple documents, use the multi option in the update() method.
+   db.student.update({"sex":"男"},{$set:{"age":33}},{multi: true});
+
+
+    4.完整替换，不出现$set关键字了：
+    db.student.update({"name":"小明"},{"name":"大明","age":16});
+
+12 删除数据
+
+1	db.restaurants.remove( { "borough": "Manhattan" } )
+
+2	db.restaurants.remove( { "borough": "Queens" }, { justOne: true } )
+
+
+
+ db.user.remove({"age":{$gt:100}});
+
+
+13.nodejs 使用mongodb
+之前已经存在的数据，实际上不需要增加这个字段。因为这些用户已经填写完毕表单了，不需要再手机高中信息了。
+我们的意图就是在今后注册的用户，需要填写高中信息。但是，我们刚才说了，所谓的字段，是表的一个结构。
+
+
+所有的行都必须拥有，不能有的行有这个字段，有的行没有这个字段。可想而知，大数据时代，数据库中有100万条数据都算少的。
+我们如果要动字段，时间太长。所以，字段这个东西，太不灵活。数据不灵活。一个字段，需要是同样类型的数据。
+
+
+不能一行记录是文本，一行记录是数字。
+
+非结构型数据库NoSQL应运而生。NoSQL是个怪胎，无法挑战老牌数据库，但是在大数据时代有自己的意义。
+
+
+
+
+官网：https://www.mongodb.com/
+手册：https://docs.mongodb.org/manual/
+
+win7系统需要安装补丁，KB2731284。
+
+
+安装：
+1.下一步   2.配置环境变量
+
+
+
+2.mongod  开机
+
+mongod --dbpath C:\mongodb
+
+--dbpath就是选择数据库文档所在的文件夹。也就是说，mongoDB中，真的有物理文件，对应一个个数据库。U盘可以拷走。
+一定要保持，开机这个CMD不能动了，不能关，不能ctrl+c。 一旦这个cmd有问题了，数据库就自动关闭了。
+
+
+
+3.新建cmd     mongo    使用数据库
+
+
+4.运行mongo就可以使用mongo语法
+
+
+    列出所有数据库：show dbs
+
+5.使用某一个数据库：  use 数据库名字          , show collections查看当前数据库有哪些集合
+
+6.如果想新建数据库，也是use。  use一个不存在的，就是新建。
+
+  删除数据库  db.dropDatabase();
+
+
+ 删除集合 db.COLLECTION_NAME.drop()
+
+7. db 查看用的那个数据库
+
+8.添加给数据集合中添加数据 db.student.insert({“name”:”xiaoming”});
+    db.student  系统发现student是一个陌生的集合名字，所以就自动创建了集合。
+
+9.mongoimport 批量导入数据到数据集合中
+
+
+    mongoimport --db news--collection restaurants --drop --file primer-dataset.json
+    -db test  想往哪个数据库里面导入
+    --collection restaurants  想往哪个集合中导入
+    --drop 把集合清空
+    --file primer-dataset.json  哪个文件
+
+
+    这样，我们就能用sublime创建一个json文件，然后用mongoimport命令导入，这样学习数据库非常方便。
+
+10.查找数据
+
+        1 查找全部：
+
+            db.restaurants.find()
+
+
+        2.精确匹配：
+
+          db.student.find({"score.shuxue":70});
+
+        3.多个条件：
+
+          db.student.find({"score.shuxue":70 , "age":12})
+
+
+        4.大于条件：
+           db.student.find({"score.yuwen":{$gt:50}});
+
+        5.或者。寻找所有年龄是9岁，或者11岁的学生
+        db.student.find({$or:[{"age":9},{"age":11}]});
+
+
+        6.查找完毕之后，打点调用sort，表示升降排序。   1升序  -1降序
+
+            db.restaurants.find().sort( { "borough": 1, "address.zipcode": 1 } )
+
+
+11 修改数据
+
+    1.查找名字叫做小明的，把年龄更改为16岁：
+    db.student.update({"name":"小明"},{$set:{"age":16}});
+
+    2.查找数学成绩是70，把年龄更改为33岁：
+    db.student.update({"score.shuxue":70},{$set:{"age":33}});
+
+    3.更改所有匹配项目："
+    By default, the update() method updates a single document. To update multiple documents, use the multi option in the update() method.
+   db.student.update({"sex":"男"},{$set:{"age":33}},{multi: true});
+
+
+    4.完整替换，不出现$set关键字了：
+    db.student.update({"name":"小明"},{"name":"大明","age":16});
+
+12 删除数据
+
+1	db.restaurants.remove( { "borough": "Manhattan" } )
+
+2	db.restaurants.remove( { "borough": "Queens" }, { justOne: true } )
+
+
+
+ db.user.remove({"age":{$gt:100}});
+
+
+13.nodejs 使用mongodb
+之前已经存在的数据，实际上不需要增加这个字段。因为这些用户已经填写完毕表单了，不需要再手机高中信息了。
+我们的意图就是在今后注册的用户，需要填写高中信息。但是，我们刚才说了，所谓的字段，是表的一个结构。
+
+
+所有的行都必须拥有，不能有的行有这个字段，有的行没有这个字段。可想而知，大数据时代，数据库中有100万条数据都算少的。
+我们如果要动字段，时间太长。所以，字段这个东西，太不灵活。数据不灵活。一个字段，需要是同样类型的数据。
+
+
+不能一行记录是文本，一行记录是数字。
+
+非结构型数据库NoSQL应运而生。NoSQL是个怪胎，无法挑战老牌数据库，但是在大数据时代有自己的意义。
+
+
+
+
+官网：https://www.mongodb.com/
+手册：https://docs.mongodb.org/manual/
+
+win7系统需要安装补丁，KB2731284。
+
+
+安装：
+1.下一步   2.配置环境变量
+
+
+
+2.mongod  开机
+
+mongod --dbpath C:\mongodb
+
+--dbpath就是选择数据库文档所在的文件夹。也就是说，mongoDB中，真的有物理文件，对应一个个数据库。U盘可以拷走。
+一定要保持，开机这个CMD不能动了，不能关，不能ctrl+c。 一旦这个cmd有问题了，数据库就自动关闭了。
+
+
+
+3.新建cmd     mongo    使用数据库
+
+
+4.运行mongo就可以使用mongo语法
+
+
+    列出所有数据库：show dbs
+
+5.使用某一个数据库：  use 数据库名字          , show collections查看当前数据库有哪些集合
+
+6.如果想新建数据库，也是use。  use一个不存在的，就是新建。
+
+  删除数据库  db.dropDatabase();
+
+
+ 删除集合 db.COLLECTION_NAME.drop()
+
+7. db 查看用的那个数据库
+
+8.添加给数据集合中添加数据 db.student.insert({“name”:”xiaoming”});
+    db.student  系统发现student是一个陌生的集合名字，所以就自动创建了集合。
+
+9.mongoimport 批量导入数据到数据集合中
+
+
+    mongoimport --db news--collection restaurants --drop --file primer-dataset.json
+    -db test  想往哪个数据库里面导入
+    --collection restaurants  想往哪个集合中导入
+    --drop 把集合清空
+    --file primer-dataset.json  哪个文件
+
+
+    这样，我们就能用sublime创建一个json文件，然后用mongoimport命令导入，这样学习数据库非常方便。
+
+10.查找数据
+
+        1 查找全部：
+
+            db.restaurants.find()
+
+
+        2.精确匹配：
+
+          db.student.find({"score.shuxue":70});
+
+        3.多个条件：
+
+          db.student.find({"score.shuxue":70 , "age":12})
+
+
+        4.大于条件：
+           db.student.find({"score.yuwen":{$gt:50}});
+
+        5.或者。寻找所有年龄是9岁，或者11岁的学生
+        db.student.find({$or:[{"age":9},{"age":11}]});
+
+
+        6.查找完毕之后，打点调用sort，表示升降排序。   1升序  -1降序
+
+            db.restaurants.find().sort( { "borough": 1, "address.zipcode": 1 } )
+
+
+11 修改数据
+
+    1.查找名字叫做小明的，把年龄更改为16岁：
+    db.student.update({"name":"小明"},{$set:{"age":16}});
+
+    2.查找数学成绩是70，把年龄更改为33岁：
+    db.student.update({"score.shuxue":70},{$set:{"age":33}});
+
+    3.更改所有匹配项目："
+    By default, the update() method updates a single document. To update multiple documents, use the multi option in the update() method.
+   db.student.update({"sex":"男"},{$set:{"age":33}},{multi: true});
+
+
+    4.完整替换，不出现$set关键字了：
+    db.student.update({"name":"小明"},{"name":"大明","age":16});
+
+12 删除数据
+
+1	db.restaurants.remove( { "borough": "Manhattan" } )
+
+2	db.restaurants.remove( { "borough": "Queens" }, { justOne: true } )
+
+
+
+ db.user.remove({"age":{$gt:100}});
+
+
+13.nodejs 使用mongodb
+之前已经存在的数据，实际上不需要增加这个字段。因为这些用户已经填写完毕表单了，不需要再手机高中信息了。
+我们的意图就是在今后注册的用户，需要填写高中信息。但是，我们刚才说了，所谓的字段，是表的一个结构。
+
+
+所有的行都必须拥有，不能有的行有这个字段，有的行没有这个字段。可想而知，大数据时代，数据库中有100万条数据都算少的。
+我们如果要动字段，时间太长。所以，字段这个东西，太不灵活。数据不灵活。一个字段，需要是同样类型的数据。
+
+
+不能一行记录是文本，一行记录是数字。
+
+非结构型数据库NoSQL应运而生。NoSQL是个怪胎，无法挑战老牌数据库，但是在大数据时代有自己的意义。
+
+
+
+
+官网：https://www.mongodb.com/
+手册：https://docs.mongodb.org/manual/
+
+win7系统需要安装补丁，KB2731284。
+
+
+安装：
+1.下一步   2.配置环境变量
+
+
+
+2.mongod  开机
+
+mongod --dbpath C:\mongodb
+
+--dbpath就是选择数据库文档所在的文件夹。也就是说，mongoDB中，真的有物理文件，对应一个个数据库。U盘可以拷走。
+一定要保持，开机这个CMD不能动了，不能关，不能ctrl+c。 一旦这个cmd有问题了，数据库就自动关闭了。
+
+
+
+3.新建cmd     mongo    使用数据库
+
+
+4.运行mongo就可以使用mongo语法
+
+
+    列出所有数据库：show dbs
+
+5.使用某一个数据库：  use 数据库名字          , show collections查看当前数据库有哪些集合
+
+6.如果想新建数据库，也是use。  use一个不存在的，就是新建。
+
+  删除数据库  db.dropDatabase();
+
+
+ 删除集合 db.COLLECTION_NAME.drop()
+
+7. db 查看用的那个数据库
+
+8.添加给数据集合中添加数据 db.student.insert({“name”:”xiaoming”});
+    db.student  系统发现student是一个陌生的集合名字，所以就自动创建了集合。
+
+9.mongoimport 批量导入数据到数据集合中
+
+
+    mongoimport --db news--collection restaurants --drop --file primer-dataset.json
+    -db test  想往哪个数据库里面导入
+    --collection restaurants  想往哪个集合中导入
+    --drop 把集合清空
+    --file primer-dataset.json  哪个文件
+
+
+    这样，我们就能用sublime创建一个json文件，然后用mongoimport命令导入，这样学习数据库非常方便。
+
+10.查找数据
+
+        1 查找全部：
+
+            db.restaurants.find()
+
+
+        2.精确匹配：
+
+          db.student.find({"score.shuxue":70});
+
+        3.多个条件：
+
+          db.student.find({"score.shuxue":70 , "age":12})
+
+
+        4.大于条件：
+           db.student.find({"score.yuwen":{$gt:50}});
+
+        5.或者。寻找所有年龄是9岁，或者11岁的学生
+        db.student.find({$or:[{"age":9},{"age":11}]});
+
+
+        6.查找完毕之后，打点调用sort，表示升降排序。   1升序  -1降序
+
+            db.restaurants.find().sort( { "borough": 1, "address.zipcode": 1 } )
+
+
+11 修改数据
+
+    1.查找名字叫做小明的，把年龄更改为16岁：
+    db.student.update({"name":"小明"},{$set:{"age":16}});
+
+    2.查找数学成绩是70，把年龄更改为33岁：
+    db.student.update({"score.shuxue":70},{$set:{"age":33}});
+
+    3.更改所有匹配项目："
+    By default, the update() method updates a single document. To update multiple documents, use the multi option in the update() method.
+   db.student.update({"sex":"男"},{$set:{"age":33}},{multi: true});
+
+
+    4.完整替换，不出现$set关键字了：
+    db.student.update({"name":"小明"},{"name":"大明","age":16});
+
+12 删除数据
+
+1	db.restaurants.remove( { "borough": "Manhattan" } )
+
+2	db.restaurants.remove( { "borough": "Queens" }, { justOne: true } )
+
+
+
+ db.user.remove({"age":{$gt:100}});
+
+
+13.nodejs 使用mongodb之前已经存在的数据，实际上不需要增加这个字段。因为这些用户已经填写完毕表单了，不需要再手机高中信息了。
+我们的意图就是在今后注册的用户，需要填写高中信息。但是，我们刚才说了，所谓的字段，是表的一个结构。
+
+
+所有的行都必须拥有，不能有的行有这个字段，有的行没有这个字段。可想而知，大数据时代，数据库中有100万条数据都算少的。
+我们如果要动字段，时间太长。所以，字段这个东西，太不灵活。数据不灵活。一个字段，需要是同样类型的数据。
+
+
+不能一行记录是文本，一行记录是数字。
+
+非结构型数据库NoSQL应运而生。NoSQL是个怪胎，无法挑战老牌数据库，但是在大数据时代有自己的意义。
+
+
+
+
+官网：https://www.mongodb.com/
+手册：https://docs.mongodb.org/manual/
+
+win7系统需要安装补丁，KB2731284。
+
+
+安装：
+1.下一步   2.配置环境变量
+
+
+
+2.mongod  开机
+
+mongod --dbpath C:\mongodb
+
+--dbpath就是选择数据库文档所在的文件夹。也就是说，mongoDB中，真的有物理文件，对应一个个数据库。U盘可以拷走。
+一定要保持，开机这个CMD不能动了，不能关，不能ctrl+c。 一旦这个cmd有问题了，数据库就自动关闭了。
+
+
+
+3.新建cmd     mongo    使用数据库
+
+
+4.运行mongo就可以使用mongo语法
+
+
+    列出所有数据库：show dbs
+
+5.使用某一个数据库：  use 数据库名字          , show collections查看当前数据库有哪些集合
+
+6.如果想新建数据库，也是use。  use一个不存在的，就是新建。
+
+  删除数据库  db.dropDatabase();
+
+
+ 删除集合 db.COLLECTION_NAME.drop()
+
+7. db 查看用的那个数据库
+
+8.添加给数据集合中添加数据 db.student.insert({“name”:”xiaoming”});
+    db.student  系统发现student是一个陌生的集合名字，所以就自动创建了集合。
+
+9.mongoimport 批量导入数据到数据集合中
+
+
+    mongoimport --db news--collection restaurants --drop --file primer-dataset.json
+    -db test  想往哪个数据库里面导入
+    --collection restaurants  想往哪个集合中导入
+    --drop 把集合清空
+    --file primer-dataset.json  哪个文件
+
+
+    这样，我们就能用sublime创建一个json文件，然后用mongoimport命令导入，这样学习数据库非常方便。
+
+10.查找数据
+
+        1 查找全部：
+
+            db.restaurants.find()
+
+
+        2.精确匹配：
+
+          db.student.find({"score.shuxue":70});
+
+        3.多个条件：
+
+          db.student.find({"score.shuxue":70 , "age":12})
+
+
+        4.大于条件：
+           db.student.find({"score.yuwen":{$gt:50}});
+
+        5.或者。寻找所有年龄是9岁，或者11岁的学生
+        db.student.find({$or:[{"age":9},{"age":11}]});
+
+
+        6.查找完毕之后，打点调用sort，表示升降排序。   1升序  -1降序
+
+            db.restaurants.find().sort( { "borough": 1, "address.zipcode": 1 } )
+
+
+11 修改数据
+
+    1.查找名字叫做小明的，把年龄更改为16岁：
+    db.student.update({"name":"小明"},{$set:{"age":16}});
+
+    2.查找数学成绩是70，把年龄更改为33岁：
+    db.student.update({"score.shuxue":70},{$set:{"age":33}});
+
+    3.更改所有匹配项目："
+    By default, the update() method updates a single document. To update multiple documents, use the multi option in the update() method.
+   db.student.update({"sex":"男"},{$set:{"age":33}},{multi: true});
+
+
+    4.完整替换，不出现$set关键字了：
+    db.student.update({"name":"小明"},{"name":"大明","age":16});
+
+12 删除数据
+
+1	db.restaurants.remove( { "borough": "Manhattan" } )
+
+2	db.restaurants.remove( { "borough": "Queens" }, { justOne: true } )
+
+
+
+ db.user.remove({"age":{$gt:100}});
+
+
+13.nodejs 使用mongodb
+
+
+
+之前已经存在的数据，实际上不需要增加这个字段。因为这些用户已经填写完毕表单了，不需要再手机高中信息了。
+我们的意图就是在今后注册的用户，需要填写高中信息。但是，我们刚才说了，所谓的字段，是表的一个结构。
+
+
+所有的行都必须拥有，不能有的行有这个字段，有的行没有这个字段。可想而知，大数据时代，数据库中有100万条数据都算少的。
+我们如果要动字段，时间太长。所以，字段这个东西，太不灵活。数据不灵活。一个字段，需要是同样类型的数据。
+
+
+不能一行记录是文本，一行记录是数字。
+
+非结构型数据库NoSQL应运而生。NoSQL是个怪胎，无法挑战老牌数据库，但是在大数据时代有自己的意义。
+
+
+
+
+官网：https://www.mongodb.com/
+手册：https://docs.mongodb.org/manual/
+
+win7系统需要安装补丁，KB2731284。
+
+
+安装：
+1.下一步   2.配置环境变量
+
+
+
+2.mongod  开机
+
+mongod --dbpath C:\mongodb
+
+--dbpath就是选择数据库文档所在的文件夹。也就是说，mongoDB中，真的有物理文件，对应一个个数据库。U盘可以拷走。
+一定要保持，开机这个CMD不能动了，不能关，不能ctrl+c。 一旦这个cmd有问题了，数据库就自动关闭了。
+
+
+
+3.新建cmd     mongo    使用数据库
+
+
+4.运行mongo就可以使用mongo语法
+
+
+    列出所有数据库：show dbs
+
+5.使用某一个数据库：  use 数据库名字          , show collections查看当前数据库有哪些集合
+
+6.如果想新建数据库，也是use。  use一个不存在的，就是新建。
+
+  删除数据库  db.dropDatabase();
+
+
+ 删除集合 db.COLLECTION_NAME.drop()
+
+7. db 查看用的那个数据库
+
+8.添加给数据集合中添加数据 db.student.insert({“name”:”xiaoming”});
+    db.student  系统发现student是一个陌生的集合名字，所以就自动创建了集合。
+
+9.mongoimport 批量导入数据到数据集合中
+
+
+    mongoimport --db news--collection restaurants --drop --file primer-dataset.json
+    -db test  想往哪个数据库里面导入
+    --collection restaurants  想往哪个集合中导入
+    --drop 把集合清空
+    --file primer-dataset.json  哪个文件
+
+
+    这样，我们就能用sublime创建一个json文件，然后用mongoimport命令导入，这样学习数据库非常方便。
+
+10.查找数据
+
+        1 查找全部：
+
+            db.restaurants.find()
+
+
+        2.精确匹配：
+
+          db.student.find({"score.shuxue":70});
+
+        3.多个条件：
+
+          db.student.find({"score.shuxue":70 , "age":12})
+
+
+        4.大于条件：
+           db.student.find({"score.yuwen":{$gt:50}});
+
+        5.或者。寻找所有年龄是9岁，或者11岁的学生
+        db.student.find({$or:[{"age":9},{"age":11}]});
+
+
+        6.查找完毕之后，打点调用sort，表示升降排序。   1升序  -1降序
+
+            db.restaurants.find().sort( { "borough": 1, "address.zipcode": 1 } )
+
+
+11 修改数据
+
+    1.查找名字叫做小明的，把年龄更改为16岁：
+    db.student.update({"name":"小明"},{$set:{"age":16}});
+
+    2.查找数学成绩是70，把年龄更改为33岁：
+    db.student.update({"score.shuxue":70},{$set:{"age":33}});
+
+    3.更改所有匹配项目："
+    By default, the update() method updates a single document. To update multiple documents, use the multi option in the update() method.
+   db.student.update({"sex":"男"},{$set:{"age":33}},{multi: true});
+
+
+    4.完整替换，不出现$set关键字了：
+    db.student.update({"name":"小明"},{"name":"大明","age":16});
+
+12 删除数据
+
+1	db.restaurants.remove( { "borough": "Manhattan" } )
+
+2	db.restaurants.remove( { "borough": "Queens" }, { justOne: true } )
+
+
+
+ db.user.remove({"age":{$gt:100}});
+
+
+13.nodejs 使用mongodb
+之前已经存在的数据，实际上不需要增加这个字段。因为这些用户已经填写完毕表单了，不需要再手机高中信息了。
+我们的意图就是在今后注册的用户，需要填写高中信息。但是，我们刚才说了，所谓的字段，是表的一个结构。
+
+
+所有的行都必须拥有，不能有的行有这个字段，有的行没有这个字段。可想而知，大数据时代，数据库中有100万条数据都算少的。
+我们如果要动字段，时间太长。所以，字段这个东西，太不灵活。数据不灵活。一个字段，需要是同样类型的数据。
+
+
+不能一行记录是文本，一行记录是数字。
+
+非结构型数据库NoSQL应运而生。NoSQL是个怪胎，无法挑战老牌数据库，但是在大数据时代有自己的意义。
+
+
+
+
+官网：https://www.mongodb.com/
+手册：https://docs.mongodb.org/manual/
+
+win7系统需要安装补丁，KB2731284。
+
+
+安装：
+1.下一步   2.配置环境变量
+
+
+
+2.mongod  开机
+
+mongod --dbpath C:\mongodb
+
+--dbpath就是选择数据库文档所在的文件夹。也就是说，mongoDB中，真的有物理文件，对应一个个数据库。U盘可以拷走。
+一定要保持，开机这个CMD不能动了，不能关，不能ctrl+c。 一旦这个cmd有问题了，数据库就自动关闭了。
+
+
+
+3.新建cmd     mongo    使用数据库
+
+
+4.运行mongo就可以使用mongo语法
+
+
+    列出所有数据库：show dbs
+
+5.使用某一个数据库：  use 数据库名字          , show collections查看当前数据库有哪些集合
+
+6.如果想新建数据库，也是use。  use一个不存在的，就是新建。
+
+  删除数据库  db.dropDatabase();
+
+
+ 删除集合 db.COLLECTION_NAME.drop()
+
+7. db 查看用的那个数据库
+
+8.添加给数据集合中添加数据 db.student.insert({“name”:”xiaoming”});
+    db.student  系统发现student是一个陌生的集合名字，所以就自动创建了集合。
+
+9.mongoimport 批量导入数据到数据集合中
+
+
+    mongoimport --db news--collection restaurants --drop --file primer-dataset.json
+    -db test  想往哪个数据库里面导入
+    --collection restaurants  想往哪个集合中导入
+    --drop 把集合清空
+    --file primer-dataset.json  哪个文件
+
+
+    这样，我们就能用sublime创建一个json文件，然后用mongoimport命令导入，这样学习数据库非常方便。
+
+10.查找数据
+
+        1 查找全部：
+
+            db.restaurants.find()
+
+
+        2.精确匹配：
+
+          db.student.find({"score.shuxue":70});
+
+        3.多个条件：
+
+          db.student.find({"score.shuxue":70 , "age":12})
+
+
+        4.大于条件：
+           db.student.find({"score.yuwen":{$gt:50}});
+
+        5.或者。寻找所有年龄是9岁，或者11岁的学生
+        db.student.find({$or:[{"age":9},{"age":11}]});
+
+
+        6.查找完毕之后，打点调用sort，表示升降排序。   1升序  -1降序
+
+            db.restaurants.find().sort( { "borough": 1, "address.zipcode": 1 } )
+
+
+11 修改数据
+
+    1.查找名字叫做小明的，把年龄更改为16岁：
+    db.student.update({"name":"小明"},{$set:{"age":16}});
+
+    2.查找数学成绩是70，把年龄更改为33岁：
+    db.student.update({"score.shuxue":70},{$set:{"age":33}});
+
+    3.更改所有匹配项目："
+    By default, the update() method updates a single document. To update multiple documents, use the multi option in the update() method.
+   db.student.update({"sex":"男"},{$set:{"age":33}},{multi: true});
+
+
+    4.完整替换，不出现$set关键字了：
+    db.student.update({"name":"小明"},{"name":"大明","age":16});
+
+12 删除数据
+
+1	db.restaurants.remove( { "borough": "Manhattan" } )
+
+2	db.restaurants.remove( { "borough": "Queens" }, { justOne: true } )
+
+
+
+ db.user.remove({"age":{$gt:100}});
+
+
+13.nodejs 使用mongodb
+之前已经存在的数据，实际上不需要增加这个字段。因为这些用户已经填写完毕表单了，不需要再手机高中信息了。
+我们的意图就是在今后注册的用户，需要填写高中信息。但是，我们刚才说了，所谓的字段，是表的一个结构。
+
+
+所有的行都必须拥有，不能有的行有这个字段，有的行没有这个字段。可想而知，大数据时代，数据库中有100万条数据都算少的。
+我们如果要动字段，时间太长。所以，字段这个东西，太不灵活。数据不灵活。一个字段，需要是同样类型的数据。
+
+
+不能一行记录是文本，一行记录是数字。
+
+非结构型数据库NoSQL应运而生。NoSQL是个怪胎，无法挑战老牌数据库，但是在大数据时代有自己的意义。
+
+
+
+
+官网：https://www.mongodb.com/
+手册：https://docs.mongodb.org/manual/
+
+win7系统需要安装补丁，KB2731284。
+
+
+安装：
+1.下一步   2.配置环境变量
+
+
+
+2.mongod  开机
+
+mongod --dbpath C:\mongodb
+
+--dbpath就是选择数据库文档所在的文件夹。也就是说，mongoDB中，真的有物理文件，对应一个个数据库。U盘可以拷走。
+一定要保持，开机这个CMD不能动了，不能关，不能ctrl+c。 一旦这个cmd有问题了，数据库就自动关闭了。
+
+
+
+3.新建cmd     mongo    使用数据库
+
+
+4.运行mongo就可以使用mongo语法
+
+
+    列出所有数据库：show dbs
+
+5.使用某一个数据库：  use 数据库名字          , show collections查看当前数据库有哪些集合
+
+6.如果想新建数据库，也是use。  use一个不存在的，就是新建。
+
+  删除数据库  db.dropDatabase();
+
+
+ 删除集合 db.COLLECTION_NAME.drop()
+
+7. db 查看用的那个数据库
+
+8.添加给数据集合中添加数据 db.student.insert({“name”:”xiaoming”});
+    db.student  系统发现student是一个陌生的集合名字，所以就自动创建了集合。
+
+9.mongoimport 批量导入数据到数据集合中
+
+
+    mongoimport --db news--collection restaurants --drop --file primer-dataset.json
+    -db test  想往哪个数据库里面导入
+    --collection restaurants  想往哪个集合中导入
+    --drop 把集合清空
+    --file primer-dataset.json  哪个文件
+
+
+    这样，我们就能用sublime创建一个json文件，然后用mongoimport命令导入，这样学习数据库非常方便。
+
+10.查找数据
+
+        1 查找全部：
+
+            db.restaurants.find()
+
+
+        2.精确匹配：
+
+          db.student.find({"score.shuxue":70});
+
+        3.多个条件：
+
+          db.student.find({"score.shuxue":70 , "age":12})
+
+
+        4.大于条件：
+           db.student.find({"score.yuwen":{$gt:50}});
+
+        5.或者。寻找所有年龄是9岁，或者11岁的学生
+        db.student.find({$or:[{"age":9},{"age":11}]});
+
+
+        6.查找完毕之后，打点调用sort，表示升降排序。   1升序  -1降序
+
+            db.restaurants.find().sort( { "borough": 1, "address.zipcode": 1 } )
+
+
+11 修改数据
+
+    1.查找名字叫做小明的，把年龄更改为16岁：
+    db.student.update({"name":"小明"},{$set:{"age":16}});
+
+    2.查找数学成绩是70，把年龄更改为33岁：
+    db.student.update({"score.shuxue":70},{$set:{"age":33}});
+
+    3.更改所有匹配项目："
+    By default, the update() method updates a single document. To update multiple documents, use the multi option in the update() method.
+   db.student.update({"sex":"男"},{$set:{"age":33}},{multi: true});
+
+
+    4.完整替换，不出现$set关键字了：
+    db.student.update({"name":"小明"},{"name":"大明","age":16});
+
+12 删除数据
+
+1	db.restaurants.remove( { "borough": "Manhattan" } )
+
+2	db.restaurants.remove( { "borough": "Queens" }, { justOne: true } )
+
+
+
+ db.user.remove({"age":{$gt:100}});
+
+
+13.nodejs 使用mongodb
+之前已经存在的数据，实际上不需要增加这个字段。因为这些用户已经填写完毕表单了，不需要再手机高中信息了。
+我们的意图就是在今后注册的用户，需要填写高中信息。但是，我们刚才说了，所谓的字段，是表的一个结构。
+
+
+所有的行都必须拥有，不能有的行有这个字段，有的行没有这个字段。可想而知，大数据时代，数据库中有100万条数据都算少的。
+我们如果要动字段，时间太长。所以，字段这个东西，太不灵活。数据不灵活。一个字段，需要是同样类型的数据。
+
+
+不能一行记录是文本，一行记录是数字。
+
+非结构型数据库NoSQL应运而生。NoSQL是个怪胎，无法挑战老牌数据库，但是在大数据时代有自己的意义。
+
+
+
+
+官网：https://www.mongodb.com/
+手册：https://docs.mongodb.org/manual/
+
+win7系统需要安装补丁，KB2731284。
+
+
+安装：
+1.下一步   2.配置环境变量
+
+
+
+2.mongod  开机
+
+mongod --dbpath C:\mongodb
+
+--dbpath就是选择数据库文档所在的文件夹。也就是说，mongoDB中，真的有物理文件，对应一个个数据库。U盘可以拷走。
+一定要保持，开机这个CMD不能动了，不能关，不能ctrl+c。 一旦这个cmd有问题了，数据库就自动关闭了。
+
+
+
+3.新建cmd     mongo    使用数据库
+
+
+4.运行mongo就可以使用mongo语法
+
+
+    列出所有数据库：show dbs
+
+5.使用某一个数据库：  use 数据库名字          , show collections查看当前数据库有哪些集合
+
+6.如果想新建数据库，也是use。  use一个不存在的，就是新建。
+
+  删除数据库  db.dropDatabase();
+
+
+ 删除集合 db.COLLECTION_NAME.drop()
+
+7. db 查看用的那个数据库
+
+8.添加给数据集合中添加数据 db.student.insert({“name”:”xiaoming”});
+    db.student  系统发现student是一个陌生的集合名字，所以就自动创建了集合。
+
+9.mongoimport 批量导入数据到数据集合中
+
+
+    mongoimport --db news--collection restaurants --drop --file primer-dataset.json
+    -db test  想往哪个数据库里面导入
+    --collection restaurants  想往哪个集合中导入
+    --drop 把集合清空
+    --file primer-dataset.json  哪个文件
+
+
+    这样，我们就能用sublime创建一个json文件，然后用mongoimport命令导入，这样学习数据库非常方便。
+
+10.查找数据
+
+        1 查找全部：
+
+            db.restaurants.find()
+
+
+        2.精确匹配：
+
+          db.student.find({"score.shuxue":70});
+
+        3.多个条件：
+
+          db.student.find({"score.shuxue":70 , "age":12})
+
+
+        4.大于条件：
+           db.student.find({"score.yuwen":{$gt:50}});
+
+        5.或者。寻找所有年龄是9岁，或者11岁的学生
+        db.student.find({$or:[{"age":9},{"age":11}]});
+
+
+        6.查找完毕之后，打点调用sort，表示升降排序。   1升序  -1降序
+
+            db.restaurants.find().sort( { "borough": 1, "address.zipcode": 1 } )
+
+
+11 修改数据
+
+    1.查找名字叫做小明的，把年龄更改为16岁：
+    db.student.update({"name":"小明"},{$set:{"age":16}});
+
+    2.查找数学成绩是70，把年龄更改为33岁：
+    db.student.update({"score.shuxue":70},{$set:{"age":33}});
+
+    3.更改所有匹配项目："
+    By default, the update() method updates a single document. To update multiple documents, use the multi option in the update() method.
+   db.student.update({"sex":"男"},{$set:{"age":33}},{multi: true});
+
+
+    4.完整替换，不出现$set关键字了：
+    db.student.update({"name":"小明"},{"name":"大明","age":16});
+
+12 删除数据
+
+1	db.restaurants.remove( { "borough": "Manhattan" } )
+
+2	db.restaurants.remove( { "borough": "Queens" }, { justOne: true } )
+
+
+
+ db.user.remove({"age":{$gt:100}});
+
+
+13.nodejs 使用mongodb之前已经存在的数据，实际上不需要增加这个字段。因为这些用户已经填写完毕表单了，不需要再手机高中信息了。
+我们的意图就是在今后注册的用户，需要填写高中信息。但是，我们刚才说了，所谓的字段，是表的一个结构。
+
+
+所有的行都必须拥有，不能有的行有这个字段，有的行没有这个字段。可想而知，大数据时代，数据库中有100万条数据都算少的。
+我们如果要动字段，时间太长。所以，字段这个东西，太不灵活。数据不灵活。一个字段，需要是同样类型的数据。
+
+
+不能一行记录是文本，一行记录是数字。
+
+非结构型数据库NoSQL应运而生。NoSQL是个怪胎，无法挑战老牌数据库，但是在大数据时代有自己的意义。
+
+
+
+
+官网：https://www.mongodb.com/
+手册：https://docs.mongodb.org/manual/
+
+win7系统需要安装补丁，KB2731284。
+
+
+安装：
+1.下一步   2.配置环境变量
+
+
+
+2.mongod  开机
+
+mongod --dbpath C:\mongodb
+
+--dbpath就是选择数据库文档所在的文件夹。也就是说，mongoDB中，真的有物理文件，对应一个个数据库。U盘可以拷走。
+一定要保持，开机这个CMD不能动了，不能关，不能ctrl+c。 一旦这个cmd有问题了，数据库就自动关闭了。
+
+
+
+3.新建cmd     mongo    使用数据库
+
+
+4.运行mongo就可以使用mongo语法
+
+
+    列出所有数据库：show dbs
+
+5.使用某一个数据库：  use 数据库名字          , show collections查看当前数据库有哪些集合
+
+6.如果想新建数据库，也是use。  use一个不存在的，就是新建。
+
+  删除数据库  db.dropDatabase();
+
+
+ 删除集合 db.COLLECTION_NAME.drop()
+
+7. db 查看用的那个数据库
+
+8.添加给数据集合中添加数据 db.student.insert({“name”:”xiaoming”});
+    db.student  系统发现student是一个陌生的集合名字，所以就自动创建了集合。
+
+9.mongoimport 批量导入数据到数据集合中
+
+
+    mongoimport --db news--collection restaurants --drop --file primer-dataset.json
+    -db test  想往哪个数据库里面导入
+    --collection restaurants  想往哪个集合中导入
+    --drop 把集合清空
+    --file primer-dataset.json  哪个文件
+
+
+    这样，我们就能用sublime创建一个json文件，然后用mongoimport命令导入，这样学习数据库非常方便。
+
+10.查找数据
+
+        1 查找全部：
+
+            db.restaurants.find()
+
+
+        2.精确匹配：
+
+          db.student.find({"score.shuxue":70});
+
+        3.多个条件：
+
+          db.student.find({"score.shuxue":70 , "age":12})
+
+
+        4.大于条件：
+           db.student.find({"score.yuwen":{$gt:50}});
+
+        5.或者。寻找所有年龄是9岁，或者11岁的学生
+        db.student.find({$or:[{"age":9},{"age":11}]});
+
+
+        6.查找完毕之后，打点调用sort，表示升降排序。   1升序  -1降序
+
+            db.restaurants.find().sort( { "borough": 1, "address.zipcode": 1 } )
+
+
+11 修改数据
+
+    1.查找名字叫做小明的，把年龄更改为16岁：
+    db.student.update({"name":"小明"},{$set:{"age":16}});
+
+    2.查找数学成绩是70，把年龄更改为33岁：
+    db.student.update({"score.shuxue":70},{$set:{"age":33}});
+
+    3.更改所有匹配项目："
+    By default, the update() method updates a single document. To update multiple documents, use the multi option in the update() method.
+   db.student.update({"sex":"男"},{$set:{"age":33}},{multi: true});
+
+
+    4.完整替换，不出现$set关键字了：
+    db.student.update({"name":"小明"},{"name":"大明","age":16});
+
+12 删除数据
+
+1	db.restaurants.remove( { "borough": "Manhattan" } )
+
+2	db.restaurants.remove( { "borough": "Queens" }, { justOne: true } )
+
+
+
+ db.user.remove({"age":{$gt:100}});
+
+
+13.nodejs 使用mongodb
+
+
+
+之前已经存在的数据，实际上不需要增加这个字段。因为这些用户已经填写完毕表单了，不需要再手机高中信息了。
+我们的意图就是在今后注册的用户，需要填写高中信息。但是，我们刚才说了，所谓的字段，是表的一个结构。
+
+
+所有的行都必须拥有，不能有的行有这个字段，有的行没有这个字段。可想而知，大数据时代，数据库中有100万条数据都算少的。
+我们如果要动字段，时间太长。所以，字段这个东西，太不灵活。数据不灵活。一个字段，需要是同样类型的数据。
+
+
+不能一行记录是文本，一行记录是数字。
+
+非结构型数据库NoSQL应运而生。NoSQL是个怪胎，无法挑战老牌数据库，但是在大数据时代有自己的意义。
+
+
+
+
+官网：https://www.mongodb.com/
+手册：https://docs.mongodb.org/manual/
+
+win7系统需要安装补丁，KB2731284。
+
+
+安装：
+1.下一步   2.配置环境变量
+
+
+
+2.mongod  开机
+
+mongod --dbpath C:\mongodb
+
+--dbpath就是选择数据库文档所在的文件夹。也就是说，mongoDB中，真的有物理文件，对应一个个数据库。U盘可以拷走。
+一定要保持，开机这个CMD不能动了，不能关，不能ctrl+c。 一旦这个cmd有问题了，数据库就自动关闭了。
+
+
+
+3.新建cmd     mongo    使用数据库
+
+
+4.运行mongo就可以使用mongo语法
+
+
+    列出所有数据库：show dbs
+
+5.使用某一个数据库：  use 数据库名字          , show collections查看当前数据库有哪些集合
+
+6.如果想新建数据库，也是use。  use一个不存在的，就是新建。
+
+  删除数据库  db.dropDatabase();
+
+
+ 删除集合 db.COLLECTION_NAME.drop()
+
+7. db 查看用的那个数据库
+
+8.添加给数据集合中添加数据 db.student.insert({“name”:”xiaoming”});
+    db.student  系统发现student是一个陌生的集合名字，所以就自动创建了集合。
+
+9.mongoimport 批量导入数据到数据集合中
+
+
+    mongoimport --db news--collection restaurants --drop --file primer-dataset.json
+    -db test  想往哪个数据库里面导入
+    --collection restaurants  想往哪个集合中导入
+    --drop 把集合清空
+    --file primer-dataset.json  哪个文件
+
+
+    这样，我们就能用sublime创建一个json文件，然后用mongoimport命令导入，这样学习数据库非常方便。
+
+10.查找数据
+
+        1 查找全部：
+
+            db.restaurants.find()
+
+
+        2.精确匹配：
+
+          db.student.find({"score.shuxue":70});
+
+        3.多个条件：
+
+          db.student.find({"score.shuxue":70 , "age":12})
+
+
+        4.大于条件：
+           db.student.find({"score.yuwen":{$gt:50}});
+
+        5.或者。寻找所有年龄是9岁，或者11岁的学生
+        db.student.find({$or:[{"age":9},{"age":11}]});
+
+
+        6.查找完毕之后，打点调用sort，表示升降排序。   1升序  -1降序
+
+            db.restaurants.find().sort( { "borough": 1, "address.zipcode": 1 } )
+
+
+11 修改数据
+
+    1.查找名字叫做小明的，把年龄更改为16岁：
+    db.student.update({"name":"小明"},{$set:{"age":16}});
+
+    2.查找数学成绩是70，把年龄更改为33岁：
+    db.student.update({"score.shuxue":70},{$set:{"age":33}});
+
+    3.更改所有匹配项目："
+    By default, the update() method updates a single document. To update multiple documents, use the multi option in the update() method.
+   db.student.update({"sex":"男"},{$set:{"age":33}},{multi: true});
+
+
+    4.完整替换，不出现$set关键字了：
+    db.student.update({"name":"小明"},{"name":"大明","age":16});
+
+12 删除数据
+
+1	db.restaurants.remove( { "borough": "Manhattan" } )
+
+2	db.restaurants.remove( { "borough": "Queens" }, { justOne: true } )
+
+
+
+ db.user.remove({"age":{$gt:100}});
+
+
+13.nodejs 使用mongodb
+之前已经存在的数据，实际上不需要增加这个字段。因为这些用户已经填写完毕表单了，不需要再手机高中信息了。
+我们的意图就是在今后注册的用户，需要填写高中信息。但是，我们刚才说了，所谓的字段，是表的一个结构。
+
+
+所有的行都必须拥有，不能有的行有这个字段，有的行没有这个字段。可想而知，大数据时代，数据库中有100万条数据都算少的。
+我们如果要动字段，时间太长。所以，字段这个东西，太不灵活。数据不灵活。一个字段，需要是同样类型的数据。
+
+
+不能一行记录是文本，一行记录是数字。
+
+非结构型数据库NoSQL应运而生。NoSQL是个怪胎，无法挑战老牌数据库，但是在大数据时代有自己的意义。
+
+
+
+
+官网：https://www.mongodb.com/
+手册：https://docs.mongodb.org/manual/
+
+win7系统需要安装补丁，KB2731284。
+
+
+安装：
+1.下一步   2.配置环境变量
+
+
+
+2.mongod  开机
+
+mongod --dbpath C:\mongodb
+
+--dbpath就是选择数据库文档所在的文件夹。也就是说，mongoDB中，真的有物理文件，对应一个个数据库。U盘可以拷走。
+一定要保持，开机这个CMD不能动了，不能关，不能ctrl+c。 一旦这个cmd有问题了，数据库就自动关闭了。
+
+
+
+3.新建cmd     mongo    使用数据库
+
+
+4.运行mongo就可以使用mongo语法
+
+
+    列出所有数据库：show dbs
+
+5.使用某一个数据库：  use 数据库名字          , show collections查看当前数据库有哪些集合
+
+6.如果想新建数据库，也是use。  use一个不存在的，就是新建。
+
+  删除数据库  db.dropDatabase();
+
+
+ 删除集合 db.COLLECTION_NAME.drop()
+
+7. db 查看用的那个数据库
+
+8.添加给数据集合中添加数据 db.student.insert({“name”:”xiaoming”});
+    db.student  系统发现student是一个陌生的集合名字，所以就自动创建了集合。
+
+9.mongoimport 批量导入数据到数据集合中
+
+
+    mongoimport --db news--collection restaurants --drop --file primer-dataset.json
+    -db test  想往哪个数据库里面导入
+    --collection restaurants  想往哪个集合中导入
+    --drop 把集合清空
+    --file primer-dataset.json  哪个文件
+
+
+    这样，我们就能用sublime创建一个json文件，然后用mongoimport命令导入，这样学习数据库非常方便。
+
+10.查找数据
+
+        1 查找全部：
+
+            db.restaurants.find()
+
+
+        2.精确匹配：
+
+          db.student.find({"score.shuxue":70});
+
+        3.多个条件：
+
+          db.student.find({"score.shuxue":70 , "age":12})
+
+
+        4.大于条件：
+           db.student.find({"score.yuwen":{$gt:50}});
+
+        5.或者。寻找所有年龄是9岁，或者11岁的学生
+        db.student.find({$or:[{"age":9},{"age":11}]});
+
+
+        6.查找完毕之后，打点调用sort，表示升降排序。   1升序  -1降序
+
+            db.restaurants.find().sort( { "borough": 1, "address.zipcode": 1 } )
+
+
+11 修改数据
+
+    1.查找名字叫做小明的，把年龄更改为16岁：
+    db.student.update({"name":"小明"},{$set:{"age":16}});
+
+    2.查找数学成绩是70，把年龄更改为33岁：
+    db.student.update({"score.shuxue":70},{$set:{"age":33}});
+
+    3.更改所有匹配项目："
+    By default, the update() method updates a single document. To update multiple documents, use the multi option in the update() method.
+   db.student.update({"sex":"男"},{$set:{"age":33}},{multi: true});
+
+
+    4.完整替换，不出现$set关键字了：
+    db.student.update({"name":"小明"},{"name":"大明","age":16});
+
+12 删除数据
+
+1	db.restaurants.remove( { "borough": "Manhattan" } )
+
+2	db.restaurants.remove( { "borough": "Queens" }, { justOne: true } )
+
+
+
+ db.user.remove({"age":{$gt:100}});
+
+
+13.nodejs 使用mongodb
+之前已经存在的数据，实际上不需要增加这个字段。因为这些用户已经填写完毕表单了，不需要再手机高中信息了。
+我们的意图就是在今后注册的用户，需要填写高中信息。但是，我们刚才说了，所谓的字段，是表的一个结构。
+
+
+所有的行都必须拥有，不能有的行有这个字段，有的行没有这个字段。可想而知，大数据时代，数据库中有100万条数据都算少的。
+我们如果要动字段，时间太长。所以，字段这个东西，太不灵活。数据不灵活。一个字段，需要是同样类型的数据。
+
+
+不能一行记录是文本，一行记录是数字。
+
+非结构型数据库NoSQL应运而生。NoSQL是个怪胎，无法挑战老牌数据库，但是在大数据时代有自己的意义。
+
+
+
+
+官网：https://www.mongodb.com/
+手册：https://docs.mongodb.org/manual/
+
+win7系统需要安装补丁，KB2731284。
+
+
+安装：
+1.下一步   2.配置环境变量
+
+
+
+2.mongod  开机
+
+mongod --dbpath C:\mongodb
+
+--dbpath就是选择数据库文档所在的文件夹。也就是说，mongoDB中，真的有物理文件，对应一个个数据库。U盘可以拷走。
+一定要保持，开机这个CMD不能动了，不能关，不能ctrl+c。 一旦这个cmd有问题了，数据库就自动关闭了。
+
+
+
+3.新建cmd     mongo    使用数据库
+
+
+4.运行mongo就可以使用mongo语法
+
+
+    列出所有数据库：show dbs
+
+5.使用某一个数据库：  use 数据库名字          , show collections查看当前数据库有哪些集合
+
+6.如果想新建数据库，也是use。  use一个不存在的，就是新建。
+
+  删除数据库  db.dropDatabase();
+
+
+ 删除集合 db.COLLECTION_NAME.drop()
+
+7. db 查看用的那个数据库
+
+8.添加给数据集合中添加数据 db.student.insert({“name”:”xiaoming”});
+    db.student  系统发现student是一个陌生的集合名字，所以就自动创建了集合。
+
+9.mongoimport 批量导入数据到数据集合中
+
+
+    mongoimport --db news--collection restaurants --drop --file primer-dataset.json
+    -db test  想往哪个数据库里面导入
+    --collection restaurants  想往哪个集合中导入
+    --drop 把集合清空
+    --file primer-dataset.json  哪个文件
+
+
+    这样，我们就能用sublime创建一个json文件，然后用mongoimport命令导入，这样学习数据库非常方便。
+
+10.查找数据
+
+        1 查找全部：
+
+            db.restaurants.find()
+
+
+        2.精确匹配：
+
+          db.student.find({"score.shuxue":70});
+
+        3.多个条件：
+
+          db.student.find({"score.shuxue":70 , "age":12})
+
+
+        4.大于条件：
+           db.student.find({"score.yuwen":{$gt:50}});
+
+        5.或者。寻找所有年龄是9岁，或者11岁的学生
+        db.student.find({$or:[{"age":9},{"age":11}]});
+
+
+        6.查找完毕之后，打点调用sort，表示升降排序。   1升序  -1降序
+
+            db.restaurants.find().sort( { "borough": 1, "address.zipcode": 1 } )
+
+
+11 修改数据
+
+    1.查找名字叫做小明的，把年龄更改为16岁：
+    db.student.update({"name":"小明"},{$set:{"age":16}});
+
+    2.查找数学成绩是70，把年龄更改为33岁：
+    db.student.update({"score.shuxue":70},{$set:{"age":33}});
+
+    3.更改所有匹配项目："
+    By default, the update() method updates a single document. To update multiple documents, use the multi option in the update() method.
+   db.student.update({"sex":"男"},{$set:{"age":33}},{multi: true});
+
+
+    4.完整替换，不出现$set关键字了：
+    db.student.update({"name":"小明"},{"name":"大明","age":16});
+
+12 删除数据
+
+1	db.restaurants.remove( { "borough": "Manhattan" } )
+
+2	db.restaurants.remove( { "borough": "Queens" }, { justOne: true } )
+
+
+
+ db.user.remove({"age":{$gt:100}});
+
+
+13.nodejs 使用mongodb
+之前已经存在的数据，实际上不需要增加这个字段。因为这些用户已经填写完毕表单了，不需要再手机高中信息了。
+我们的意图就是在今后注册的用户，需要填写高中信息。但是，我们刚才说了，所谓的字段，是表的一个结构。
+
+
+所有的行都必须拥有，不能有的行有这个字段，有的行没有这个字段。可想而知，大数据时代，数据库中有100万条数据都算少的。
+我们如果要动字段，时间太长。所以，字段这个东西，太不灵活。数据不灵活。一个字段，需要是同样类型的数据。
+
+
+不能一行记录是文本，一行记录是数字。
+
+非结构型数据库NoSQL应运而生。NoSQL是个怪胎，无法挑战老牌数据库，但是在大数据时代有自己的意义。
+
+
+
+
+官网：https://www.mongodb.com/
+手册：https://docs.mongodb.org/manual/
+
+win7系统需要安装补丁，KB2731284。
+
+
+安装：
+1.下一步   2.配置环境变量
+
+
+
+2.mongod  开机
+
+mongod --dbpath C:\mongodb
+
+--dbpath就是选择数据库文档所在的文件夹。也就是说，mongoDB中，真的有物理文件，对应一个个数据库。U盘可以拷走。
+一定要保持，开机这个CMD不能动了，不能关，不能ctrl+c。 一旦这个cmd有问题了，数据库就自动关闭了。
+
+
+
+3.新建cmd     mongo    使用数据库
+
+
+4.运行mongo就可以使用mongo语法
+
+
+    列出所有数据库：show dbs
+
+5.使用某一个数据库：  use 数据库名字          , show collections查看当前数据库有哪些集合
+
+6.如果想新建数据库，也是use。  use一个不存在的，就是新建。
+
+  删除数据库  db.dropDatabase();
+
+
+ 删除集合 db.COLLECTION_NAME.drop()
+
+7. db 查看用的那个数据库
+
+8.添加给数据集合中添加数据 db.student.insert({“name”:”xiaoming”});
+    db.student  系统发现student是一个陌生的集合名字，所以就自动创建了集合。
+
+9.mongoimport 批量导入数据到数据集合中
+
+
+    mongoimport --db news--collection restaurants --drop --file primer-dataset.json
+    -db test  想往哪个数据库里面导入
+    --collection restaurants  想往哪个集合中导入
+    --drop 把集合清空
+    --file primer-dataset.json  哪个文件
+
+
+    这样，我们就能用sublime创建一个json文件，然后用mongoimport命令导入，这样学习数据库非常方便。
+
+10.查找数据
+
+        1 查找全部：
+
+            db.restaurants.find()
+
+
+        2.精确匹配：
+
+          db.student.find({"score.shuxue":70});
+
+        3.多个条件：
+
+          db.student.find({"score.shuxue":70 , "age":12})
+
+
+        4.大于条件：
+           db.student.find({"score.yuwen":{$gt:50}});
+
+        5.或者。寻找所有年龄是9岁，或者11岁的学生
+        db.student.find({$or:[{"age":9},{"age":11}]});
+
+
+        6.查找完毕之后，打点调用sort，表示升降排序。   1升序  -1降序
+
+            db.restaurants.find().sort( { "borough": 1, "address.zipcode": 1 } )
+
+
+11 修改数据
+
+    1.查找名字叫做小明的，把年龄更改为16岁：
+    db.student.update({"name":"小明"},{$set:{"age":16}});
+
+    2.查找数学成绩是70，把年龄更改为33岁：
+    db.student.update({"score.shuxue":70},{$set:{"age":33}});
+
+    3.更改所有匹配项目："
+    By default, the update() method updates a single document. To update multiple documents, use the multi option in the update() method.
+   db.student.update({"sex":"男"},{$set:{"age":33}},{multi: true});
+
+
+    4.完整替换，不出现$set关键字了：
+    db.student.update({"name":"小明"},{"name":"大明","age":16});
+
+12 删除数据
+
+1	db.restaurants.remove( { "borough": "Manhattan" } )
+
+2	db.restaurants.remove( { "borough": "Queens" }, { justOne: true } )
+
+
+
+ db.user.remove({"age":{$gt:100}});
+
+
+13.nodejs 使用mongodb之前已经存在的数据，实际上不需要增加这个字段。因为这些用户已经填写完毕表单了，不需要再手机高中信息了。
+我们的意图就是在今后注册的用户，需要填写高中信息。但是，我们刚才说了，所谓的字段，是表的一个结构。
+
+
+所有的行都必须拥有，不能有的行有这个字段，有的行没有这个字段。可想而知，大数据时代，数据库中有100万条数据都算少的。
+我们如果要动字段，时间太长。所以，字段这个东西，太不灵活。数据不灵活。一个字段，需要是同样类型的数据。
+
+
+不能一行记录是文本，一行记录是数字。
+
+非结构型数据库NoSQL应运而生。NoSQL是个怪胎，无法挑战老牌数据库，但是在大数据时代有自己的意义。
+
+
+
+
+官网：https://www.mongodb.com/
+手册：https://docs.mongodb.org/manual/
+
+win7系统需要安装补丁，KB2731284。
+
+
+安装：
+1.下一步   2.配置环境变量
+
+
+
+2.mongod  开机
+
+mongod --dbpath C:\mongodb
+
+--dbpath就是选择数据库文档所在的文件夹。也就是说，mongoDB中，真的有物理文件，对应一个个数据库。U盘可以拷走。
+一定要保持，开机这个CMD不能动了，不能关，不能ctrl+c。 一旦这个cmd有问题了，数据库就自动关闭了。
+
+
+
+3.新建cmd     mongo    使用数据库
+
+
+4.运行mongo就可以使用mongo语法
+
+
+    列出所有数据库：show dbs
+
+5.使用某一个数据库：  use 数据库名字          , show collections查看当前数据库有哪些集合
+
+6.如果想新建数据库，也是use。  use一个不存在的，就是新建。
+
+  删除数据库  db.dropDatabase();
+
+
+ 删除集合 db.COLLECTION_NAME.drop()
+
+7. db 查看用的那个数据库
+
+8.添加给数据集合中添加数据 db.student.insert({“name”:”xiaoming”});
+    db.student  系统发现student是一个陌生的集合名字，所以就自动创建了集合。
+
+9.mongoimport 批量导入数据到数据集合中
+
+
+    mongoimport --db news--collection restaurants --drop --file primer-dataset.json
+    -db test  想往哪个数据库里面导入
+    --collection restaurants  想往哪个集合中导入
+    --drop 把集合清空
+    --file primer-dataset.json  哪个文件
+
+
+    这样，我们就能用sublime创建一个json文件，然后用mongoimport命令导入，这样学习数据库非常方便。
+
+10.查找数据
+
+        1 查找全部：
+
+            db.restaurants.find()
+
+
+        2.精确匹配：
+
+          db.student.find({"score.shuxue":70});
+
+        3.多个条件：
+
+          db.student.find({"score.shuxue":70 , "age":12})
+
+
+        4.大于条件：
+           db.student.find({"score.yuwen":{$gt:50}});
+
+        5.或者。寻找所有年龄是9岁，或者11岁的学生
+        db.student.find({$or:[{"age":9},{"age":11}]});
+
+
+        6.查找完毕之后，打点调用sort，表示升降排序。   1升序  -1降序
+
+            db.restaurants.find().sort( { "borough": 1, "address.zipcode": 1 } )
+
+
+11 修改数据
+
+    1.查找名字叫做小明的，把年龄更改为16岁：
+    db.student.update({"name":"小明"},{$set:{"age":16}});
+
+    2.查找数学成绩是70，把年龄更改为33岁：
+    db.student.update({"score.shuxue":70},{$set:{"age":33}});
+
+    3.更改所有匹配项目："
+    By default, the update() method updates a single document. To update multiple documents, use the multi option in the update() method.
+   db.student.update({"sex":"男"},{$set:{"age":33}},{multi: true});
+
+
+    4.完整替换，不出现$set关键字了：
+    db.student.update({"name":"小明"},{"name":"大明","age":16});
+
+12 删除数据
+
+1	db.restaurants.remove( { "borough": "Manhattan" } )
+
+2	db.restaurants.remove( { "borough": "Queens" }, { justOne: true } )
+
+
+
+ db.user.remove({"age":{$gt:100}});
+
+
+13.nodejs 使用mongodb
+
+
+
+之前已经存在的数据，实际上不需要增加这个字段。因为这些用户已经填写完毕表单了，不需要再手机高中信息了。
+我们的意图就是在今后注册的用户，需要填写高中信息。但是，我们刚才说了，所谓的字段，是表的一个结构。
+
+
+所有的行都必须拥有，不能有的行有这个字段，有的行没有这个字段。可想而知，大数据时代，数据库中有100万条数据都算少的。
+我们如果要动字段，时间太长。所以，字段这个东西，太不灵活。数据不灵活。一个字段，需要是同样类型的数据。
+
+
+不能一行记录是文本，一行记录是数字。
+
+非结构型数据库NoSQL应运而生。NoSQL是个怪胎，无法挑战老牌数据库，但是在大数据时代有自己的意义。
+
+
+
+
+官网：https://www.mongodb.com/
+手册：https://docs.mongodb.org/manual/
+
+win7系统需要安装补丁，KB2731284。
+
+
+安装：
+1.下一步   2.配置环境变量
+
+
+
+2.mongod  开机
+
+mongod --dbpath C:\mongodb
+
+--dbpath就是选择数据库文档所在的文件夹。也就是说，mongoDB中，真的有物理文件，对应一个个数据库。U盘可以拷走。
+一定要保持，开机这个CMD不能动了，不能关，不能ctrl+c。 一旦这个cmd有问题了，数据库就自动关闭了。
+
+
+
+3.新建cmd     mongo    使用数据库
+
+
+4.运行mongo就可以使用mongo语法
+
+
+    列出所有数据库：show dbs
+
+5.使用某一个数据库：  use 数据库名字          , show collections查看当前数据库有哪些集合
+
+6.如果想新建数据库，也是use。  use一个不存在的，就是新建。
+
+  删除数据库  db.dropDatabase();
+
+
+ 删除集合 db.COLLECTION_NAME.drop()
+
+7. db 查看用的那个数据库
+
+8.添加给数据集合中添加数据 db.student.insert({“name”:”xiaoming”});
+    db.student  系统发现student是一个陌生的集合名字，所以就自动创建了集合。
+
+9.mongoimport 批量导入数据到数据集合中
+
+
+    mongoimport --db news--collection restaurants --drop --file primer-dataset.json
+    -db test  想往哪个数据库里面导入
+    --collection restaurants  想往哪个集合中导入
+    --drop 把集合清空
+    --file primer-dataset.json  哪个文件
+
+
+    这样，我们就能用sublime创建一个json文件，然后用mongoimport命令导入，这样学习数据库非常方便。
+
+10.查找数据
+
+        1 查找全部：
+
+            db.restaurants.find()
+
+
+        2.精确匹配：
+
+          db.student.find({"score.shuxue":70});
+
+        3.多个条件：
+
+          db.student.find({"score.shuxue":70 , "age":12})
+
+
+        4.大于条件：
+           db.student.find({"score.yuwen":{$gt:50}});
+
+        5.或者。寻找所有年龄是9岁，或者11岁的学生
+        db.student.find({$or:[{"age":9},{"age":11}]});
+
+
+        6.查找完毕之后，打点调用sort，表示升降排序。   1升序  -1降序
+
+            db.restaurants.find().sort( { "borough": 1, "address.zipcode": 1 } )
+
+
+11 修改数据
+
+    1.查找名字叫做小明的，把年龄更改为16岁：
+    db.student.update({"name":"小明"},{$set:{"age":16}});
+
+    2.查找数学成绩是70，把年龄更改为33岁：
+    db.student.update({"score.shuxue":70},{$set:{"age":33}});
+
+    3.更改所有匹配项目："
+    By default, the update() method updates a single document. To update multiple documents, use the multi option in the update() method.
+   db.student.update({"sex":"男"},{$set:{"age":33}},{multi: true});
+
+
+    4.完整替换，不出现$set关键字了：
+    db.student.update({"name":"小明"},{"name":"大明","age":16});
+
+12 删除数据
+
+1	db.restaurants.remove( { "borough": "Manhattan" } )
+
+2	db.restaurants.remove( { "borough": "Queens" }, { justOne: true } )
+
+
+
+ db.user.remove({"age":{$gt:100}});
+
+
+13.nodejs 使用mongodb
+之前已经存在的数据，实际上不需要增加这个字段。因为这些用户已经填写完毕表单了，不需要再手机高中信息了。
+我们的意图就是在今后注册的用户，需要填写高中信息。但是，我们刚才说了，所谓的字段，是表的一个结构。
+
+
+所有的行都必须拥有，不能有的行有这个字段，有的行没有这个字段。可想而知，大数据时代，数据库中有100万条数据都算少的。
+我们如果要动字段，时间太长。所以，字段这个东西，太不灵活。数据不灵活。一个字段，需要是同样类型的数据。
+
+
+不能一行记录是文本，一行记录是数字。
+
+非结构型数据库NoSQL应运而生。NoSQL是个怪胎，无法挑战老牌数据库，但是在大数据时代有自己的意义。
+
+
+
+
+官网：https://www.mongodb.com/
+手册：https://docs.mongodb.org/manual/
+
+win7系统需要安装补丁，KB2731284。
+
+
+安装：
+1.下一步   2.配置环境变量
+
+
+
+2.mongod  开机
+
+mongod --dbpath C:\mongodb
+
+--dbpath就是选择数据库文档所在的文件夹。也就是说，mongoDB中，真的有物理文件，对应一个个数据库。U盘可以拷走。
+一定要保持，开机这个CMD不能动了，不能关，不能ctrl+c。 一旦这个cmd有问题了，数据库就自动关闭了。
+
+
+
+3.新建cmd     mongo    使用数据库
+
+
+4.运行mongo就可以使用mongo语法
+
+
+    列出所有数据库：show dbs
+
+5.使用某一个数据库：  use 数据库名字          , show collections查看当前数据库有哪些集合
+
+6.如果想新建数据库，也是use。  use一个不存在的，就是新建。
+
+  删除数据库  db.dropDatabase();
+
+
+ 删除集合 db.COLLECTION_NAME.drop()
+
+7. db 查看用的那个数据库
+
+8.添加给数据集合中添加数据 db.student.insert({“name”:”xiaoming”});
+    db.student  系统发现student是一个陌生的集合名字，所以就自动创建了集合。
+
+9.mongoimport 批量导入数据到数据集合中
+
+
+    mongoimport --db news--collection restaurants --drop --file primer-dataset.json
+    -db test  想往哪个数据库里面导入
+    --collection restaurants  想往哪个集合中导入
+    --drop 把集合清空
+    --file primer-dataset.json  哪个文件
+
+
+    这样，我们就能用sublime创建一个json文件，然后用mongoimport命令导入，这样学习数据库非常方便。
+
+10.查找数据
+
+        1 查找全部：
+
+            db.restaurants.find()
+
+
+        2.精确匹配：
+
+          db.student.find({"score.shuxue":70});
+
+        3.多个条件：
+
+          db.student.find({"score.shuxue":70 , "age":12})
+
+
+        4.大于条件：
+           db.student.find({"score.yuwen":{$gt:50}});
+
+        5.或者。寻找所有年龄是9岁，或者11岁的学生
+        db.student.find({$or:[{"age":9},{"age":11}]});
+
+
+        6.查找完毕之后，打点调用sort，表示升降排序。   1升序  -1降序
+
+            db.restaurants.find().sort( { "borough": 1, "address.zipcode": 1 } )
+
+
+11 修改数据
+
+    1.查找名字叫做小明的，把年龄更改为16岁：
+    db.student.update({"name":"小明"},{$set:{"age":16}});
+
+    2.查找数学成绩是70，把年龄更改为33岁：
+    db.student.update({"score.shuxue":70},{$set:{"age":33}});
+
+    3.更改所有匹配项目："
+    By default, the update() method updates a single document. To update multiple documents, use the multi option in the update() method.
+   db.student.update({"sex":"男"},{$set:{"age":33}},{multi: true});
+
+
+    4.完整替换，不出现$set关键字了：
+    db.student.update({"name":"小明"},{"name":"大明","age":16});
+
+12 删除数据
+
+1	db.restaurants.remove( { "borough": "Manhattan" } )
+
+2	db.restaurants.remove( { "borough": "Queens" }, { justOne: true } )
+
+
+
+ db.user.remove({"age":{$gt:100}});
+
+
+13.nodejs 使用mongodb
+之前已经存在的数据，实际上不需要增加这个字段。因为这些用户已经填写完毕表单了，不需要再手机高中信息了。
+我们的意图就是在今后注册的用户，需要填写高中信息。但是，我们刚才说了，所谓的字段，是表的一个结构。
+
+
+所有的行都必须拥有，不能有的行有这个字段，有的行没有这个字段。可想而知，大数据时代，数据库中有100万条数据都算少的。
+我们如果要动字段，时间太长。所以，字段这个东西，太不灵活。数据不灵活。一个字段，需要是同样类型的数据。
+
+
+不能一行记录是文本，一行记录是数字。
+
+非结构型数据库NoSQL应运而生。NoSQL是个怪胎，无法挑战老牌数据库，但是在大数据时代有自己的意义。
+
+
+
+
+官网：https://www.mongodb.com/
+手册：https://docs.mongodb.org/manual/
+
+win7系统需要安装补丁，KB2731284。
+
+
+安装：
+1.下一步   2.配置环境变量
+
+
+
+2.mongod  开机
+
+mongod --dbpath C:\mongodb
+
+--dbpath就是选择数据库文档所在的文件夹。也就是说，mongoDB中，真的有物理文件，对应一个个数据库。U盘可以拷走。
+一定要保持，开机这个CMD不能动了，不能关，不能ctrl+c。 一旦这个cmd有问题了，数据库就自动关闭了。
+
+
+
+3.新建cmd     mongo    使用数据库
+
+
+4.运行mongo就可以使用mongo语法
+
+
+    列出所有数据库：show dbs
+
+5.使用某一个数据库：  use 数据库名字          , show collections查看当前数据库有哪些集合
+
+6.如果想新建数据库，也是use。  use一个不存在的，就是新建。
+
+  删除数据库  db.dropDatabase();
+
+
+ 删除集合 db.COLLECTION_NAME.drop()
+
+7. db 查看用的那个数据库
+
+8.添加给数据集合中添加数据 db.student.insert({“name”:”xiaoming”});
+    db.student  系统发现student是一个陌生的集合名字，所以就自动创建了集合。
+
+9.mongoimport 批量导入数据到数据集合中
+
+
+    mongoimport --db news--collection restaurants --drop --file primer-dataset.json
+    -db test  想往哪个数据库里面导入
+    --collection restaurants  想往哪个集合中导入
+    --drop 把集合清空
+    --file primer-dataset.json  哪个文件
+
+
+    这样，我们就能用sublime创建一个json文件，然后用mongoimport命令导入，这样学习数据库非常方便。
+
+10.查找数据
+
+        1 查找全部：
+
+            db.restaurants.find()
+
+
+        2.精确匹配：
+
+          db.student.find({"score.shuxue":70});
+
+        3.多个条件：
+
+          db.student.find({"score.shuxue":70 , "age":12})
+
+
+        4.大于条件：
+           db.student.find({"score.yuwen":{$gt:50}});
+
+        5.或者。寻找所有年龄是9岁，或者11岁的学生
+        db.student.find({$or:[{"age":9},{"age":11}]});
+
+
+        6.查找完毕之后，打点调用sort，表示升降排序。   1升序  -1降序
+
+            db.restaurants.find().sort( { "borough": 1, "address.zipcode": 1 } )
+
+
+11 修改数据
+
+    1.查找名字叫做小明的，把年龄更改为16岁：
+    db.student.update({"name":"小明"},{$set:{"age":16}});
+
+    2.查找数学成绩是70，把年龄更改为33岁：
+    db.student.update({"score.shuxue":70},{$set:{"age":33}});
+
+    3.更改所有匹配项目："
+    By default, the update() method updates a single document. To update multiple documents, use the multi option in the update() method.
+   db.student.update({"sex":"男"},{$set:{"age":33}},{multi: true});
+
+
+    4.完整替换，不出现$set关键字了：
+    db.student.update({"name":"小明"},{"name":"大明","age":16});
+
+12 删除数据
+
+1	db.restaurants.remove( { "borough": "Manhattan" } )
+
+2	db.restaurants.remove( { "borough": "Queens" }, { justOne: true } )
+
+
+
+ db.user.remove({"age":{$gt:100}});
+
+
+13.nodejs 使用mongodb
+之前已经存在的数据，实际上不需要增加这个字段。因为这些用户已经填写完毕表单了，不需要再手机高中信息了。
+我们的意图就是在今后注册的用户，需要填写高中信息。但是，我们刚才说了，所谓的字段，是表的一个结构。
+
+
+所有的行都必须拥有，不能有的行有这个字段，有的行没有这个字段。可想而知，大数据时代，数据库中有100万条数据都算少的。
+我们如果要动字段，时间太长。所以，字段这个东西，太不灵活。数据不灵活。一个字段，需要是同样类型的数据。
+
+
+不能一行记录是文本，一行记录是数字。
+
+非结构型数据库NoSQL应运而生。NoSQL是个怪胎，无法挑战老牌数据库，但是在大数据时代有自己的意义。
+
+
+
+
+官网：https://www.mongodb.com/
+手册：https://docs.mongodb.org/manual/
+
+win7系统需要安装补丁，KB2731284。
+
+
+安装：
+1.下一步   2.配置环境变量
+
+
+
+2.mongod  开机
+
+mongod --dbpath C:\mongodb
+
+--dbpath就是选择数据库文档所在的文件夹。也就是说，mongoDB中，真的有物理文件，对应一个个数据库。U盘可以拷走。
+一定要保持，开机这个CMD不能动了，不能关，不能ctrl+c。 一旦这个cmd有问题了，数据库就自动关闭了。
+
+
+
+3.新建cmd     mongo    使用数据库
+
+
+4.运行mongo就可以使用mongo语法
+
+
+    列出所有数据库：show dbs
+
+5.使用某一个数据库：  use 数据库名字          , show collections查看当前数据库有哪些集合
+
+6.如果想新建数据库，也是use。  use一个不存在的，就是新建。
+
+  删除数据库  db.dropDatabase();
+
+
+ 删除集合 db.COLLECTION_NAME.drop()
+
+7. db 查看用的那个数据库
+
+8.添加给数据集合中添加数据 db.student.insert({“name”:”xiaoming”});
+    db.student  系统发现student是一个陌生的集合名字，所以就自动创建了集合。
+
+9.mongoimport 批量导入数据到数据集合中
+
+
+    mongoimport --db news--collection restaurants --drop --file primer-dataset.json
+    -db test  想往哪个数据库里面导入
+    --collection restaurants  想往哪个集合中导入
+    --drop 把集合清空
+    --file primer-dataset.json  哪个文件
+
+
+    这样，我们就能用sublime创建一个json文件，然后用mongoimport命令导入，这样学习数据库非常方便。
+
+10.查找数据
+
+        1 查找全部：
+
+            db.restaurants.find()
+
+
+        2.精确匹配：
+
+          db.student.find({"score.shuxue":70});
+
+        3.多个条件：
+
+          db.student.find({"score.shuxue":70 , "age":12})
+
+
+        4.大于条件：
+           db.student.find({"score.yuwen":{$gt:50}});
+
+        5.或者。寻找所有年龄是9岁，或者11岁的学生
+        db.student.find({$or:[{"age":9},{"age":11}]});
+
+
+        6.查找完毕之后，打点调用sort，表示升降排序。   1升序  -1降序
+
+            db.restaurants.find().sort( { "borough": 1, "address.zipcode": 1 } )
+
+
+11 修改数据
+
+    1.查找名字叫做小明的，把年龄更改为16岁：
+    db.student.update({"name":"小明"},{$set:{"age":16}});
+
+    2.查找数学成绩是70，把年龄更改为33岁：
+    db.student.update({"score.shuxue":70},{$set:{"age":33}});
+
+    3.更改所有匹配项目："
+    By default, the update() method updates a single document. To update multiple documents, use the multi option in the update() method.
+   db.student.update({"sex":"男"},{$set:{"age":33}},{multi: true});
+
+
+    4.完整替换，不出现$set关键字了：
+    db.student.update({"name":"小明"},{"name":"大明","age":16});
+
+12 删除数据
+
+1	db.restaurants.remove( { "borough": "Manhattan" } )
+
+2	db.restaurants.remove( { "borough": "Queens" }, { justOne: true } )
+
+
+
+ db.user.remove({"age":{$gt:100}});
+
+
+13.nodejs 使用mongodb之前已经存在的数据，实际上不需要增加这个字段。因为这些用户已经填写完毕表单了，不需要再手机高中信息了。
+我们的意图就是在今后注册的用户，需要填写高中信息。但是，我们刚才说了，所谓的字段，是表的一个结构。
+
+
+所有的行都必须拥有，不能有的行有这个字段，有的行没有这个字段。可想而知，大数据时代，数据库中有100万条数据都算少的。
+我们如果要动字段，时间太长。所以，字段这个东西，太不灵活。数据不灵活。一个字段，需要是同样类型的数据。
+
+
+不能一行记录是文本，一行记录是数字。
+
+非结构型数据库NoSQL应运而生。NoSQL是个怪胎，无法挑战老牌数据库，但是在大数据时代有自己的意义。
+
+
+
+
+官网：https://www.mongodb.com/
+手册：https://docs.mongodb.org/manual/
+
+win7系统需要安装补丁，KB2731284。
+
+
+安装：
+1.下一步   2.配置环境变量
+
+
+
+2.mongod  开机
+
+mongod --dbpath C:\mongodb
+
+--dbpath就是选择数据库文档所在的文件夹。也就是说，mongoDB中，真的有物理文件，对应一个个数据库。U盘可以拷走。
+一定要保持，开机这个CMD不能动了，不能关，不能ctrl+c。 一旦这个cmd有问题了，数据库就自动关闭了。
+
+
+
+3.新建cmd     mongo    使用数据库
+
+
+4.运行mongo就可以使用mongo语法
+
+
+    列出所有数据库：show dbs
+
+5.使用某一个数据库：  use 数据库名字          , show collections查看当前数据库有哪些集合
+
+6.如果想新建数据库，也是use。  use一个不存在的，就是新建。
+
+  删除数据库  db.dropDatabase();
+
+
+ 删除集合 db.COLLECTION_NAME.drop()
+
+7. db 查看用的那个数据库
+
+8.添加给数据集合中添加数据 db.student.insert({“name”:”xiaoming”});
+    db.student  系统发现student是一个陌生的集合名字，所以就自动创建了集合。
+
+9.mongoimport 批量导入数据到数据集合中
+
+
+    mongoimport --db news--collection restaurants --drop --file primer-dataset.json
+    -db test  想往哪个数据库里面导入
+    --collection restaurants  想往哪个集合中导入
+    --drop 把集合清空
+    --file primer-dataset.json  哪个文件
+
+
+    这样，我们就能用sublime创建一个json文件，然后用mongoimport命令导入，这样学习数据库非常方便。
+
+10.查找数据
+
+        1 查找全部：
+
+            db.restaurants.find()
+
+
+        2.精确匹配：
+
+          db.student.find({"score.shuxue":70});
+
+        3.多个条件：
+
+          db.student.find({"score.shuxue":70 , "age":12})
+
+
+        4.大于条件：
+           db.student.find({"score.yuwen":{$gt:50}});
+
+        5.或者。寻找所有年龄是9岁，或者11岁的学生
+        db.student.find({$or:[{"age":9},{"age":11}]});
+
+
+        6.查找完毕之后，打点调用sort，表示升降排序。   1升序  -1降序
+
+            db.restaurants.find().sort( { "borough": 1, "address.zipcode": 1 } )
+
+
+11 修改数据
+
+    1.查找名字叫做小明的，把年龄更改为16岁：
+    db.student.update({"name":"小明"},{$set:{"age":16}});
+
+    2.查找数学成绩是70，把年龄更改为33岁：
+    db.student.update({"score.shuxue":70},{$set:{"age":33}});
+
+    3.更改所有匹配项目："
+    By default, the update() method updates a single document. To update multiple documents, use the multi option in the update() method.
+   db.student.update({"sex":"男"},{$set:{"age":33}},{multi: true});
+
+
+    4.完整替换，不出现$set关键字了：
+    db.student.update({"name":"小明"},{"name":"大明","age":16});
+
+12 删除数据
+
+1	db.restaurants.remove( { "borough": "Manhattan" } )
+
+2	db.restaurants.remove( { "borough": "Queens" }, { justOne: true } )
+
+
+
+ db.user.remove({"age":{$gt:100}});
+
+
+13.nodejs 使用mongodb
+
+
+
+之前已经存在的数据，实际上不需要增加这个字段。因为这些用户已经填写完毕表单了，不需要再手机高中信息了。
+我们的意图就是在今后注册的用户，需要填写高中信息。但是，我们刚才说了，所谓的字段，是表的一个结构。
+
+
+所有的行都必须拥有，不能有的行有这个字段，有的行没有这个字段。可想而知，大数据时代，数据库中有100万条数据都算少的。
+我们如果要动字段，时间太长。所以，字段这个东西，太不灵活。数据不灵活。一个字段，需要是同样类型的数据。
+
+
+不能一行记录是文本，一行记录是数字。
+
+非结构型数据库NoSQL应运而生。NoSQL是个怪胎，无法挑战老牌数据库，但是在大数据时代有自己的意义。
+
+
+
+
+官网：https://www.mongodb.com/
+手册：https://docs.mongodb.org/manual/
+
+win7系统需要安装补丁，KB2731284。
+
+
+安装：
+1.下一步   2.配置环境变量
+
+
+
+2.mongod  开机
+
+mongod --dbpath C:\mongodb
+
+--dbpath就是选择数据库文档所在的文件夹。也就是说，mongoDB中，真的有物理文件，对应一个个数据库。U盘可以拷走。
+一定要保持，开机这个CMD不能动了，不能关，不能ctrl+c。 一旦这个cmd有问题了，数据库就自动关闭了。
+
+
+
+3.新建cmd     mongo    使用数据库
+
+
+4.运行mongo就可以使用mongo语法
+
+
+    列出所有数据库：show dbs
+
+5.使用某一个数据库：  use 数据库名字          , show collections查看当前数据库有哪些集合
+
+6.如果想新建数据库，也是use。  use一个不存在的，就是新建。
+
+  删除数据库  db.dropDatabase();
+
+
+ 删除集合 db.COLLECTION_NAME.drop()
+
+7. db 查看用的那个数据库
+
+8.添加给数据集合中添加数据 db.student.insert({“name”:”xiaoming”});
+    db.student  系统发现student是一个陌生的集合名字，所以就自动创建了集合。
+
+9.mongoimport 批量导入数据到数据集合中
+
+
+    mongoimport --db news--collection restaurants --drop --file primer-dataset.json
+    -db test  想往哪个数据库里面导入
+    --collection restaurants  想往哪个集合中导入
+    --drop 把集合清空
+    --file primer-dataset.json  哪个文件
+
+
+    这样，我们就能用sublime创建一个json文件，然后用mongoimport命令导入，这样学习数据库非常方便。
+
+10.查找数据
+
+        1 查找全部：
+
+            db.restaurants.find()
+
+
+        2.精确匹配：
+
+          db.student.find({"score.shuxue":70});
+
+        3.多个条件：
+
+          db.student.find({"score.shuxue":70 , "age":12})
+
+
+        4.大于条件：
+           db.student.find({"score.yuwen":{$gt:50}});
+
+        5.或者。寻找所有年龄是9岁，或者11岁的学生
+        db.student.find({$or:[{"age":9},{"age":11}]});
+
+
+        6.查找完毕之后，打点调用sort，表示升降排序。   1升序  -1降序
+
+            db.restaurants.find().sort( { "borough": 1, "address.zipcode": 1 } )
+
+
+11 修改数据
+
+    1.查找名字叫做小明的，把年龄更改为16岁：
+    db.student.update({"name":"小明"},{$set:{"age":16}});
+
+    2.查找数学成绩是70，把年龄更改为33岁：
+    db.student.update({"score.shuxue":70},{$set:{"age":33}});
+
+    3.更改所有匹配项目："
+    By default, the update() method updates a single document. To update multiple documents, use the multi option in the update() method.
+   db.student.update({"sex":"男"},{$set:{"age":33}},{multi: true});
+
+
+    4.完整替换，不出现$set关键字了：
+    db.student.update({"name":"小明"},{"name":"大明","age":16});
+
+12 删除数据
+
+1	db.restaurants.remove( { "borough": "Manhattan" } )
+
+2	db.restaurants.remove( { "borough": "Queens" }, { justOne: true } )
+
+
+
+ db.user.remove({"age":{$gt:100}});
+
+
+13.nodejs 使用mongodb
+之前已经存在的数据，实际上不需要增加这个字段。因为这些用户已经填写完毕表单了，不需要再手机高中信息了。
+我们的意图就是在今后注册的用户，需要填写高中信息。但是，我们刚才说了，所谓的字段，是表的一个结构。
+
+
+所有的行都必须拥有，不能有的行有这个字段，有的行没有这个字段。可想而知，大数据时代，数据库中有100万条数据都算少的。
+我们如果要动字段，时间太长。所以，字段这个东西，太不灵活。数据不灵活。一个字段，需要是同样类型的数据。
+
+
+不能一行记录是文本，一行记录是数字。
+
+非结构型数据库NoSQL应运而生。NoSQL是个怪胎，无法挑战老牌数据库，但是在大数据时代有自己的意义。
+
+
+
+
+官网：https://www.mongodb.com/
+手册：https://docs.mongodb.org/manual/
+
+win7系统需要安装补丁，KB2731284。
+
+
+安装：
+1.下一步   2.配置环境变量
+
+
+
+2.mongod  开机
+
+mongod --dbpath C:\mongodb
+
+--dbpath就是选择数据库文档所在的文件夹。也就是说，mongoDB中，真的有物理文件，对应一个个数据库。U盘可以拷走。
+一定要保持，开机这个CMD不能动了，不能关，不能ctrl+c。 一旦这个cmd有问题了，数据库就自动关闭了。
+
+
+
+3.新建cmd     mongo    使用数据库
+
+
+4.运行mongo就可以使用mongo语法
+
+
+    列出所有数据库：show dbs
+
+5.使用某一个数据库：  use 数据库名字          , show collections查看当前数据库有哪些集合
+
+6.如果想新建数据库，也是use。  use一个不存在的，就是新建。
+
+  删除数据库  db.dropDatabase();
+
+
+ 删除集合 db.COLLECTION_NAME.drop()
+
+7. db 查看用的那个数据库
+
+8.添加给数据集合中添加数据 db.student.insert({“name”:”xiaoming”});
+    db.student  系统发现student是一个陌生的集合名字，所以就自动创建了集合。
+
+9.mongoimport 批量导入数据到数据集合中
+
+
+    mongoimport --db news--collection restaurants --drop --file primer-dataset.json
+    -db test  想往哪个数据库里面导入
+    --collection restaurants  想往哪个集合中导入
+    --drop 把集合清空
+    --file primer-dataset.json  哪个文件
+
+
+    这样，我们就能用sublime创建一个json文件，然后用mongoimport命令导入，这样学习数据库非常方便。
+
+10.查找数据
+
+        1 查找全部：
+
+            db.restaurants.find()
+
+
+        2.精确匹配：
+
+          db.student.find({"score.shuxue":70});
+
+        3.多个条件：
+
+          db.student.find({"score.shuxue":70 , "age":12})
+
+
+        4.大于条件：
+           db.student.find({"score.yuwen":{$gt:50}});
+
+        5.或者。寻找所有年龄是9岁，或者11岁的学生
+        db.student.find({$or:[{"age":9},{"age":11}]});
+
+
+        6.查找完毕之后，打点调用sort，表示升降排序。   1升序  -1降序
+
+            db.restaurants.find().sort( { "borough": 1, "address.zipcode": 1 } )
+
+
+11 修改数据
+
+    1.查找名字叫做小明的，把年龄更改为16岁：
+    db.student.update({"name":"小明"},{$set:{"age":16}});
+
+    2.查找数学成绩是70，把年龄更改为33岁：
+    db.student.update({"score.shuxue":70},{$set:{"age":33}});
+
+    3.更改所有匹配项目："
+    By default, the update() method updates a single document. To update multiple documents, use the multi option in the update() method.
+   db.student.update({"sex":"男"},{$set:{"age":33}},{multi: true});
+
+
+    4.完整替换，不出现$set关键字了：
+    db.student.update({"name":"小明"},{"name":"大明","age":16});
+
+12 删除数据
+
+1	db.restaurants.remove( { "borough": "Manhattan" } )
+
+2	db.restaurants.remove( { "borough": "Queens" }, { justOne: true } )
+
+
+
+ db.user.remove({"age":{$gt:100}});
+
+
+13.nodejs 使用mongodb
+之前已经存在的数据，实际上不需要增加这个字段。因为这些用户已经填写完毕表单了，不需要再手机高中信息了。
+我们的意图就是在今后注册的用户，需要填写高中信息。但是，我们刚才说了，所谓的字段，是表的一个结构。
+
+
+所有的行都必须拥有，不能有的行有这个字段，有的行没有这个字段。可想而知，大数据时代，数据库中有100万条数据都算少的。
+我们如果要动字段，时间太长。所以，字段这个东西，太不灵活。数据不灵活。一个字段，需要是同样类型的数据。
+
+
+不能一行记录是文本，一行记录是数字。
+
+非结构型数据库NoSQL应运而生。NoSQL是个怪胎，无法挑战老牌数据库，但是在大数据时代有自己的意义。
+
+
+
+
+官网：https://www.mongodb.com/
+手册：https://docs.mongodb.org/manual/
+
+win7系统需要安装补丁，KB2731284。
+
+
+安装：
+1.下一步   2.配置环境变量
+
+
+
+2.mongod  开机
+
+mongod --dbpath C:\mongodb
+
+--dbpath就是选择数据库文档所在的文件夹。也就是说，mongoDB中，真的有物理文件，对应一个个数据库。U盘可以拷走。
+一定要保持，开机这个CMD不能动了，不能关，不能ctrl+c。 一旦这个cmd有问题了，数据库就自动关闭了。
+
+
+
+3.新建cmd     mongo    使用数据库
+
+
+4.运行mongo就可以使用mongo语法
+
+
+    列出所有数据库：show dbs
+
+5.使用某一个数据库：  use 数据库名字          , show collections查看当前数据库有哪些集合
+
+6.如果想新建数据库，也是use。  use一个不存在的，就是新建。
+
+  删除数据库  db.dropDatabase();
+
+
+ 删除集合 db.COLLECTION_NAME.drop()
+
+7. db 查看用的那个数据库
+
+8.添加给数据集合中添加数据 db.student.insert({“name”:”xiaoming”});
+    db.student  系统发现student是一个陌生的集合名字，所以就自动创建了集合。
+
+9.mongoimport 批量导入数据到数据集合中
+
+
+    mongoimport --db news--collection restaurants --drop --file primer-dataset.json
+    -db test  想往哪个数据库里面导入
+    --collection restaurants  想往哪个集合中导入
+    --drop 把集合清空
+    --file primer-dataset.json  哪个文件
+
+
+    这样，我们就能用sublime创建一个json文件，然后用mongoimport命令导入，这样学习数据库非常方便。
+
+10.查找数据
+
+        1 查找全部：
+
+            db.restaurants.find()
+
+
+        2.精确匹配：
+
+          db.student.find({"score.shuxue":70});
+
+        3.多个条件：
+
+          db.student.find({"score.shuxue":70 , "age":12})
+
+
+        4.大于条件：
+           db.student.find({"score.yuwen":{$gt:50}});
+
+        5.或者。寻找所有年龄是9岁，或者11岁的学生
+        db.student.find({$or:[{"age":9},{"age":11}]});
+
+
+        6.查找完毕之后，打点调用sort，表示升降排序。   1升序  -1降序
+
+            db.restaurants.find().sort( { "borough": 1, "address.zipcode": 1 } )
+
+
+11 修改数据
+
+    1.查找名字叫做小明的，把年龄更改为16岁：
+    db.student.update({"name":"小明"},{$set:{"age":16}});
+
+    2.查找数学成绩是70，把年龄更改为33岁：
+    db.student.update({"score.shuxue":70},{$set:{"age":33}});
+
+    3.更改所有匹配项目："
+    By default, the update() method updates a single document. To update multiple documents, use the multi option in the update() method.
+   db.student.update({"sex":"男"},{$set:{"age":33}},{multi: true});
+
+
+    4.完整替换，不出现$set关键字了：
+    db.student.update({"name":"小明"},{"name":"大明","age":16});
+
+12 删除数据
+
+1	db.restaurants.remove( { "borough": "Manhattan" } )
+
+2	db.restaurants.remove( { "borough": "Queens" }, { justOne: true } )
+
+
+
+ db.user.remove({"age":{$gt:100}});
+
+
+13.nodejs 使用mongodb
+之前已经存在的数据，实际上不需要增加这个字段。因为这些用户已经填写完毕表单了，不需要再手机高中信息了。
+我们的意图就是在今后注册的用户，需要填写高中信息。但是，我们刚才说了，所谓的字段，是表的一个结构。
+
+
+所有的行都必须拥有，不能有的行有这个字段，有的行没有这个字段。可想而知，大数据时代，数据库中有100万条数据都算少的。
+我们如果要动字段，时间太长。所以，字段这个东西，太不灵活。数据不灵活。一个字段，需要是同样类型的数据。
+
+
+不能一行记录是文本，一行记录是数字。
+
+非结构型数据库NoSQL应运而生。NoSQL是个怪胎，无法挑战老牌数据库，但是在大数据时代有自己的意义。
+
+
+
+
+官网：https://www.mongodb.com/
+手册：https://docs.mongodb.org/manual/
+
+win7系统需要安装补丁，KB2731284。
+
+
+安装：
+1.下一步   2.配置环境变量
+
+
+
+2.mongod  开机
+
+mongod --dbpath C:\mongodb
+
+--dbpath就是选择数据库文档所在的文件夹。也就是说，mongoDB中，真的有物理文件，对应一个个数据库。U盘可以拷走。
+一定要保持，开机这个CMD不能动了，不能关，不能ctrl+c。 一旦这个cmd有问题了，数据库就自动关闭了。
+
+
+
+3.新建cmd     mongo    使用数据库
+
+
+4.运行mongo就可以使用mongo语法
+
+
+    列出所有数据库：show dbs
+
+5.使用某一个数据库：  use 数据库名字          , show collections查看当前数据库有哪些集合
+
+6.如果想新建数据库，也是use。  use一个不存在的，就是新建。
+
+  删除数据库  db.dropDatabase();
+
+
+ 删除集合 db.COLLECTION_NAME.drop()
+
+7. db 查看用的那个数据库
+
+8.添加给数据集合中添加数据 db.student.insert({“name”:”xiaoming”});
+    db.student  系统发现student是一个陌生的集合名字，所以就自动创建了集合。
+
+9.mongoimport 批量导入数据到数据集合中
+
+
+    mongoimport --db news--collection restaurants --drop --file primer-dataset.json
+    -db test  想往哪个数据库里面导入
+    --collection restaurants  想往哪个集合中导入
+    --drop 把集合清空
+    --file primer-dataset.json  哪个文件
+
+
+    这样，我们就能用sublime创建一个json文件，然后用mongoimport命令导入，这样学习数据库非常方便。
+
+10.查找数据
+
+        1 查找全部：
+
+            db.restaurants.find()
+
+
+        2.精确匹配：
+
+          db.student.find({"score.shuxue":70});
+
+        3.多个条件：
+
+          db.student.find({"score.shuxue":70 , "age":12})
+
+
+        4.大于条件：
+           db.student.find({"score.yuwen":{$gt:50}});
+
+        5.或者。寻找所有年龄是9岁，或者11岁的学生
+        db.student.find({$or:[{"age":9},{"age":11}]});
+
+
+        6.查找完毕之后，打点调用sort，表示升降排序。   1升序  -1降序
+
+            db.restaurants.find().sort( { "borough": 1, "address.zipcode": 1 } )
+
+
+11 修改数据
+
+    1.查找名字叫做小明的，把年龄更改为16岁：
+    db.student.update({"name":"小明"},{$set:{"age":16}});
+
+    2.查找数学成绩是70，把年龄更改为33岁：
+    db.student.update({"score.shuxue":70},{$set:{"age":33}});
+
+    3.更改所有匹配项目："
+    By default, the update() method updates a single document. To update multiple documents, use the multi option in the update() method.
+   db.student.update({"sex":"男"},{$set:{"age":33}},{multi: true});
+
+
+    4.完整替换，不出现$set关键字了：
+    db.student.update({"name":"小明"},{"name":"大明","age":16});
+
+12 删除数据
+
+1	db.restaurants.remove( { "borough": "Manhattan" } )
+
+2	db.restaurants.remove( { "borough": "Queens" }, { justOne: true } )
+
+
+
+ db.user.remove({"age":{$gt:100}});
+
+
+13.nodejs 使用mongodb之前已经存在的数据，实际上不需要增加这个字段。因为这些用户已经填写完毕表单了，不需要再手机高中信息了。
+我们的意图就是在今后注册的用户，需要填写高中信息。但是，我们刚才说了，所谓的字段，是表的一个结构。
+
+
+所有的行都必须拥有，不能有的行有这个字段，有的行没有这个字段。可想而知，大数据时代，数据库中有100万条数据都算少的。
+我们如果要动字段，时间太长。所以，字段这个东西，太不灵活。数据不灵活。一个字段，需要是同样类型的数据。
+
+
+不能一行记录是文本，一行记录是数字。
+
+非结构型数据库NoSQL应运而生。NoSQL是个怪胎，无法挑战老牌数据库，但是在大数据时代有自己的意义。
+
+
+
+
+官网：https://www.mongodb.com/
+手册：https://docs.mongodb.org/manual/
+
+win7系统需要安装补丁，KB2731284。
+
+
+安装：
+1.下一步   2.配置环境变量
+
+
+
+2.mongod  开机
+
+mongod --dbpath C:\mongodb
+
+--dbpath就是选择数据库文档所在的文件夹。也就是说，mongoDB中，真的有物理文件，对应一个个数据库。U盘可以拷走。
+一定要保持，开机这个CMD不能动了，不能关，不能ctrl+c。 一旦这个cmd有问题了，数据库就自动关闭了。
+
+
+
+3.新建cmd     mongo    使用数据库
+
+
+4.运行mongo就可以使用mongo语法
+
+
+    列出所有数据库：show dbs
+
+5.使用某一个数据库：  use 数据库名字          , show collections查看当前数据库有哪些集合
+
+6.如果想新建数据库，也是use。  use一个不存在的，就是新建。
+
+  删除数据库  db.dropDatabase();
+
+
+ 删除集合 db.COLLECTION_NAME.drop()
+
+7. db 查看用的那个数据库
+
+8.添加给数据集合中添加数据 db.student.insert({“name”:”xiaoming”});
+    db.student  系统发现student是一个陌生的集合名字，所以就自动创建了集合。
+
+9.mongoimport 批量导入数据到数据集合中
+
+
+    mongoimport --db news--collection restaurants --drop --file primer-dataset.json
+    -db test  想往哪个数据库里面导入
+    --collection restaurants  想往哪个集合中导入
+    --drop 把集合清空
+    --file primer-dataset.json  哪个文件
+
+
+    这样，我们就能用sublime创建一个json文件，然后用mongoimport命令导入，这样学习数据库非常方便。
+
+10.查找数据
+
+        1 查找全部：
+
+            db.restaurants.find()
+
+
+        2.精确匹配：
+
+          db.student.find({"score.shuxue":70});
+
+        3.多个条件：
+
+          db.student.find({"score.shuxue":70 , "age":12})
+
+
+        4.大于条件：
+           db.student.find({"score.yuwen":{$gt:50}});
+
+        5.或者。寻找所有年龄是9岁，或者11岁的学生
+        db.student.find({$or:[{"age":9},{"age":11}]});
+
+
+        6.查找完毕之后，打点调用sort，表示升降排序。   1升序  -1降序
+
+            db.restaurants.find().sort( { "borough": 1, "address.zipcode": 1 } )
+
+
+11 修改数据
+
+    1.查找名字叫做小明的，把年龄更改为16岁：
+    db.student.update({"name":"小明"},{$set:{"age":16}});
+
+    2.查找数学成绩是70，把年龄更改为33岁：
+    db.student.update({"score.shuxue":70},{$set:{"age":33}});
+
+    3.更改所有匹配项目："
+    By default, the update() method updates a single document. To update multiple documents, use the multi option in the update() method.
+   db.student.update({"sex":"男"},{$set:{"age":33}},{multi: true});
+
+
+    4.完整替换，不出现$set关键字了：
+    db.student.update({"name":"小明"},{"name":"大明","age":16});
+
+12 删除数据
+
+1	db.restaurants.remove( { "borough": "Manhattan" } )
+
+2	db.restaurants.remove( { "borough": "Queens" }, { justOne: true } )
+
+
+
+ db.user.remove({"age":{$gt:100}});
+
+
+13.nodejs 使用mongodb
+
+
+
+之前已经存在的数据，实际上不需要增加这个字段。因为这些用户已经填写完毕表单了，不需要再手机高中信息了。
+我们的意图就是在今后注册的用户，需要填写高中信息。但是，我们刚才说了，所谓的字段，是表的一个结构。
+
+
+所有的行都必须拥有，不能有的行有这个字段，有的行没有这个字段。可想而知，大数据时代，数据库中有100万条数据都算少的。
+我们如果要动字段，时间太长。所以，字段这个东西，太不灵活。数据不灵活。一个字段，需要是同样类型的数据。
+
+
+不能一行记录是文本，一行记录是数字。
+
+非结构型数据库NoSQL应运而生。NoSQL是个怪胎，无法挑战老牌数据库，但是在大数据时代有自己的意义。
+
+
+
+
+官网：https://www.mongodb.com/
+手册：https://docs.mongodb.org/manual/
+
+win7系统需要安装补丁，KB2731284。
+
+
+安装：
+1.下一步   2.配置环境变量
+
+
+
+2.mongod  开机
+
+mongod --dbpath C:\mongodb
+
+--dbpath就是选择数据库文档所在的文件夹。也就是说，mongoDB中，真的有物理文件，对应一个个数据库。U盘可以拷走。
+一定要保持，开机这个CMD不能动了，不能关，不能ctrl+c。 一旦这个cmd有问题了，数据库就自动关闭了。
+
+
+
+3.新建cmd     mongo    使用数据库
+
+
+4.运行mongo就可以使用mongo语法
+
+
+    列出所有数据库：show dbs
+
+5.使用某一个数据库：  use 数据库名字          , show collections查看当前数据库有哪些集合
+
+6.如果想新建数据库，也是use。  use一个不存在的，就是新建。
+
+  删除数据库  db.dropDatabase();
+
+
+ 删除集合 db.COLLECTION_NAME.drop()
+
+7. db 查看用的那个数据库
+
+8.添加给数据集合中添加数据 db.student.insert({“name”:”xiaoming”});
+    db.student  系统发现student是一个陌生的集合名字，所以就自动创建了集合。
+
+9.mongoimport 批量导入数据到数据集合中
+
+
+    mongoimport --db news--collection restaurants --drop --file primer-dataset.json
+    -db test  想往哪个数据库里面导入
+    --collection restaurants  想往哪个集合中导入
+    --drop 把集合清空
+    --file primer-dataset.json  哪个文件
+
+
+    这样，我们就能用sublime创建一个json文件，然后用mongoimport命令导入，这样学习数据库非常方便。
+
+10.查找数据
+
+        1 查找全部：
+
+            db.restaurants.find()
+
+
+        2.精确匹配：
+
+          db.student.find({"score.shuxue":70});
+
+        3.多个条件：
+
+          db.student.find({"score.shuxue":70 , "age":12})
+
+
+        4.大于条件：
+           db.student.find({"score.yuwen":{$gt:50}});
+
+        5.或者。寻找所有年龄是9岁，或者11岁的学生
+        db.student.find({$or:[{"age":9},{"age":11}]});
+
+
+        6.查找完毕之后，打点调用sort，表示升降排序。   1升序  -1降序
+
+            db.restaurants.find().sort( { "borough": 1, "address.zipcode": 1 } )
+
+
+11 修改数据
+
+    1.查找名字叫做小明的，把年龄更改为16岁：
+    db.student.update({"name":"小明"},{$set:{"age":16}});
+
+    2.查找数学成绩是70，把年龄更改为33岁：
+    db.student.update({"score.shuxue":70},{$set:{"age":33}});
+
+    3.更改所有匹配项目："
+    By default, the update() method updates a single document. To update multiple documents, use the multi option in the update() method.
+   db.student.update({"sex":"男"},{$set:{"age":33}},{multi: true});
+
+
+    4.完整替换，不出现$set关键字了：
+    db.student.update({"name":"小明"},{"name":"大明","age":16});
+
+12 删除数据
+
+1	db.restaurants.remove( { "borough": "Manhattan" } )
+
+2	db.restaurants.remove( { "borough": "Queens" }, { justOne: true } )
+
+
+
+ db.user.remove({"age":{$gt:100}});
+
+
+13.nodejs 使用mongodb
+之前已经存在的数据，实际上不需要增加这个字段。因为这些用户已经填写完毕表单了，不需要再手机高中信息了。
+我们的意图就是在今后注册的用户，需要填写高中信息。但是，我们刚才说了，所谓的字段，是表的一个结构。
+
+
+所有的行都必须拥有，不能有的行有这个字段，有的行没有这个字段。可想而知，大数据时代，数据库中有100万条数据都算少的。
+我们如果要动字段，时间太长。所以，字段这个东西，太不灵活。数据不灵活。一个字段，需要是同样类型的数据。
+
+
+不能一行记录是文本，一行记录是数字。
+
+非结构型数据库NoSQL应运而生。NoSQL是个怪胎，无法挑战老牌数据库，但是在大数据时代有自己的意义。
+
+
+
+
+官网：https://www.mongodb.com/
+手册：https://docs.mongodb.org/manual/
+
+win7系统需要安装补丁，KB2731284。
+
+
+安装：
+1.下一步   2.配置环境变量
+
+
+
+2.mongod  开机
+
+mongod --dbpath C:\mongodb
+
+--dbpath就是选择数据库文档所在的文件夹。也就是说，mongoDB中，真的有物理文件，对应一个个数据库。U盘可以拷走。
+一定要保持，开机这个CMD不能动了，不能关，不能ctrl+c。 一旦这个cmd有问题了，数据库就自动关闭了。
+
+
+
+3.新建cmd     mongo    使用数据库
+
+
+4.运行mongo就可以使用mongo语法
+
+
+    列出所有数据库：show dbs
+
+5.使用某一个数据库：  use 数据库名字          , show collections查看当前数据库有哪些集合
+
+6.如果想新建数据库，也是use。  use一个不存在的，就是新建。
+
+  删除数据库  db.dropDatabase();
+
+
+ 删除集合 db.COLLECTION_NAME.drop()
+
+7. db 查看用的那个数据库
+
+8.添加给数据集合中添加数据 db.student.insert({“name”:”xiaoming”});
+    db.student  系统发现student是一个陌生的集合名字，所以就自动创建了集合。
+
+9.mongoimport 批量导入数据到数据集合中
+
+
+    mongoimport --db news--collection restaurants --drop --file primer-dataset.json
+    -db test  想往哪个数据库里面导入
+    --collection restaurants  想往哪个集合中导入
+    --drop 把集合清空
+    --file primer-dataset.json  哪个文件
+
+
+    这样，我们就能用sublime创建一个json文件，然后用mongoimport命令导入，这样学习数据库非常方便。
+
+10.查找数据
+
+        1 查找全部：
+
+            db.restaurants.find()
+
+
+        2.精确匹配：
+
+          db.student.find({"score.shuxue":70});
+
+        3.多个条件：
+
+          db.student.find({"score.shuxue":70 , "age":12})
+
+
+        4.大于条件：
+           db.student.find({"score.yuwen":{$gt:50}});
+
+        5.或者。寻找所有年龄是9岁，或者11岁的学生
+        db.student.find({$or:[{"age":9},{"age":11}]});
+
+
+        6.查找完毕之后，打点调用sort，表示升降排序。   1升序  -1降序
+
+            db.restaurants.find().sort( { "borough": 1, "address.zipcode": 1 } )
+
+
+11 修改数据
+
+    1.查找名字叫做小明的，把年龄更改为16岁：
+    db.student.update({"name":"小明"},{$set:{"age":16}});
+
+    2.查找数学成绩是70，把年龄更改为33岁：
+    db.student.update({"score.shuxue":70},{$set:{"age":33}});
+
+    3.更改所有匹配项目："
+    By default, the update() method updates a single document. To update multiple documents, use the multi option in the update() method.
+   db.student.update({"sex":"男"},{$set:{"age":33}},{multi: true});
+
+
+    4.完整替换，不出现$set关键字了：
+    db.student.update({"name":"小明"},{"name":"大明","age":16});
+
+12 删除数据
+
+1	db.restaurants.remove( { "borough": "Manhattan" } )
+
+2	db.restaurants.remove( { "borough": "Queens" }, { justOne: true } )
+
+
+
+ db.user.remove({"age":{$gt:100}});
+
+
+13.nodejs 使用mongodb
+之前已经存在的数据，实际上不需要增加这个字段。因为这些用户已经填写完毕表单了，不需要再手机高中信息了。
+我们的意图就是在今后注册的用户，需要填写高中信息。但是，我们刚才说了，所谓的字段，是表的一个结构。
+
+
+所有的行都必须拥有，不能有的行有这个字段，有的行没有这个字段。可想而知，大数据时代，数据库中有100万条数据都算少的。
+我们如果要动字段，时间太长。所以，字段这个东西，太不灵活。数据不灵活。一个字段，需要是同样类型的数据。
+
+
+不能一行记录是文本，一行记录是数字。
+
+非结构型数据库NoSQL应运而生。NoSQL是个怪胎，无法挑战老牌数据库，但是在大数据时代有自己的意义。
+
+
+
+
+官网：https://www.mongodb.com/
+手册：https://docs.mongodb.org/manual/
+
+win7系统需要安装补丁，KB2731284。
+
+
+安装：
+1.下一步   2.配置环境变量
+
+
+
+2.mongod  开机
+
+mongod --dbpath C:\mongodb
+
+--dbpath就是选择数据库文档所在的文件夹。也就是说，mongoDB中，真的有物理文件，对应一个个数据库。U盘可以拷走。
+一定要保持，开机这个CMD不能动了，不能关，不能ctrl+c。 一旦这个cmd有问题了，数据库就自动关闭了。
+
+
+
+3.新建cmd     mongo    使用数据库
+
+
+4.运行mongo就可以使用mongo语法
+
+
+    列出所有数据库：show dbs
+
+5.使用某一个数据库：  use 数据库名字          , show collections查看当前数据库有哪些集合
+
+6.如果想新建数据库，也是use。  use一个不存在的，就是新建。
+
+  删除数据库  db.dropDatabase();
+
+
+ 删除集合 db.COLLECTION_NAME.drop()
+
+7. db 查看用的那个数据库
+
+8.添加给数据集合中添加数据 db.student.insert({“name”:”xiaoming”});
+    db.student  系统发现student是一个陌生的集合名字，所以就自动创建了集合。
+
+9.mongoimport 批量导入数据到数据集合中
+
+
+    mongoimport --db news--collection restaurants --drop --file primer-dataset.json
+    -db test  想往哪个数据库里面导入
+    --collection restaurants  想往哪个集合中导入
+    --drop 把集合清空
+    --file primer-dataset.json  哪个文件
+
+
+    这样，我们就能用sublime创建一个json文件，然后用mongoimport命令导入，这样学习数据库非常方便。
+
+10.查找数据
+
+        1 查找全部：
+
+            db.restaurants.find()
+
+
+        2.精确匹配：
+
+          db.student.find({"score.shuxue":70});
+
+        3.多个条件：
+
+          db.student.find({"score.shuxue":70 , "age":12})
+
+
+        4.大于条件：
+           db.student.find({"score.yuwen":{$gt:50}});
+
+        5.或者。寻找所有年龄是9岁，或者11岁的学生
+        db.student.find({$or:[{"age":9},{"age":11}]});
+
+
+        6.查找完毕之后，打点调用sort，表示升降排序。   1升序  -1降序
+
+            db.restaurants.find().sort( { "borough": 1, "address.zipcode": 1 } )
+
+
+11 修改数据
+
+    1.查找名字叫做小明的，把年龄更改为16岁：
+    db.student.update({"name":"小明"},{$set:{"age":16}});
+
+    2.查找数学成绩是70，把年龄更改为33岁：
+    db.student.update({"score.shuxue":70},{$set:{"age":33}});
+
+    3.更改所有匹配项目："
+    By default, the update() method updates a single document. To update multiple documents, use the multi option in the update() method.
+   db.student.update({"sex":"男"},{$set:{"age":33}},{multi: true});
+
+
+    4.完整替换，不出现$set关键字了：
+    db.student.update({"name":"小明"},{"name":"大明","age":16});
+
+12 删除数据
+
+1	db.restaurants.remove( { "borough": "Manhattan" } )
+
+2	db.restaurants.remove( { "borough": "Queens" }, { justOne: true } )
+
+
+
+ db.user.remove({"age":{$gt:100}});
+
+
+13.nodejs 使用mongodb
+之前已经存在的数据，实际上不需要增加这个字段。因为这些用户已经填写完毕表单了，不需要再手机高中信息了。
+我们的意图就是在今后注册的用户，需要填写高中信息。但是，我们刚才说了，所谓的字段，是表的一个结构。
+
+
+所有的行都必须拥有，不能有的行有这个字段，有的行没有这个字段。可想而知，大数据时代，数据库中有100万条数据都算少的。
+我们如果要动字段，时间太长。所以，字段这个东西，太不灵活。数据不灵活。一个字段，需要是同样类型的数据。
+
+
+不能一行记录是文本，一行记录是数字。
+
+非结构型数据库NoSQL应运而生。NoSQL是个怪胎，无法挑战老牌数据库，但是在大数据时代有自己的意义。
+
+
+
+
+官网：https://www.mongodb.com/
+手册：https://docs.mongodb.org/manual/
+
+win7系统需要安装补丁，KB2731284。
+
+
+安装：
+1.下一步   2.配置环境变量
+
+
+
+2.mongod  开机
+
+mongod --dbpath C:\mongodb
+
+--dbpath就是选择数据库文档所在的文件夹。也就是说，mongoDB中，真的有物理文件，对应一个个数据库。U盘可以拷走。
+一定要保持，开机这个CMD不能动了，不能关，不能ctrl+c。 一旦这个cmd有问题了，数据库就自动关闭了。
+
+
+
+3.新建cmd     mongo    使用数据库
+
+
+4.运行mongo就可以使用mongo语法
+
+
+    列出所有数据库：show dbs
+
+5.使用某一个数据库：  use 数据库名字          , show collections查看当前数据库有哪些集合
+
+6.如果想新建数据库，也是use。  use一个不存在的，就是新建。
+
+  删除数据库  db.dropDatabase();
+
+
+ 删除集合 db.COLLECTION_NAME.drop()
+
+7. db 查看用的那个数据库
+
+8.添加给数据集合中添加数据 db.student.insert({“name”:”xiaoming”});
+    db.student  系统发现student是一个陌生的集合名字，所以就自动创建了集合。
+
+9.mongoimport 批量导入数据到数据集合中
+
+
+    mongoimport --db news--collection restaurants --drop --file primer-dataset.json
+    -db test  想往哪个数据库里面导入
+    --collection restaurants  想往哪个集合中导入
+    --drop 把集合清空
+    --file primer-dataset.json  哪个文件
+
+
+    这样，我们就能用sublime创建一个json文件，然后用mongoimport命令导入，这样学习数据库非常方便。
+
+10.查找数据
+
+        1 查找全部：
+
+            db.restaurants.find()
+
+
+        2.精确匹配：
+
+          db.student.find({"score.shuxue":70});
+
+        3.多个条件：
+
+          db.student.find({"score.shuxue":70 , "age":12})
+
+
+        4.大于条件：
+           db.student.find({"score.yuwen":{$gt:50}});
+
+        5.或者。寻找所有年龄是9岁，或者11岁的学生
+        db.student.find({$or:[{"age":9},{"age":11}]});
+
+
+        6.查找完毕之后，打点调用sort，表示升降排序。   1升序  -1降序
+
+            db.restaurants.find().sort( { "borough": 1, "address.zipcode": 1 } )
+
+
+11 修改数据
+
+    1.查找名字叫做小明的，把年龄更改为16岁：
+    db.student.update({"name":"小明"},{$set:{"age":16}});
+
+    2.查找数学成绩是70，把年龄更改为33岁：
+    db.student.update({"score.shuxue":70},{$set:{"age":33}});
+
+    3.更改所有匹配项目："
+    By default, the update() method updates a single document. To update multiple documents, use the multi option in the update() method.
+   db.student.update({"sex":"男"},{$set:{"age":33}},{multi: true});
+
+
+    4.完整替换，不出现$set关键字了：
+    db.student.update({"name":"小明"},{"name":"大明","age":16});
+
+12 删除数据
+
+1	db.restaurants.remove( { "borough": "Manhattan" } )
+
+2	db.restaurants.remove( { "borough": "Queens" }, { justOne: true } )
+
+
+
+ db.user.remove({"age":{$gt:100}});
+
+
+13.nodejs 使用mongodb之前已经存在的数据，实际上不需要增加这个字段。因为这些用户已经填写完毕表单了，不需要再手机高中信息了。
+我们的意图就是在今后注册的用户，需要填写高中信息。但是，我们刚才说了，所谓的字段，是表的一个结构。
+
+
+所有的行都必须拥有，不能有的行有这个字段，有的行没有这个字段。可想而知，大数据时代，数据库中有100万条数据都算少的。
+我们如果要动字段，时间太长。所以，字段这个东西，太不灵活。数据不灵活。一个字段，需要是同样类型的数据。
+
+
+不能一行记录是文本，一行记录是数字。
+
+非结构型数据库NoSQL应运而生。NoSQL是个怪胎，无法挑战老牌数据库，但是在大数据时代有自己的意义。
+
+
+
+
+官网：https://www.mongodb.com/
+手册：https://docs.mongodb.org/manual/
+
+win7系统需要安装补丁，KB2731284。
+
+
+安装：
+1.下一步   2.配置环境变量
+
+
+
+2.mongod  开机
+
+mongod --dbpath C:\mongodb
+
+--dbpath就是选择数据库文档所在的文件夹。也就是说，mongoDB中，真的有物理文件，对应一个个数据库。U盘可以拷走。
+一定要保持，开机这个CMD不能动了，不能关，不能ctrl+c。 一旦这个cmd有问题了，数据库就自动关闭了。
+
+
+
+3.新建cmd     mongo    使用数据库
+
+
+4.运行mongo就可以使用mongo语法
+
+
+    列出所有数据库：show dbs
+
+5.使用某一个数据库：  use 数据库名字          , show collections查看当前数据库有哪些集合
+
+6.如果想新建数据库，也是use。  use一个不存在的，就是新建。
+
+  删除数据库  db.dropDatabase();
+
+
+ 删除集合 db.COLLECTION_NAME.drop()
+
+7. db 查看用的那个数据库
+
+8.添加给数据集合中添加数据 db.student.insert({“name”:”xiaoming”});
+    db.student  系统发现student是一个陌生的集合名字，所以就自动创建了集合。
+
+9.mongoimport 批量导入数据到数据集合中
+
+
+    mongoimport --db news--collection restaurants --drop --file primer-dataset.json
+    -db test  想往哪个数据库里面导入
+    --collection restaurants  想往哪个集合中导入
+    --drop 把集合清空
+    --file primer-dataset.json  哪个文件
+
+
+    这样，我们就能用sublime创建一个json文件，然后用mongoimport命令导入，这样学习数据库非常方便。
+
+10.查找数据
+
+        1 查找全部：
+
+            db.restaurants.find()
+
+
+        2.精确匹配：
+
+          db.student.find({"score.shuxue":70});
+
+        3.多个条件：
+
+          db.student.find({"score.shuxue":70 , "age":12})
+
+
+        4.大于条件：
+           db.student.find({"score.yuwen":{$gt:50}});
+
+        5.或者。寻找所有年龄是9岁，或者11岁的学生
+        db.student.find({$or:[{"age":9},{"age":11}]});
+
+
+        6.查找完毕之后，打点调用sort，表示升降排序。   1升序  -1降序
+
+            db.restaurants.find().sort( { "borough": 1, "address.zipcode": 1 } )
+
+
+11 修改数据
+
+    1.查找名字叫做小明的，把年龄更改为16岁：
+    db.student.update({"name":"小明"},{$set:{"age":16}});
+
+    2.查找数学成绩是70，把年龄更改为33岁：
+    db.student.update({"score.shuxue":70},{$set:{"age":33}});
+
+    3.更改所有匹配项目："
+    By default, the update() method updates a single document. To update multiple documents, use the multi option in the update() method.
+   db.student.update({"sex":"男"},{$set:{"age":33}},{multi: true});
+
+
+    4.完整替换，不出现$set关键字了：
+    db.student.update({"name":"小明"},{"name":"大明","age":16});
+
+12 删除数据
+
+1	db.restaurants.remove( { "borough": "Manhattan" } )
+
+2	db.restaurants.remove( { "borough": "Queens" }, { justOne: true } )
+
+
+
+ db.user.remove({"age":{$gt:100}});
+
+
+13.nodejs 使用mongodb
+
+
+
+之前已经存在的数据，实际上不需要增加这个字段。因为这些用户已经填写完毕表单了，不需要再手机高中信息了。
+我们的意图就是在今后注册的用户，需要填写高中信息。但是，我们刚才说了，所谓的字段，是表的一个结构。
+
+
+所有的行都必须拥有，不能有的行有这个字段，有的行没有这个字段。可想而知，大数据时代，数据库中有100万条数据都算少的。
+我们如果要动字段，时间太长。所以，字段这个东西，太不灵活。数据不灵活。一个字段，需要是同样类型的数据。
+
+
+不能一行记录是文本，一行记录是数字。
+
+非结构型数据库NoSQL应运而生。NoSQL是个怪胎，无法挑战老牌数据库，但是在大数据时代有自己的意义。
+
+
+
+
+官网：https://www.mongodb.com/
+手册：https://docs.mongodb.org/manual/
+
+win7系统需要安装补丁，KB2731284。
+
+
+安装：
+1.下一步   2.配置环境变量
+
+
+
+2.mongod  开机
+
+mongod --dbpath C:\mongodb
+
+--dbpath就是选择数据库文档所在的文件夹。也就是说，mongoDB中，真的有物理文件，对应一个个数据库。U盘可以拷走。
+一定要保持，开机这个CMD不能动了，不能关，不能ctrl+c。 一旦这个cmd有问题了，数据库就自动关闭了。
+
+
+
+3.新建cmd     mongo    使用数据库
+
+
+4.运行mongo就可以使用mongo语法
+
+
+    列出所有数据库：show dbs
+
+5.使用某一个数据库：  use 数据库名字          , show collections查看当前数据库有哪些集合
+
+6.如果想新建数据库，也是use。  use一个不存在的，就是新建。
+
+  删除数据库  db.dropDatabase();
+
+
+ 删除集合 db.COLLECTION_NAME.drop()
+
+7. db 查看用的那个数据库
+
+8.添加给数据集合中添加数据 db.student.insert({“name”:”xiaoming”});
+    db.student  系统发现student是一个陌生的集合名字，所以就自动创建了集合。
+
+9.mongoimport 批量导入数据到数据集合中
+
+
+    mongoimport --db news--collection restaurants --drop --file primer-dataset.json
+    -db test  想往哪个数据库里面导入
+    --collection restaurants  想往哪个集合中导入
+    --drop 把集合清空
+    --file primer-dataset.json  哪个文件
+
+
+    这样，我们就能用sublime创建一个json文件，然后用mongoimport命令导入，这样学习数据库非常方便。
+
+10.查找数据
+
+        1 查找全部：
+
+            db.restaurants.find()
+
+
+        2.精确匹配：
+
+          db.student.find({"score.shuxue":70});
+
+        3.多个条件：
+
+          db.student.find({"score.shuxue":70 , "age":12})
+
+
+        4.大于条件：
+           db.student.find({"score.yuwen":{$gt:50}});
+
+        5.或者。寻找所有年龄是9岁，或者11岁的学生
+        db.student.find({$or:[{"age":9},{"age":11}]});
+
+
+        6.查找完毕之后，打点调用sort，表示升降排序。   1升序  -1降序
+
+            db.restaurants.find().sort( { "borough": 1, "address.zipcode": 1 } )
+
+
+11 修改数据
+
+    1.查找名字叫做小明的，把年龄更改为16岁：
+    db.student.update({"name":"小明"},{$set:{"age":16}});
+
+    2.查找数学成绩是70，把年龄更改为33岁：
+    db.student.update({"score.shuxue":70},{$set:{"age":33}});
+
+    3.更改所有匹配项目："
+    By default, the update() method updates a single document. To update multiple documents, use the multi option in the update() method.
+   db.student.update({"sex":"男"},{$set:{"age":33}},{multi: true});
+
+
+    4.完整替换，不出现$set关键字了：
+    db.student.update({"name":"小明"},{"name":"大明","age":16});
+
+12 删除数据
+
+1	db.restaurants.remove( { "borough": "Manhattan" } )
+
+2	db.restaurants.remove( { "borough": "Queens" }, { justOne: true } )
+
+
+
+ db.user.remove({"age":{$gt:100}});
+
+
+13.nodejs 使用mongodb
+之前已经存在的数据，实际上不需要增加这个字段。因为这些用户已经填写完毕表单了，不需要再手机高中信息了。
+我们的意图就是在今后注册的用户，需要填写高中信息。但是，我们刚才说了，所谓的字段，是表的一个结构。
+
+
+所有的行都必须拥有，不能有的行有这个字段，有的行没有这个字段。可想而知，大数据时代，数据库中有100万条数据都算少的。
+我们如果要动字段，时间太长。所以，字段这个东西，太不灵活。数据不灵活。一个字段，需要是同样类型的数据。
+
+
+不能一行记录是文本，一行记录是数字。
+
+非结构型数据库NoSQL应运而生。NoSQL是个怪胎，无法挑战老牌数据库，但是在大数据时代有自己的意义。
+
+
+
+
+官网：https://www.mongodb.com/
+手册：https://docs.mongodb.org/manual/
+
+win7系统需要安装补丁，KB2731284。
+
+
+安装：
+1.下一步   2.配置环境变量
+
+
+
+2.mongod  开机
+
+mongod --dbpath C:\mongodb
+
+--dbpath就是选择数据库文档所在的文件夹。也就是说，mongoDB中，真的有物理文件，对应一个个数据库。U盘可以拷走。
+一定要保持，开机这个CMD不能动了，不能关，不能ctrl+c。 一旦这个cmd有问题了，数据库就自动关闭了。
+
+
+
+3.新建cmd     mongo    使用数据库
+
+
+4.运行mongo就可以使用mongo语法
+
+
+    列出所有数据库：show dbs
+
+5.使用某一个数据库：  use 数据库名字          , show collections查看当前数据库有哪些集合
+
+6.如果想新建数据库，也是use。  use一个不存在的，就是新建。
+
+  删除数据库  db.dropDatabase();
+
+
+ 删除集合 db.COLLECTION_NAME.drop()
+
+7. db 查看用的那个数据库
+
+8.添加给数据集合中添加数据 db.student.insert({“name”:”xiaoming”});
+    db.student  系统发现student是一个陌生的集合名字，所以就自动创建了集合。
+
+9.mongoimport 批量导入数据到数据集合中
+
+
+    mongoimport --db news--collection restaurants --drop --file primer-dataset.json
+    -db test  想往哪个数据库里面导入
+    --collection restaurants  想往哪个集合中导入
+    --drop 把集合清空
+    --file primer-dataset.json  哪个文件
+
+
+    这样，我们就能用sublime创建一个json文件，然后用mongoimport命令导入，这样学习数据库非常方便。
+
+10.查找数据
+
+        1 查找全部：
+
+            db.restaurants.find()
+
+
+        2.精确匹配：
+
+          db.student.find({"score.shuxue":70});
+
+        3.多个条件：
+
+          db.student.find({"score.shuxue":70 , "age":12})
+
+
+        4.大于条件：
+           db.student.find({"score.yuwen":{$gt:50}});
+
+        5.或者。寻找所有年龄是9岁，或者11岁的学生
+        db.student.find({$or:[{"age":9},{"age":11}]});
+
+
+        6.查找完毕之后，打点调用sort，表示升降排序。   1升序  -1降序
+
+            db.restaurants.find().sort( { "borough": 1, "address.zipcode": 1 } )
+
+
+11 修改数据
+
+    1.查找名字叫做小明的，把年龄更改为16岁：
+    db.student.update({"name":"小明"},{$set:{"age":16}});
+
+    2.查找数学成绩是70，把年龄更改为33岁：
+    db.student.update({"score.shuxue":70},{$set:{"age":33}});
+
+    3.更改所有匹配项目："
+    By default, the update() method updates a single document. To update multiple documents, use the multi option in the update() method.
+   db.student.update({"sex":"男"},{$set:{"age":33}},{multi: true});
+
+
+    4.完整替换，不出现$set关键字了：
+    db.student.update({"name":"小明"},{"name":"大明","age":16});
+
+12 删除数据
+
+1	db.restaurants.remove( { "borough": "Manhattan" } )
+
+2	db.restaurants.remove( { "borough": "Queens" }, { justOne: true } )
+
+
+
+ db.user.remove({"age":{$gt:100}});
+
+
+13.nodejs 使用mongodb
+之前已经存在的数据，实际上不需要增加这个字段。因为这些用户已经填写完毕表单了，不需要再手机高中信息了。
+我们的意图就是在今后注册的用户，需要填写高中信息。但是，我们刚才说了，所谓的字段，是表的一个结构。
+
+
+所有的行都必须拥有，不能有的行有这个字段，有的行没有这个字段。可想而知，大数据时代，数据库中有100万条数据都算少的。
+我们如果要动字段，时间太长。所以，字段这个东西，太不灵活。数据不灵活。一个字段，需要是同样类型的数据。
+
+
+不能一行记录是文本，一行记录是数字。
+
+非结构型数据库NoSQL应运而生。NoSQL是个怪胎，无法挑战老牌数据库，但是在大数据时代有自己的意义。
+
+
+
+
+官网：https://www.mongodb.com/
+手册：https://docs.mongodb.org/manual/
+
+win7系统需要安装补丁，KB2731284。
+
+
+安装：
+1.下一步   2.配置环境变量
+
+
+
+2.mongod  开机
+
+mongod --dbpath C:\mongodb
+
+--dbpath就是选择数据库文档所在的文件夹。也就是说，mongoDB中，真的有物理文件，对应一个个数据库。U盘可以拷走。
+一定要保持，开机这个CMD不能动了，不能关，不能ctrl+c。 一旦这个cmd有问题了，数据库就自动关闭了。
+
+
+
+3.新建cmd     mongo    使用数据库
+
+
+4.运行mongo就可以使用mongo语法
+
+
+    列出所有数据库：show dbs
+
+5.使用某一个数据库：  use 数据库名字          , show collections查看当前数据库有哪些集合
+
+6.如果想新建数据库，也是use。  use一个不存在的，就是新建。
+
+  删除数据库  db.dropDatabase();
+
+
+ 删除集合 db.COLLECTION_NAME.drop()
+
+7. db 查看用的那个数据库
+
+8.添加给数据集合中添加数据 db.student.insert({“name”:”xiaoming”});
+    db.student  系统发现student是一个陌生的集合名字，所以就自动创建了集合。
+
+9.mongoimport 批量导入数据到数据集合中
+
+
+    mongoimport --db news--collection restaurants --drop --file primer-dataset.json
+    -db test  想往哪个数据库里面导入
+    --collection restaurants  想往哪个集合中导入
+    --drop 把集合清空
+    --file primer-dataset.json  哪个文件
+
+
+    这样，我们就能用sublime创建一个json文件，然后用mongoimport命令导入，这样学习数据库非常方便。
+
+10.查找数据
+
+        1 查找全部：
+
+            db.restaurants.find()
+
+
+        2.精确匹配：
+
+          db.student.find({"score.shuxue":70});
+
+        3.多个条件：
+
+          db.student.find({"score.shuxue":70 , "age":12})
+
+
+        4.大于条件：
+           db.student.find({"score.yuwen":{$gt:50}});
+
+        5.或者。寻找所有年龄是9岁，或者11岁的学生
+        db.student.find({$or:[{"age":9},{"age":11}]});
+
+
+        6.查找完毕之后，打点调用sort，表示升降排序。   1升序  -1降序
+
+            db.restaurants.find().sort( { "borough": 1, "address.zipcode": 1 } )
+
+
+11 修改数据
+
+    1.查找名字叫做小明的，把年龄更改为16岁：
+    db.student.update({"name":"小明"},{$set:{"age":16}});
+
+    2.查找数学成绩是70，把年龄更改为33岁：
+    db.student.update({"score.shuxue":70},{$set:{"age":33}});
+
+    3.更改所有匹配项目："
+    By default, the update() method updates a single document. To update multiple documents, use the multi option in the update() method.
+   db.student.update({"sex":"男"},{$set:{"age":33}},{multi: true});
+
+
+    4.完整替换，不出现$set关键字了：
+    db.student.update({"name":"小明"},{"name":"大明","age":16});
+
+12 删除数据
+
+1	db.restaurants.remove( { "borough": "Manhattan" } )
+
+2	db.restaurants.remove( { "borough": "Queens" }, { justOne: true } )
+
+
+
+ db.user.remove({"age":{$gt:100}});
+
+
+13.nodejs 使用mongodb
+之前已经存在的数据，实际上不需要增加这个字段。因为这些用户已经填写完毕表单了，不需要再手机高中信息了。
+我们的意图就是在今后注册的用户，需要填写高中信息。但是，我们刚才说了，所谓的字段，是表的一个结构。
+
+
+所有的行都必须拥有，不能有的行有这个字段，有的行没有这个字段。可想而知，大数据时代，数据库中有100万条数据都算少的。
+我们如果要动字段，时间太长。所以，字段这个东西，太不灵活。数据不灵活。一个字段，需要是同样类型的数据。
+
+
+不能一行记录是文本，一行记录是数字。
+
+非结构型数据库NoSQL应运而生。NoSQL是个怪胎，无法挑战老牌数据库，但是在大数据时代有自己的意义。
+
+
+
+
+官网：https://www.mongodb.com/
+手册：https://docs.mongodb.org/manual/
+
+win7系统需要安装补丁，KB2731284。
+
+
+安装：
+1.下一步   2.配置环境变量
+
+
+
+2.mongod  开机
+
+mongod --dbpath C:\mongodb
+
+--dbpath就是选择数据库文档所在的文件夹。也就是说，mongoDB中，真的有物理文件，对应一个个数据库。U盘可以拷走。
+一定要保持，开机这个CMD不能动了，不能关，不能ctrl+c。 一旦这个cmd有问题了，数据库就自动关闭了。
+
+
+
+3.新建cmd     mongo    使用数据库
+
+
+4.运行mongo就可以使用mongo语法
+
+
+    列出所有数据库：show dbs
+
+5.使用某一个数据库：  use 数据库名字          , show collections查看当前数据库有哪些集合
+
+6.如果想新建数据库，也是use。  use一个不存在的，就是新建。
+
+  删除数据库  db.dropDatabase();
+
+
+ 删除集合 db.COLLECTION_NAME.drop()
+
+7. db 查看用的那个数据库
+
+8.添加给数据集合中添加数据 db.student.insert({“name”:”xiaoming”});
+    db.student  系统发现student是一个陌生的集合名字，所以就自动创建了集合。
+
+9.mongoimport 批量导入数据到数据集合中
+
+
+    mongoimport --db news--collection restaurants --drop --file primer-dataset.json
+    -db test  想往哪个数据库里面导入
+    --collection restaurants  想往哪个集合中导入
+    --drop 把集合清空
+    --file primer-dataset.json  哪个文件
+
+
+    这样，我们就能用sublime创建一个json文件，然后用mongoimport命令导入，这样学习数据库非常方便。
+
+10.查找数据
+
+        1 查找全部：
+
+            db.restaurants.find()
+
+
+        2.精确匹配：
+
+          db.student.find({"score.shuxue":70});
+
+        3.多个条件：
+
+          db.student.find({"score.shuxue":70 , "age":12})
+
+
+        4.大于条件：
+           db.student.find({"score.yuwen":{$gt:50}});
+
+        5.或者。寻找所有年龄是9岁，或者11岁的学生
+        db.student.find({$or:[{"age":9},{"age":11}]});
+
+
+        6.查找完毕之后，打点调用sort，表示升降排序。   1升序  -1降序
+
+            db.restaurants.find().sort( { "borough": 1, "address.zipcode": 1 } )
+
+
+11 修改数据
+
+    1.查找名字叫做小明的，把年龄更改为16岁：
+    db.student.update({"name":"小明"},{$set:{"age":16}});
+
+    2.查找数学成绩是70，把年龄更改为33岁：
+    db.student.update({"score.shuxue":70},{$set:{"age":33}});
+
+    3.更改所有匹配项目："
+    By default, the update() method updates a single document. To update multiple documents, use the multi option in the update() method.
+   db.student.update({"sex":"男"},{$set:{"age":33}},{multi: true});
+
+
+    4.完整替换，不出现$set关键字了：
+    db.student.update({"name":"小明"},{"name":"大明","age":16});
+
+12 删除数据
+
+1	db.restaurants.remove( { "borough": "Manhattan" } )
+
+2	db.restaurants.remove( { "borough": "Queens" }, { justOne: true } )
+
+
+
+ db.user.remove({"age":{$gt:100}});
+
+
+13.nodejs 使用mongodb

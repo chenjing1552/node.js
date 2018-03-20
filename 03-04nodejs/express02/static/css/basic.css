@@ -1,0 +1,26 @@
+*{
+    margin:0px;
+    padding: 0px;
+
+}
+table{
+    width: 100%;
+    /*border: 1px solid #ccc;*/
+    maring:10px;
+    border-collapse: collapse;
+
+}
+
+table td,table th{
+    text-align: center;
+    line-height: 44px;
+    height: 44px;
+    border: 1px solid #ccc;
+    margin-left:-1px;
+
+
+}
+
+table tr{
+    margin-top:-1px;
+}

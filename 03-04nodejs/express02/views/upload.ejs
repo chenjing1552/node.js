@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+
+    </style>
+
+    <script src="./xheditor/jquery/jquery-1.11.2.min.js" charset="utf-8"></script>
+    <script src="./xheditor/xheditor-1.2.2.min.js" charset="utf-8"></script>
+    <script src="./xheditor/xheditor_lang/zh-cn.js" charset="utf-8"></script>
+
+</head>
+<body>
+    <h1>学员信息图片上传</h1>
+
+    <form action="/up" method="post"  enctype="multipart/form-data" >
+            <p>
+                姓名: <input type="text" name="name"/>
+            </p>
+            <p>
+                年龄: <input type="text" name="age"/>
+            </p>
+            <p>
+                学号: <input type="text" name="xuehao"/>
+            </p>
+            <p>
+                头像: <input type="file" name="face"/>
+            </p>
+
+             <p>
+                    <input type="submit" value="提交"/>
+             </p>
+        <textarea name="yuwen" id="content" cols="120" rows="30"></textarea>
+    </form>
+</body>
+</html>
+
+<script>
+//    $('#content').xheditor({
+//        html5Upload: false,
+//        upMultiple: '1',
+//
+//        upLinkUrl: 'upload.html',
+//        upLinkExt: 'zip, rar, txt',
+//
+//        upImgUrl:"/upload",
+//        upImgExt: 'jpg,jpeg,gif,png',
+//
+//        upFlashUrl: 'upload.html',
+//        upFlashExt: 'swf',
+//
+//        upMediaUrl: 'upload.html',
+//        upMediaExt: 'wmv,avi,wma,mp3,mid'
+//    })
+
+    $('#content').xheditor({
+        html5Upload: false,
+        upMultiple: '3',
+        tools:'full',
+        skin:'default',
+        width:500, height:400,
+        upImgUrl:"/upload",
+        upImgExt:"jpg,jpeg,gif,png"
+    });
+
+</script>

@@ -1,2 +1,2 @@
-# node.js
-基础知识
+# node
+关于node细节

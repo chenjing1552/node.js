@@ -1,0 +1,4 @@
+npm -g install supervisor
+
+
+supervisor app.js
