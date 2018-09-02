@@ -2,8 +2,8 @@ var express = require("express");
 var app = express();
 var db = require("./model/db.js");
 var session = require("express-session");
-console.log('12345')
-console.log('wwwwwww')
+
+console.log('00000000')
 app.use(session({
     secret: 'keyboard cat',
     resave: false,
